@@ -1,0 +1,36 @@
+# Documentos internos Accelera 360 — não distribuir
+PLANEJAMENTO.md
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (caso aluno use modo gemini do pitch-deck-builder)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.env
+.env.local
+
+# Logs
+*.log
+
+# Outputs locais de teste (workspace gerado pelas skills)
+workspace/
+*.tmp
+
+# Dependências node (caso futuramente)
+node_modules/
+package-lock.json

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>{{CLIENTE_NOME}} — Apresentação Comercial | Accelera 360</title>
+
+  <!-- Reveal.js core -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme" />
+
+  <!-- Tailwind via CDN para utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --a360-bg: #0A0A12;
+      --a360-bg2: #1A1A2E;
+      --a360-purple: #7C5CFC;
+      --a360-green: #00E639;
+      --a360-red: #FF4D6D;
+      --a360-text: #FFFFFF;
+      --a360-text-muted: #C0C0CC;
+      --a360-text-dim: #737373;
+    }
+
+    .reveal { font-family: 'Inter', system-ui, sans-serif; }
+    .reveal .slides { background: var(--a360-bg); }
+    .reveal section {
+      background:
+        radial-gradient(ellipse at 70% 30%, rgba(124, 92, 252, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(124, 92, 252, 0.08) 0%, transparent 60%),
+        var(--a360-bg);
+      color: var(--a360-text);
+      padding: 60px 80px !important;
+      height: 100vh;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Linhas verticais sutis no canto esquerdo */
+    .reveal section::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 80px;
+      background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 20px);
+      pointer-events: none;
+    }
+
+    /* Footer fixo */
+    .a360-footer {
+      position: absolute;
+      bottom: 24px;
+      right: 80px;
+      font-size: 11px;
+      color: var(--a360-text-dim);
+      letter-spacing: 0.5px;
+    }
+    .a360-footer a { color: var(--a360-text-muted); text-decoration: underline; }
+
+    /* Page number */
+    .reveal .slide-number {
+      background: transparent;
+      color: var(--a360-text-dim);
+      font-size: 12px;
+      bottom: 24px;
+      left: 100px;
+    }
+
+    /* Hexagon */
+    .hex {
+      clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+      background: linear-gradient(135deg, rgba(124, 92, 252, 0.2), rgba(124, 92, 252, 0.05));
+      border: 1px solid rgba(124, 92, 252, 0.4);
+      box-shadow: 0 0 32px rgba(124, 92, 252, 0.25);
+      padding: 32px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 200px;
+    }
+
+    /* Card padrão */
+    .a360-card {
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(124, 92, 252, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Big number */
+    .big-number {
+      font-size: 96px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--a360-text);
+      text-shadow: 0 0 24px rgba(124, 92, 252, 0.4);
+    }
+
+    .money { color: var(--a360-green); font-weight: 700; }
+    .danger { color: var(--a360-red); }
+
+    h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 800 !important; color: white; }
+    h1 { font-size: 64px !important; line-height: 1.1; }
+    h2 { font-size: 48px !important; line-height: 1.15; }
+    h3 { font-size: 28px !important; }
+
+    .label-uppercase {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 13px;
+      color: var(--a360-purple);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ============================================== -->
+      <!-- BLOCO 1 — CONEXÃO (slides 01-03)                 -->
+      <!-- ============================================== -->
+
+      <!-- SLIDE 01 — CAPA -->
+      <section data-state="cover">
+        <div class="text-center">
+          <p class="label-uppercase mb-8">Apresentação personalizada</p>
+          <h1 style="font-size: 80px !important;">{{CLIENTE_NOME}}</h1>
+          <p class="text-2xl mt-8" style="color: var(--a360-text-muted);">{{CLIENTE_TAGLINE_OPCIONAL}}</p>
+          <div class="mt-16 text-lg" style="color: var(--a360-text-muted);">
+            Por <strong style="color: white;">{{VENDEDOR_NOME}}</strong><br/>
+            <span style="font-size: 14px;">Parceiro Accelera 360 — Business Accelerator</span>
+          </div>
+        </div>
+        <div class="a360-footer">
+          accelera360.com.br · a360-framework-lite v0.1.0
+        </div>
+      </section>
+
+      <!-- SLIDE 02 — QUEM É VOCÊ -->
+      <section>
+        <div class="grid grid-cols-2 gap-12 items-center">
+          <div>
+            <p class="label-uppercase mb-4">Quem fala com você</p>
+            <h2>{{VENDEDOR_NOME}}</h2>
+            <p class="text-xl mt-4" style="color: var(--a360-text-muted);">
+              {{VENDEDOR_POSICIONAMENTO_1_LINHA}}
+            </p>
+            <p class="text-sm mt-6" style="color: var(--a360-text-dim);">Parceiro do framework Accelera 360 — Business Accelerator</p>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="hex"><div class="text-3xl font-bold">{{CRED_1_N}}</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">{{CRED_1_LABEL}}</div></div>
+            <div class="hex"><div class="text-3xl font-bold">{{CRED_2_N}}</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">{{CRED_2_LABEL}}</div></div>
+            <div class="hex"><div class="text-3xl font-bold">{{CRED_3_N}}</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">{{CRED_3_LABEL}}</div></div>
+          </div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 03 — POR QUE ESTAMOS AQUI -->
+      <section>
+        <p class="label-uppercase mb-4">Próximos 30 minutos</p>
+        <h2 class="mb-12">Por que estamos aqui</h2>
+        <div class="grid grid-cols-3 gap-8">
+          <div class="a360-card">
+            <div class="text-5xl mb-4">1️⃣</div>
+            <h3>O cenário</h3>
+            <p style="color: var(--a360-text-muted);">{{NICHO}} em 2026</p>
+          </div>
+          <div class="a360-card">
+            <div class="text-5xl mb-4">2️⃣</div>
+            <h3>O que capturar</h3>
+            <p style="color: var(--a360-text-muted);">Oportunidade pra {{CLIENTE_NOME}}</p>
+          </div>
+          <div class="a360-card">
+            <div class="text-5xl mb-4">3️⃣</div>
+            <h3>Caminhar junto?</h3>
+            <p style="color: var(--a360-text-muted);">Decisão clara no fim</p>
+          </div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- BLOCO 2 — DIAGNÓSTICO (slides 04-07)             -->
+      <!-- ============================================== -->
+
+      <!-- SLIDE 04 — CENÁRIO MUDOU -->
+      <section>
+        <p class="label-uppercase mb-4">Os números falam</p>
+        <h2 class="mb-12">O cenário de {{NICHO}} mudou</h2>
+        <div class="grid grid-cols-3 gap-8">
+          <div class="hex"><div class="big-number">{{NICHO_TAM}}</div><div class="text-sm mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">TAM Brasil</div></div>
+          <div class="hex"><div class="big-number">{{NICHO_CAGR}}%</div><div class="text-sm mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">CAGR a.a.</div></div>
+          <div class="hex"><div class="big-number">{{NICHO_DADO_3}}</div><div class="text-sm mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">{{NICHO_LABEL_3}}</div></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 05 — 3 DORES -->
+      <section>
+        <p class="label-uppercase mb-4">Mapeamos {{N_EMPRESAS}} {{persona_plural}}</p>
+        <h2 class="mb-12">As 3 dores que mais aparecem</h2>
+        <div class="grid grid-cols-1 gap-4">
+          <div class="a360-card flex items-start gap-6"><div class="text-4xl">🔴</div><div><h3 class="mb-2">{{DOR_1}}</h3><p style="color: var(--a360-text-muted);">{{DOR_1_DESCRICAO}}</p></div></div>
+          <div class="a360-card flex items-start gap-6"><div class="text-4xl">🟠</div><div><h3 class="mb-2">{{DOR_2}}</h3><p style="color: var(--a360-text-muted);">{{DOR_2_DESCRICAO}}</p></div></div>
+          <div class="a360-card flex items-start gap-6"><div class="text-4xl">🟡</div><div><h3 class="mb-2">{{DOR_3}}</h3><p style="color: var(--a360-text-muted);">{{DOR_3_DESCRICAO}}</p></div></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 06 — QUANTO CUSTA -->
+      <section>
+        <p class="label-uppercase mb-4">Em 12 meses sem resolver</p>
+        <h2 class="mb-12">Quanto isso custa</h2>
+        <div class="grid grid-cols-2 gap-12">
+          <div class="hex"><div class="big-number danger">R$ {{CUSTO_MES}}</div><div class="text-sm mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">Por mês perdidos</div></div>
+          <div class="hex"><div class="big-number danger">R$ {{CUSTO_ANO}}</div><div class="text-sm mt-2 uppercase tracking-wider" style="color: var(--a360-text-muted);">Em 12 meses</div></div>
+        </div>
+        <p class="text-xl mt-12 text-center" style="color: var(--a360-text-muted);">{{FRASE_AMPLIFICACAO}}</p>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 07 — O QUE OUTROS TENTARAM -->
+      <section>
+        <p class="label-uppercase mb-4">A maioria tenta</p>
+        <h2 class="mb-12">O que outros já tentaram (e por que falhou)</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="a360-card opacity-60"><div class="text-3xl mb-3">❌</div><h3 class="text-lg mb-2">{{TENTATIVA_1}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FALHA_1}}</p></div>
+          <div class="a360-card opacity-60"><div class="text-3xl mb-3">❌</div><h3 class="text-lg mb-2">{{TENTATIVA_2}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FALHA_2}}</p></div>
+          <div class="a360-card opacity-60"><div class="text-3xl mb-3">❌</div><h3 class="text-lg mb-2">{{TENTATIVA_3}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FALHA_3}}</p></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- BLOCO 3 — SOLUÇÃO (slides 08-12)                 -->
+      <!-- ============================================== -->
+
+      <!-- SLIDE 08 — A VIRADA: GROWTH AI -->
+      <section>
+        <p class="label-uppercase mb-4">A virada</p>
+        <h1 style="background: linear-gradient(135deg, #fff, #7C5CFC); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Growth AI™</h1>
+        <p class="text-2xl mt-8" style="color: var(--a360-text-muted);">Sistema operacional com IA pra {{NICHO}} virar máquina de aquisição + retenção</p>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 09 — MECANISMO -->
+      <section>
+        <p class="label-uppercase mb-4">Aplicação para {{NICHO}}</p>
+        <h1>{{MECANISMO_NOME}}<span style="color: var(--a360-purple);">™</span></h1>
+        <p class="text-2xl italic mt-8" style="color: var(--a360-text-muted);">"{{MECANISMO_TAGLINE}}"</p>
+        <div class="grid grid-cols-{{N_LETRAS}} gap-4 mt-16">
+          <!-- repetir hex por letra do acrônimo -->
+          <div class="hex"><div class="text-5xl font-bold" style="color: var(--a360-purple);">{{LETRA_1}}</div><div class="text-xs mt-2 uppercase tracking-wider">{{LETRA_1_NOME}}</div></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 10 — COMO FUNCIONA — FLUXO -->
+      <section>
+        <p class="label-uppercase mb-4">O fluxo</p>
+        <h2 class="mb-12">Como {{MECANISMO_NOME}} funciona</h2>
+        <div class="flex items-center justify-between gap-4">
+          <div class="a360-card flex-1"><h3 class="text-lg mb-2">{{FASE_1_NOME}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_1_BENEFIT}}</p></div>
+          <div class="text-3xl" style="color: var(--a360-purple);">→</div>
+          <div class="a360-card flex-1"><h3 class="text-lg mb-2">{{FASE_2_NOME}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_2_BENEFIT}}</p></div>
+          <div class="text-3xl" style="color: var(--a360-purple);">→</div>
+          <div class="a360-card flex-1"><h3 class="text-lg mb-2">{{FASE_3_NOME}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_3_BENEFIT}}</p></div>
+          <div class="text-3xl" style="color: var(--a360-purple);">→</div>
+          <div class="a360-card flex-1"><h3 class="text-lg mb-2">{{FASE_4_NOME}}</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_4_BENEFIT}}</p></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 11 — ARQUITETURA -->
+      <section>
+        <p class="label-uppercase mb-4">A arquitetura</p>
+        <h2 class="mb-12">CRM + Automações + Agentes IA</h2>
+        <div class="grid grid-cols-3 gap-8">
+          <div class="a360-card"><div class="text-4xl mb-4" style="color: var(--a360-purple);">⚙️</div><h3 class="mb-3">CRM</h3><ul class="text-sm space-y-2" style="color: var(--a360-text-muted);"><li>{{CRM_1}}</li><li>{{CRM_2}}</li><li>{{CRM_3}}</li></ul></div>
+          <div class="a360-card"><div class="text-4xl mb-4" style="color: var(--a360-purple);">🔄</div><h3 class="mb-3">Automações</h3><ul class="text-sm space-y-2" style="color: var(--a360-text-muted);"><li>{{AUTO_1}}</li><li>{{AUTO_2}}</li><li>{{AUTO_3}}</li></ul></div>
+          <div class="a360-card"><div class="text-4xl mb-4" style="color: var(--a360-purple);">🤖</div><h3 class="mb-3">Agentes IA</h3><ul class="text-sm space-y-2" style="color: var(--a360-text-muted);"><li>{{AGT_1}}</li><li>{{AGT_2}}</li><li>{{AGT_3}}</li></ul></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 12 — CASO DE SUCESSO -->
+      <section>
+        <p class="label-uppercase mb-4">Caso real anônimo</p>
+        <h2 class="mb-12">{{CASO_TITULO}}</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="a360-card text-center"><div class="text-sm uppercase tracking-wider mb-3" style="color: var(--a360-text-muted);">Antes</div><div class="big-number" style="font-size: 56px;">R$ {{CASO_BASELINE}}</div></div>
+          <div class="a360-card text-center"><div class="text-sm uppercase tracking-wider mb-3" style="color: var(--a360-text-muted);">90 dias</div><div class="big-number money" style="font-size: 56px;">R$ {{CASO_90D}}</div></div>
+          <div class="a360-card text-center"><div class="text-sm uppercase tracking-wider mb-3" style="color: var(--a360-text-muted);">12 meses</div><div class="big-number money" style="font-size: 56px;">R$ {{CASO_12M}}</div></div>
+        </div>
+        <p class="text-center mt-8" style="color: var(--a360-text-muted);">{{CASO_QUOTE}}</p>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- BLOCO 4 — ENTREGA (slides 13-17)                 -->
+      <!-- ============================================== -->
+
+      <!-- SLIDE 13 — STACK -->
+      <section>
+        <p class="label-uppercase mb-4">O que está incluído</p>
+        <h2 class="mb-12">Stack de entregas</h2>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_1}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_2}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_3}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_4}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_5}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_6}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_7}}</div></div>
+          <div class="hex" style="min-height:140px;"><div class="text-xs uppercase tracking-wider">{{STACK_8}}</div></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 14 — CRONOGRAMA -->
+      <section>
+        <p class="label-uppercase mb-4">Cronograma 90 dias</p>
+        <h2 class="mb-12">Implementação em 4 fases</h2>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">Sem 1-2</div><h3 class="text-lg mt-2 mb-2">Diagnóstico</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_DIAG_ENTREGA}}</p></div>
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">Sem 3-4</div><h3 class="text-lg mt-2 mb-2">Estruturação</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_ESTRUT_ENTREGA}}</p></div>
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">Sem 5-12</div><h3 class="text-lg mt-2 mb-2">Execução</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_EXEC_ENTREGA}}</p></div>
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">Sem 13+</div><h3 class="text-lg mt-2 mb-2">Padronização</h3><p class="text-sm" style="color: var(--a360-text-muted);">{{FASE_PAD_ENTREGA}}</p></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 15 — MÉTRICAS -->
+      <section>
+        <p class="label-uppercase mb-4">Acompanhamento</p>
+        <h2 class="mb-12">Métricas que vamos medir</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="a360-card text-center"><div class="text-3xl font-bold" style="color: var(--a360-purple);">CAC</div><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Custo de aquisição</p></div>
+          <div class="a360-card text-center"><div class="text-3xl font-bold" style="color: var(--a360-purple);">LTV</div><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Valor do cliente</p></div>
+          <div class="a360-card text-center"><div class="text-3xl font-bold" style="color: var(--a360-purple);">Conversão</div><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Lead → cliente</p></div>
+          <div class="a360-card text-center"><div class="text-3xl font-bold" style="color: var(--a360-purple);">Retenção</div><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Churn mensal</p></div>
+          <div class="a360-card text-center"><div class="text-3xl font-bold" style="color: var(--a360-purple);">Ticket</div><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Médio por cliente</p></div>
+          <div class="a360-card text-center"><div class="text-3xl font-bold" style="color: var(--a360-purple);">NPS</div><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Recomendação</p></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 16 — ROI -->
+      <section>
+        <p class="label-uppercase mb-4">ROI projetado</p>
+        <h2 class="mb-12">Antes / Depois (12 meses)</h2>
+        <div class="a360-card">
+          <table class="w-full text-left text-lg">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(124, 92, 252, 0.3);">
+                <th class="pb-3">Métrica</th>
+                <th class="pb-3">Hoje</th>
+                <th class="pb-3" style="color: var(--a360-purple);">Com {{MECANISMO_NOME}}™</th>
+              </tr>
+            </thead>
+            <tbody style="color: var(--a360-text-muted);">
+              <tr class="border-b" style="border-color: rgba(124, 92, 252, 0.1);"><td class="py-3">Receita / mês</td><td>R$ {{ROI_RECEITA_BASE}}</td><td class="money font-bold">R$ {{ROI_RECEITA_PROJ}}</td></tr>
+              <tr class="border-b" style="border-color: rgba(124, 92, 252, 0.1);"><td class="py-3">CAC</td><td>R$ {{ROI_CAC_BASE}}</td><td class="money font-bold">R$ {{ROI_CAC_PROJ}}</td></tr>
+              <tr class="border-b" style="border-color: rgba(124, 92, 252, 0.1);"><td class="py-3">LTV</td><td>R$ {{ROI_LTV_BASE}}</td><td class="money font-bold">R$ {{ROI_LTV_PROJ}}</td></tr>
+              <tr><td class="py-3">Retenção</td><td>{{ROI_RET_BASE}}%</td><td class="money font-bold">{{ROI_RET_PROJ}}%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs mt-4" style="color: var(--a360-text-dim);">Projeção baseada em casos similares — não é promessa individual.</p>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 17 — GARANTIA -->
+      <section>
+        <div class="text-center">
+          <div class="text-7xl mb-8">🛡️</div>
+          <p class="label-uppercase mb-4">Quebra de risco</p>
+          <h1 style="font-size: 56px !important;">{{GARANTIA_TITULO}}</h1>
+          <p class="text-xl mt-8 max-w-2xl mx-auto" style="color: var(--a360-text-muted);">{{GARANTIA_TEXTO}}</p>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- BLOCO 5 — FECHAMENTO (slides 18-20)              -->
+      <!-- ============================================== -->
+
+      <!-- SLIDE 18 — INVESTIMENTO -->
+      <section>
+        <p class="label-uppercase mb-4">Investimento</p>
+        <h2 class="mb-12">Para começar</h2>
+        <div class="a360-card max-w-2xl mx-auto text-center" style="border: 2px solid var(--a360-purple); padding: 48px;">
+          <div class="text-2xl mb-4" style="color: var(--a360-text-muted);">Setup inicial</div>
+          <div class="big-number money mb-8">R$ {{PRECO_SETUP}}</div>
+          <div class="text-2xl mb-4" style="color: var(--a360-text-muted);">+ mensal</div>
+          <div class="big-number money">R$ {{PRECO_MENSAL}}</div>
+          <p class="mt-8 text-sm" style="color: var(--a360-text-dim);">Total ano 1: R$ {{PRECO_ANO_1}}</p>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 19 — PRÓXIMOS PASSOS -->
+      <section>
+        <p class="label-uppercase mb-4">Próximos passos</p>
+        <h2 class="mb-12">Pra avançar</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">HOJE</div><h3 class="text-lg mt-2 mb-2">Decisão</h3><p class="text-sm" style="color: var(--a360-text-muted);">Você decide se faz sentido</p></div>
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">ESTA SEMANA</div><h3 class="text-lg mt-2 mb-2">Contrato + Setup</h3><p class="text-sm" style="color: var(--a360-text-muted);">Assinatura + onboarding inicial</p></div>
+          <div class="a360-card"><div class="text-sm font-bold" style="color: var(--a360-purple);">2 SEMANAS</div><h3 class="text-lg mt-2 mb-2">Kickoff</h3><p class="text-sm" style="color: var(--a360-text-muted);">Diagnóstico operacional + plano</p></div>
+        </div>
+        <div class="a360-footer">accelera360.com.br</div>
+      </section>
+
+      <!-- SLIDE 20 — CTA FINAL -->
+      <section>
+        <div class="text-center">
+          <p class="label-uppercase mb-4">Decisão</p>
+          <h1 style="font-size: 56px !important;">Topa começar a transformar a {{CLIENTE_NOME}} hoje?</h1>
+          <div class="flex justify-center gap-6 mt-16">
+            <div class="a360-card" style="border: 1px solid var(--a360-green);"><div class="text-2xl mb-2">✅</div><h3 class="text-xl">Topa</h3><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Vamos pro contrato</p></div>
+            <div class="a360-card"><div class="text-2xl mb-2">🤔</div><h3 class="text-xl">Preciso pensar</h3><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Reagendamos em 7 dias</p></div>
+            <div class="a360-card"><div class="text-2xl mb-2">❌</div><h3 class="text-xl">Não agora</h3><p class="text-sm mt-2" style="color: var(--a360-text-muted);">Sem ressentimento</p></div>
+          </div>
+          <p class="mt-16 text-sm" style="color: var(--a360-text-dim);">"Construa o tipo de negócio que lidera a próxima década." — Accelera 360</p>
+        </div>
+        <div class="a360-footer">accelera360.com.br · yayforms.link/4bRG5aE</div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js script -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      transition: 'fade',
+      transitionSpeed: 'fast',
+      width: 1920,
+      height: 1080,
+    });
+  </script>
+
+</body>
+</html>
