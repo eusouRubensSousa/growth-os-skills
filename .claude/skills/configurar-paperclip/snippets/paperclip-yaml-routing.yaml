@@ -1,0 +1,96 @@
+# Snippet: roteamento de modelo POR PAPEL (impacto: muito alto na economia)
+#
+# Princípio: Haiku para triagem, Sonnet para execução, Opus apenas para
+# planejamento estratégico high-stakes. Mesmo workload pode custar 30x menos.
+#
+# Pricing referência (Apr 2026, base input):
+#   Haiku 4.5  →  $0.25/M tokens
+#   Sonnet 4.6 →  $3.00/M tokens
+#   Opus 4.7   →  $15.00/M tokens (Sonnet 4 hoje serve para a maioria dos casos)
+#
+# Aplicação: deep-merge em .paperclip.yaml. Mantém routines/budgets existentes.
+
+schema: paperclip/v1
+
+agents:
+  # === HAIKU TIER — triagem, classificação, ACK, formatação, status updates ===
+  triage-bot:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-haiku-4-5
+        timeoutSec: 300
+        maxTurnsPerRun: 50
+
+  status-reporter:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-haiku-4-5
+        timeoutSec: 300
+        maxTurnsPerRun: 30
+
+  # === SONNET TIER — execução padrão (engenheiro, copywriter, QA, analista) ===
+  engineer:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-sonnet-4-6
+        timeoutSec: 1800
+        maxTurnsPerRun: 200
+
+  copywriter:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-sonnet-4-6
+        timeoutSec: 900
+
+  qa:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-sonnet-4-6
+        timeoutSec: 900
+
+  analyst:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-sonnet-4-6
+        timeoutSec: 1200
+
+  # === OPUS TIER — planejamento, arquitetura, decisões high-stakes ===
+  ceo:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-opus-4-7
+        timeoutSec: 1800
+        maxTurnsPerRun: 200
+
+  cto:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-opus-4-7
+        timeoutSec: 1800
+        maxTurnsPerRun: 200
+
+  # === ESCALATION PATTERN — dois agentes mesmo papel, modelos diferentes ===
+  # PM-Haiku triagem inicial; PM-Sonnet pega quando complexidade aumenta.
+  pm-haiku:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-haiku-4-5
+        timeoutSec: 300
+
+  pm-sonnet:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-sonnet-4-6
+        timeoutSec: 1200
+    # PM-Sonnet é acordado por escalation explícita do PM-Haiku
+    # (configurar em PROTOCOL.md do pm-haiku)

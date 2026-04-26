@@ -1,0 +1,20 @@
+# Snippet: concurrency caps.
+#
+# Por que limitar: cada chamada consome tokens. Rodar 20 agentes simultâneos
+# não aumenta produtividade proporcionalmente — aumenta custo proporcionalmente.
+#
+# 3-5 agentes concorrentes cobrem maioria dos casos.
+
+schema: paperclip/v1
+
+concurrency:
+  maxConcurrentAgents: 5
+  maxConcurrentPerAgent: 1     # 1 = um agente nunca executa 2 issues ao mesmo tempo
+  queueStrategy: priority      # priority | fifo | lifo
+
+  # Override por agente quando justifica (ex: triagem pode rodar paralelo)
+  perAgent:
+    triage-bot:
+      maxConcurrent: 3
+    customer-support:
+      maxConcurrent: 2

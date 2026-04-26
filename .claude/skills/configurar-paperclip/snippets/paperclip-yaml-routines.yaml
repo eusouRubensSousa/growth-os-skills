@@ -1,0 +1,91 @@
+# Snippet: routines (heartbeat triggers) com config conservadora.
+#
+# Princípio do playbook: prefira **assignment trigger** e **webhook trigger**
+# sobre heartbeat agendado. Agente que reage custa menos que agente que ronda.
+#
+# Comece com intervalos LARGOS (4-8h) e modelos baratos (Haiku/Sonnet).
+# Heartbeat agressivo só depois que o ROI está claro.
+
+schema: paperclip/v1
+
+agents:
+  # Heartbeat policy por agente (event-driven preferencial)
+  ceo:
+    heartbeat:
+      enabled: true
+      intervalSec: 0           # 0 = só event-driven, sem timer
+      wakeOnAssignment: true   # acorda quando recebe issue
+      wakeOnOnDemand: true     # acorda em manual ping
+      wakeOnAutomation: true   # acorda em routines listadas abaixo
+
+  engineer:
+    heartbeat:
+      enabled: true
+      intervalSec: 0           # event-driven only
+      wakeOnAssignment: true
+      wakeOnOnDemand: true
+      wakeOnAutomation: false
+
+  customer-support:
+    heartbeat:
+      enabled: true
+      intervalSec: 0           # event-driven only — NUNCA scheduled
+      wakeOnAssignment: true
+      wakeOnOnDemand: true
+
+  # Burocrata: heartbeat diário 6h da manhã (Haiku barato)
+  daily-reporter:
+    heartbeat:
+      enabled: true
+      intervalSec: 0
+      wakeOnAutomation: true
+
+  # Maintenance: 22h, Haiku
+  housekeeping:
+    heartbeat:
+      enabled: true
+      intervalSec: 0
+      wakeOnAutomation: true
+
+# === ROUTINES — apenas onde realmente justifica ===
+routines:
+  # Estratégico semanal — segunda 9h
+  weekly-strategy-review:
+    triggers:
+      - kind: schedule
+        cronExpression: "0 9 * * 1"
+        timezone: America/Sao_Paulo
+    assignee: ceo
+    description: |
+      Review last week's metrics, prioritize this week's goals.
+
+  # Burocrata diário — 6h
+  daily-status-report:
+    triggers:
+      - kind: schedule
+        cronExpression: "0 6 * * *"
+        timezone: America/Sao_Paulo
+    assignee: daily-reporter
+
+  # Housekeeping diário — 22h
+  daily-housekeeping:
+    triggers:
+      - kind: schedule
+        cronExpression: "0 22 * * *"
+        timezone: America/Sao_Paulo
+    assignee: housekeeping
+
+  # Webhook trigger — reage a evento externo (Stripe, Github, etc)
+  on-stripe-webhook:
+    triggers:
+      - kind: webhook
+        path: /webhooks/stripe
+        # secret: ${STRIPE_WEBHOOK_SECRET}  # validação HMAC
+    assignee: finance-bot
+
+# === DICAS DE ECONOMIA ===
+# 1. intervalSec: 0 + wakeOnAssignment: true = só roda quando tem trabalho de verdade.
+# 2. Cron expressions com 5 partes ("0 9 * * 1"), nunca "1d"/"30m" shorthand.
+# 3. activeHours desejado? implementar no PROTOCOL.md do agente
+#    (ex: "between 22h-6h apenas log critical, não execute work").
+# 4. Webhook > schedule sempre que possível.

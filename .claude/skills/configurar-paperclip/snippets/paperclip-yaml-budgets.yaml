@@ -1,0 +1,60 @@
+# Snippet: budgets per-company e per-agent.
+#
+# CRÍTICO: sem budgetMonthlyCents per-agent, um agente em loop pode quebrar
+# a company toda. 80% = warning soft (agente é avisado), 100% = hard stop
+# (agente é auto-pausado). Reset no primeiro do mês UTC.
+#
+# Os valores aqui são em CENTAVOS USD/mês.
+
+schema: paperclip/v1
+
+budgets:
+  # Teto da company — soma de todos os agentes não pode passar disso
+  company:
+    monthlyCents: 50000   # US$ 500/mês
+
+  agents:
+    # === Estratégico — alto budget ===
+    ceo:
+      monthlyCents: 15000   # US$ 150/mês
+    cto:
+      monthlyCents: 12000
+
+    # === Execução padrão (Sonnet) ===
+    engineer:
+      monthlyCents: 10000   # US$ 100/mês
+    copywriter:
+      monthlyCents: 5000
+    qa:
+      monthlyCents: 3000
+    analyst:
+      monthlyCents: 5000
+
+    # === Triagem (Haiku) — budget baixo ===
+    triage-bot:
+      monthlyCents: 1000    # US$ 10/mês
+    status-reporter:
+      monthlyCents: 500
+    daily-reporter:
+      monthlyCents: 1000
+
+    # === Customer-facing — depende do volume ===
+    customer-support:
+      monthlyCents: 8000
+
+    # === Default — pega qualquer agente sem entry explícita ===
+    default:
+      monthlyCents: 3000    # US$ 30/mês
+
+# === ALERTAS (configurar no UI ou via API se disponível) ===
+# 80% = email + warning no system prompt do agente
+# 100% = auto-pause, não recebe mais heartbeats
+#
+# A API correspondente:
+#   PATCH /api/companies/{companyId}    body: { "budgetMonthlyCents": 50000 }
+#   PATCH /api/agents/{agentId}         body: { "budgetMonthlyCents": 15000 }
+#
+# Visibilidade:
+#   GET /api/companies/{companyId}/costs/summary
+#   GET /api/companies/{companyId}/costs/by-agent
+#   GET /api/companies/{companyId}/costs/by-project

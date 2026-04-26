@@ -1,0 +1,67 @@
+# Snippet: estrutura base de .paperclip.yaml
+# Aplique como ponto de partida — o pc-yaml-patch.py faz deep-merge, então é
+# seguro reaplicar em cima de uma config existente: campos definidos aqui
+# sobrescrevem; campos extras existentes são preservados.
+#
+# Referência: companies-spec + docs/adapters/claude-local.md
+
+schema: paperclip/v1
+
+# === AGENTS — definição por slug ===
+# Cada agente já existente na company tem entry aqui com seu adapter, env e budgets.
+# O slug deve bater com a pasta agents/<slug>/AGENTS.md.
+agents:
+  ceo:
+    adapter:
+      type: claude_local
+      config:
+        # Modelo: usar Opus apenas para CEO/estratégia (high-stakes)
+        model: claude-opus-4-7
+        # cwd: workspace de execução do agente (auto-criado se não existir)
+        # cwd: /workspaces/ceo
+        # promptTemplate: opcional — substituições via {{agentId}}, {{company.name}}
+        # promptTemplate: |
+        #   You are the CEO of {{company.name}}. Read SOUL.md and AGENTS.md before acting.
+        # Limites de execução por heartbeat
+        timeoutSec: 1800
+        graceSec: 30
+        maxTurnsPerRun: 200
+        # ATENÇÃO: dangerouslySkipPermissions só em ambientes controlados
+        # dangerouslySkipPermissions: false
+    inputs:
+      env:
+        ANTHROPIC_API_KEY:
+          kind: secret
+          requirement: required
+
+# === ROUTINES — triggers de heartbeat ===
+# Use sparingly — heartbeats agendados custam mesmo quando o agente não tem trabalho.
+# Prefira wakeOnAssignment (event-driven) sempre que possível.
+routines: {}
+  # Exemplo:
+  # weekly-review:
+  #   triggers:
+  #     - kind: schedule
+  #       cronExpression: "0 9 * * 1"
+  #       timezone: America/Sao_Paulo
+  #   assignee: ceo
+
+# === BUDGETS — sempre defina! ===
+# Sem budget per-agent, um loop de runaway pode quebrar a company toda.
+# Valores em centavos USD por mês.
+budgets:
+  company:
+    monthlyCents: 50000   # US$ 500/mês teto da company
+  agents:
+    ceo:
+      monthlyCents: 15000   # US$ 150/mês
+    # default para qualquer agente sem entry explícita
+    default:
+      monthlyCents: 5000    # US$ 50/mês
+
+# === CONCURRENCY ===
+# Limita quantos agentes rodam ao mesmo tempo. 3-5 cobre maioria dos casos.
+concurrency:
+  maxConcurrentAgents: 5
+  maxConcurrentPerAgent: 1
+  queueStrategy: priority   # priority | fifo | lifo
