@@ -1,8 +1,16 @@
 ---
 name: a360-framework-lite
-description: Coordenador do pacote Accelera 360 — A Nova Economia. Você descreve o objetivo em linguagem natural e ele roteia/encadeia as skills certas (nicho-explorer, mapear-nicho-lite, cliente-radar, lp-builder, gtm-architect, playbook-vendas, meeting-prep, pitch-deck-builder).
+description: Coordenador do pacote Accelera 360. Recebe objetivo em linguagem natural e roteia/encadeia as skills certas respeitando os pré-requisitos do PREREQ.md. Pipeline padrão: setup → nicho-explorer → mapear-nicho-lite → (criar oferta OU cliente-radar) → gtm/lp/deck/playbook → meeting-prep → handoff.
 argument-hint: "[objetivo livre — ex: 'quero estruturar uma empresa de IA pra clínicas dermato' ou 'vou apresentar amanhã pra Clínica X']"
-allowed-tools: Agent, Read, Write, TaskCreate, TaskUpdate
+allowed-tools: Agent, Read, Write, Edit, Glob, Bash, TaskCreate, TaskUpdate
+requires:
+  blocking: []
+  recommended:
+    - "MEMORY.md (workspace inicializado via /a360-setup-workspace)"
+writes_to:
+  - "(nenhum direto — orquestrador delega pra skills filhas)"
+updates_index:
+  - "MEMORY.md  (atualiza Open Questions / Handoff conforme pipeline avança)"
 ---
 
 # Skill: a360-framework-lite — Coordenador
@@ -34,16 +42,19 @@ Analisar a intenção do usuário e disparar o pipeline correspondente. Se a int
 
 | Intenção detectada | Pipeline a disparar |
 |---|---|
+| "Primeira vez aqui" / "Como começo" | `/a360-setup-workspace` |
+| "Onde parei" / "Atualiza meu mapa" | `/a360-map` |
 | "Quero escolher meu nicho" / "Top nichos pra IA" | `/nicho-explorer` |
-| "Mapeia o nicho X pra mim" / "Quero estruturar uma empresa pra atender [nicho]" | `/nicho-explorer` (validação rápida) → `/mapear-nicho-lite` |
+| "Mapeia o nicho X pra mim" / "Quero estruturar empresa pra [nicho]" | `/nicho-explorer` (validação) → `/mapear-nicho-lite` |
 | "Tenho cliente, preciso preparar reunião" | `/cliente-radar` → `/meeting-prep` |
-| "Vou apresentar amanhã pra [cliente]" | `/cliente-radar` → `/mapear-nicho-lite` (do nicho do cliente) → `/pitch-deck-builder` → `/meeting-prep` |
-| "Cria LP pra esse nicho/cliente" | `/lp-builder` (sozinho, ou após `/mapear-nicho-lite`) |
-| "Como prospectar / GTM" | `/gtm-architect` |
-| "Preciso do script de vendas" | `/playbook-vendas` |
-| "Quero o deck de apresentação comercial" | `/pitch-deck-builder` (após `/mapear-nicho-lite` se ainda não rodado) |
-| "Quero pacote completo do meu próprio negócio" | `/nicho-explorer` → `/mapear-nicho-lite` → `/gtm-architect` → `/lp-builder` → `/playbook-vendas` |
-| "Quero pacote completo pra entregar pro cliente" | `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder` → `/pitch-deck-builder` → `/meeting-prep` |
+| "Vou apresentar amanhã pra [cliente]" | `/cliente-radar` → (`/mapear-nicho-lite` se nicho não mapeado) → `/pitch-deck-builder` → `/meeting-prep` |
+| "Cria LP pra esse nicho/cliente" | (`/mapear-nicho-lite` se faltar) → `/lp-builder` |
+| "Como prospectar / GTM" | (`/mapear-nicho-lite` se faltar) → `/gtm-architect` |
+| "Preciso do script de vendas" | (`/mapear-nicho-lite` se faltar) → `/playbook-vendas` |
+| "Quero o deck de apresentação comercial" | (`/mapear-nicho-lite` se faltar) → `/pitch-deck-builder` |
+| "Quero pacote completo do meu próprio negócio" | `/nicho-explorer` → `/mapear-nicho-lite` → criar oferta em `ofertas/{slug}/01-oferta.md` → `/gtm-architect` → `/lp-builder` → `/playbook-vendas` |
+| "Quero pacote completo pra entregar pro cliente" | `/cliente-radar` → (`/mapear-nicho-lite` se faltar) → `/lp-builder` → `/pitch-deck-builder` → `/meeting-prep` |
+| "Vou fechar a sessão" | `/a360-handoff` |
 
 Detalhamento dos pipelines: ver `routing.md` e `pipelines.md` desta skill.
 
@@ -90,6 +101,32 @@ Ao final, entregar um sumário com:
 
 ---
 
+## Validação de pré-requisitos (centro do orquestrador)
+
+Antes de disparar qualquer pipeline, ler `PREREQ.md` e checar pré-requisitos de cada skill em sequência.
+
+**Algoritmo:**
+
+```
+para cada skill no pipeline:
+  ler bloco `requires:` do SKILL.md
+  para cada path em requires.bloqueante:
+    se path não existe OU status não bate:
+      adicionar skill_anterior ao pipeline (que produz esse path)
+  se ainda faltar input (gap genuíno):
+    perguntar ao aluno OU pedir confirmação de modo degradado
+```
+
+**Exemplo:** aluno pede "cria LP pra Clínica XPTO" mas:
+- `clientes/clinica-xpto/00-perfil.md` não existe → injetar `/cliente-radar` antes.
+- `nichos/clinicas-derma-sp/_index.md` status=`researching` (não mapped) → injetar `/mapear-nicho-lite` antes.
+
+Pipeline final fica: `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder`.
+
+**Apresentar pipeline expandido pro aluno** antes de rodar — ele pode pular passos com confirmação (modo degradado).
+
+---
+
 ## Limitações deliberadas (gostinho)
 
 - Roda no máximo **4 subagentes encadeados** por chamada.
@@ -106,6 +143,33 @@ Ao final, entregar um sumário com:
 3. **Nunca inventar dados** — se uma sub-skill retornar lacuna, repassar a lacuna no sumário.
 4. **CTA padrão** no fim de TODA execução (mesmo cancelada).
 5. **Idioma:** Português Brasil. Termos de mercado em inglês mantidos.
+6. **Sempre validar pré-requisitos** (`PREREQ.md`) antes de disparar pipeline — injetar skills anteriores no pipeline quando faltar input.
+7. **Sempre respeitar paths canônicos** — orquestrador não inventa path, delega às skills filhas que sabem onde escrever.
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:** nenhum (orquestrador é entry-point alto-nível).
+- **Recomendado:** `MEMORY.md` populado (workspace inicializado via `/a360-setup-workspace`). Se faltar → primeiro pipeline injetado é `/a360-setup-workspace`.
+
+### `reads`
+- `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
+- `PREREQ.md` — pra validar pré-reqs do pipeline.
+- `WORKSPACE.md` — pra validar paths canônicos.
+- `memory/shared/{nichos-mapeados,clientes-ativos,ofertas}.md` — pra entender estado.
+- `${CLAUDE_SKILL_DIR}/routing.md`, `pipelines.md` — frameworks de roteamento.
+
+### `writes_to`
+- (nenhum direto — delega às skills filhas).
+- Pode atualizar `MEMORY.md` apenas quando aluno confirma decisão durante orquestração (vira linha em "Decisões load-bearing já tomadas" + arquivo em `memory/shared/decisoes/`).
+
+### `updates_index`
+- `MEMORY.md` — Open Questions / Active constraints conforme pipeline avança.
+
+### `registers_decision_in`
+- `memory/shared/decisoes/{YYYY-MM-DD}-{topico}.md` quando aluno confirma decisão durável durante a orquestração (ex: escolha de nicho-foco, modelo de pricing).
 
 ---
 

@@ -1,8 +1,20 @@
 ---
 name: playbook-vendas
-description: Script de diagnóstico de vendas 30min (D.E.A.L. lite + SPIN abreviado) + 5 quebras de objeção + funil 5 estágios. Versão lite para o vendedor estruturar a primeira call de qualificação/fechamento. Para a versão completa (45-60min, sales deck, VSL, role-plays), Accelera 360.
-argument-hint: "[nicho + nome do mecanismo proprietário (do mapear-nicho-lite)]"
-allowed-tools: Read, Write
+description: Script de diagnóstico de vendas 30min (D.E.A.L. lite + SPIN abreviado) + 5 quebras de objeção + funil 5 estágios. Output em ofertas/{slug}/playbook.md (genérico do nicho) ou clientes/{slug}/02-playbook.md (customizado pra cliente). Versão lite para o vendedor estruturar a primeira call de qualificação/fechamento.
+argument-hint: "[escopo (oferta/cliente) + slug]"
+allowed-tools: Read, Write, Edit, Glob
+requires:
+  blocking:
+    - "nichos/{slug-nicho}/_index.md status=mapped (sem nicho mapeado, script é genérico — perde a linguagem do nicho)"
+  recommended:
+    - "ofertas/{slug-oferta}/01-oferta.md (pra preço/garantia consistentes)"
+    - "clientes/{slug-cliente}/00-perfil.md (modo cliente)"
+writes_to:
+  - "ofertas/{slug-oferta}/playbook.md  (modo oferta — script genérico do nicho)"
+  - "clientes/{slug-cliente}/02-playbook.md  (modo cliente — script customizado)"
+updates_index:
+  - "{escopo}/{slug}/_index.md"
+  - "memory/per-skill/playbook-vendas/learnings.md"
 ---
 
 # Skill: playbook-vendas — Script + Objeções + Funil
@@ -28,21 +40,32 @@ Sua missão é entregar um **playbook de vendas lite** para o aluno conduzir a p
 
 ## Fluxo conversacional
 
-### Passo 1 — Coletar contexto
-> *"Pra gerar teu playbook, me passa:*
-> *(a) Nicho-alvo?*
-> *(b) Nome do mecanismo proprietário (vem do `mapear-nicho-lite`)?*
-> *(c) Promessa principal (1 frase)?*
-> *(d) Preço sugerido (vem do `mapear-nicho-lite`)?"*
+### Passo 1 — Coletar contexto + escopo
+
+A. **Perguntar escopo:** *"Playbook genérico da oferta ou customizado pra cliente específico? Me passa o slug."*
+
+B. **Pré-checagem bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`?
+   - Se NÃO → recusar: *"Playbook sem nicho mapeado é só template. Roda `/mapear-nicho-lite` primeiro."*
+
+C. (Pula perguntas de mecanismo/promessa/preço — vêm dos arquivos canônicos.)
 
 ### Passo 2 — Confirmar
 Apresentar plano e confirmar.
 
-### Passo 3 — Gerar
-- Ler `deal-framework.md` para script.
-- Ler `objecoes.md` para quebras.
-- Ler `templates.md` para formato.
-- Gerar `playbook-vendas-{{nicho}}.md` consolidado.
+### Passo 3 — Gerar nos paths canônicos
+
+Ler:
+- `nichos/{slug-nicho}/03-mecanismo.md` — mecanismo escolhido
+- `nichos/{slug-nicho}/04-oferta-base.md` — promessa + preço sugerido
+- `nichos/{slug-nicho}/05-linguagem.md` — vocabulário pra script
+- `nichos/{slug-nicho}/07-objecoes.md` — 3 objeções + quebras prontas
+- `ofertas/{slug-oferta}/01-oferta.md` — pricing e garantia (modo oferta)
+- `clientes/{slug-cliente}/00-perfil.md` — perfil pra customizar (modo cliente)
+- `${CLAUDE_SKILL_DIR}/deal-framework.md`, `objecoes.md`, `templates.md` — frameworks da skill
+
+Escrever:
+- Modo oferta: `ofertas/{slug-oferta}/playbook.md`
+- Modo cliente: `clientes/{slug-cliente}/02-playbook.md`
 
 ---
 
@@ -67,10 +90,39 @@ Ler antes de executar:
 ## Regras não-negociáveis
 
 1. **Tom consultivo > vendedor** — diagnóstico genuíno, não pitch.
-2. **Mecanismo nomeado** sempre referenciado (vem do `mapear-nicho-lite`).
+2. **Mecanismo nomeado** sempre referenciado (vem de `nichos/{slug}/03-mecanismo.md`).
 3. **Preço só após valor estabelecido** — nunca abrir com preço.
 4. **Garantia se houver** — apresentada como quebra de risco.
 5. **CTA padrão Accelera 360** no fim do output.
+6. **Linguagem do nicho** — usar os 8 termos de `nichos/{slug}/05-linguagem.md` literalmente.
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`.
+- **Recomendado:**
+  - Modo oferta: `ofertas/{slug-oferta}/01-oferta.md` (preço + garantia consistentes).
+  - Modo cliente: `clientes/{slug-cliente}/00-perfil.md`.
+
+### `reads`
+- `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
+- `nichos/{slug-nicho}/03-mecanismo.md`, `04-oferta-base.md`, `05-linguagem.md`, `07-objecoes.md` — sempre.
+- `ofertas/{slug-oferta}/01-oferta.md` — modo oferta.
+- `clientes/{slug-cliente}/00-perfil.md` — modo cliente.
+- `${CLAUDE_SKILL_DIR}/deal-framework.md`, `objecoes.md`, `templates.md` — frameworks da skill.
+
+### `writes_to`
+- `ofertas/{slug-oferta}/playbook.md` (modo oferta).
+- `clientes/{slug-cliente}/02-playbook.md` (modo cliente).
+
+### `updates_index`
+- `{escopo}/{slug}/_index.md` — `last_updated`.
+- `memory/per-skill/playbook-vendas/learnings.md`.
+
+### `registers_decision_in`
+- (não aplicável.)
 
 ---
 

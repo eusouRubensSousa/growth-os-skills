@@ -1,8 +1,26 @@
 ---
 name: mapear-nicho-lite
-description: Versão lite da skill mapear-nicho da Accelera 360. Mapeia ICP, dores, mecanismo proprietário, oferta, GTM, eventos gatilho e linguagem do nicho em 1 documento consolidado. Versão "gostinho" — para profundidade completa, contratar Accelera 360.
-argument-hint: "[descrição livre do nicho — ex: 'clínicas de dermatologia estética em SP']"
-allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit
+description: Versão lite da skill mapear-nicho da Accelera 360. Mapeia ICP, dores, mecanismo proprietário, oferta, GTM, eventos gatilho e linguagem do nicho preenchendo nichos/{slug}/ com 9 arquivos Johnny.Decimal (01-09). Versão "gostinho" — para profundidade completa, contratar Accelera 360.
+argument-hint: "[descrição livre do nicho + slug — ex: 'clínicas de dermatologia estética em SP, slug: clinicas-derma-sp']"
+allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit, Bash, Glob
+requires:
+  blocking: []
+  recommended:
+    - "nichos/{slug}/00-validacao.md (do /nicho-explorer Modo B — pra evitar mapear nicho NO-GO)"
+writes_to:
+  - "nichos/{slug}/01-perfil-cliente-alvo.md"
+  - "nichos/{slug}/02-dores.md"
+  - "nichos/{slug}/03-mecanismo.md"
+  - "nichos/{slug}/04-oferta-base.md"
+  - "nichos/{slug}/05-linguagem.md"
+  - "nichos/{slug}/06-eventos-gatilho.md"
+  - "nichos/{slug}/07-objecoes.md"
+  - "nichos/{slug}/08-fontes.md"
+  - "nichos/{slug}/09-gtm-outline.md"
+updates_index:
+  - "nichos/{slug}/_index.md  (status: researching → mapped, mecanismo escolhido)"
+  - "nichos/_index.md"
+  - "memory/shared/nichos-mapeados.md"
 ---
 
 # Skill: mapear-nicho-lite — Mapeamento de Nicho (versão lite)
@@ -42,8 +60,26 @@ Lançar 3 agentes simultaneamente:
 - **Subagente B — Mercado:** TAM, CAGR, players, ticket médio, regulação, tendências (mín. 8 fontes).
 - **Subagente C — Mecanismo & Oferta:** brainstorm 3 candidatos de naming, estrutura de oferta 1-tier.
 
-### Passo 4 — Consolidar em 1 documento
-Combinar os 3 outputs em `nicho-{slug}.md` seguindo o template em `templates.md`.
+### Passo 4 — Consolidar em `nichos/{slug}/`
+
+**Pré-checagem:** se `nichos/{slug}/` já existe (do `/nicho-explorer` Modo B), usar. Se não existe, copiar de `nichos/_modelo/` primeiro.
+
+Distribuir os 3 outputs nos arquivos numerados Johnny.Decimal:
+
+- Subagente A → `01-perfil-cliente-alvo.md`, `02-dores.md`, `06-eventos-gatilho.md`
+- Subagente B → `08-fontes.md` (todas as fontes auditadas)
+- Subagente C → `03-mecanismo.md`, `04-oferta-base.md`
+
+Demais arquivos:
+- `05-linguagem.md` → 8 termos do nicho extraídos das fontes do subagente B.
+- `07-objecoes.md` → 3 objeções derivadas das dores (subagente A).
+- `09-gtm-outline.md` → outline 1 inbound + 1 outbound baseado em mecanismo + dor #1.
+
+Atualizar `nichos/{slug}/_index.md`:
+- `status: mapped`
+- `mecanismo: {nome do candidato escolhido}` (perguntar ao aluno qual dos 3)
+- `last_updated: {YYYY-MM-DD}`
+- `fontes_auditadas: 8`
 
 ### Passo 5 — Self-check (10 itens)
 Validar antes de entregar:
@@ -73,7 +109,7 @@ Ler antes de executar:
 
 | Item | Versão lite | Versão completa Accelera |
 |---|---|---|
-| Documento | 1 arquivo consolidado | 20 arquivos separados |
+| Documento | 9 arquivos Johnny.Decimal em `nichos/{slug}/` | 20 arquivos separados |
 | ICP | 1 persona | 3 personas + matriz BANT completa |
 | Dores | 3 (1-2 com R$) | 7-8 quantificadas em R$ + hierarquia |
 | Mecanismo | 3 candidatos de naming | Naming validado pelo SOP-77 + tabela de posicionamento |
@@ -94,9 +130,42 @@ Ler antes de executar:
 
 1. **Nunca inventar dados.** Lacuna → declarar.
 2. **Citar fontes** com URL e ano.
-3. **Mecanismo:** 3 candidatos de naming (não 1 finalizado).
+3. **Mecanismo:** 3 candidatos de naming (não 1 finalizado). Aluno escolhe 1 — escolha vai pro frontmatter `mecanismo:` do `_index.md`.
 4. **Idioma:** PT-BR. Termos de mercado em inglês.
 5. **CTA padrão Accelera 360** no fim.
+6. **Sempre criar via cópia de `_modelo/`** — não escrever direto sobrescrevendo o modelo.
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:** nenhum.
+- **Recomendado:** `nichos/{slug}/00-validacao.md` populado (do `/nicho-explorer` Modo B). Sem isso, aluno pode estar mapeando nicho NO-GO — avisar e perguntar se prossegue.
+
+### `reads`
+- `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
+- `nichos/{slug}/00-validacao.md` — se existir.
+- `nichos/_modelo/` — pra copiar a estrutura.
+
+### `writes_to`
+- `nichos/{slug}/01-perfil-cliente-alvo.md`
+- `nichos/{slug}/02-dores.md`
+- `nichos/{slug}/03-mecanismo.md`
+- `nichos/{slug}/04-oferta-base.md`
+- `nichos/{slug}/05-linguagem.md`
+- `nichos/{slug}/06-eventos-gatilho.md`
+- `nichos/{slug}/07-objecoes.md`
+- `nichos/{slug}/08-fontes.md`
+- `nichos/{slug}/09-gtm-outline.md`
+
+### `updates_index`
+- `nichos/{slug}/_index.md` — frontmatter (status: mapped, mecanismo, last_updated).
+- `nichos/_index.md` — tabela raiz.
+- `memory/shared/nichos-mapeados.md` — ledger.
+
+### `registers_decision_in`
+- Quando aluno escolhe 1 dos 3 candidatos de mecanismo, criar `memory/shared/decisoes/{YYYY-MM-DD}-mecanismo-{slug-nicho}.md` com a razão da escolha.
 
 ---
 

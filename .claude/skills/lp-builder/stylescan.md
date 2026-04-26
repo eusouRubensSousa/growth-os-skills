@@ -70,16 +70,42 @@ elementos_observados:
 
 ---
 
-## Aplicação no boilerplate
+## Mapeamento para um dos 3 sistemas (`design-tokens.md`)
 
-Este YAML é injetado no `boilerplate-{estilo}.html` substituindo as variáveis Tailwind correspondentes:
+Após o YAML cru acima, **mapear** para 1 dos 3 sistemas catalogados em `design-tokens.md`. Esse é o output que alimenta o `branding-extractor.md`.
 
-| Variável boilerplate | Vem de |
+### Heurística de mapeamento
+
+| Sinais detectados na URL | Sistema sugerido |
 |---|---|
-| `bg-{color}` (body) | `paleta.bg_primary` |
-| `text-{color}` | `paleta.text_primary` |
-| `bg-{color}` (CTA) | `paleta.cta` |
-| `font-{family}` | `tipografia.family_principal` |
+| Background off-white quente, serif display, layout 1 coluna editorial, sem brackets/uppercase | `editorial-serif` |
+| Bordas grossas pretas, uppercase agressivo, lime/amarelo ácido, brackets `[ ]` ou `///` | `brutalist-grid` |
+| Background dark zinc, mono font visível, dot-grid, code snippets, glow accent | `mono-tech` |
+| Não bate com nenhum dos 3 com clareza | `custom` (e mantém paleta+fontes da URL no YAML, com warning ao aluno sobre risco anti-AI menor) |
+
+### Override de cor
+
+Se a URL tem cor de marca real declarada (ex: dourado `#B8956A` da clínica), **manter essa cor** como `accent` mesmo quando o sistema mapeado tem outra cor default. A `accent` real do cliente sempre vence.
+
+### Override de fonte (com guard rail anti-AI)
+
+Se a URL usa uma fonte banida (`anti-ai-design.md`: Inter / Roboto / Arial / Space Grotesk / system-ui / Open Sans / Lato) como display, **NÃO replicar** — substituir pela fonte default do sistema mapeado e avisar o aluno.
+
+### Saída final do scanner
+
+Acrescentar ao YAML:
+
+```yaml
+sistema_mapeado: "editorial-serif"  # ou brutalist-grid / mono-tech / custom
+sistema_justificativa: "Background off-white + serif display + layout 1 coluna editorial"
+overrides_aplicados:
+  - "accent mantido da marca real (#B8956A) sobre default do sistema"
+  - "display font Inter substituída por Instrument Serif (banida)"
+warnings:
+  - "Fonte Inter banida — substituída automaticamente"
+```
+
+Esse output entra no `branding-extractor.md` no campo `design.sistema_inferido` + `design.paleta` + `design.fontes`.
 
 ---
 

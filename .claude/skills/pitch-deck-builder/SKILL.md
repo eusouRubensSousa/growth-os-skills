@@ -1,8 +1,21 @@
 ---
 name: pitch-deck-builder
-description: Gera apresentação comercial 20 slides parametrizada por nicho/cliente. Modo default reveal (HTML standalone, zero custo). Modo opcional gemini (PNGs gerados via API, requer GEMINI_API_KEY do aluno). Modo markdown-only (Canva/Slides manual). Foco vendedor → cliente final do nicho — vendendo Growth AI.
-argument-hint: "[nicho + cliente opcional + modo (reveal/gemini/markdown-only)]"
-allowed-tools: Agent, Read, Write, Edit, Bash
+description: Gera apresentação comercial 20 slides parametrizada por nicho/cliente. Output em ofertas/{slug}/deck/ (modo oferta) ou clientes/{slug}/deck/ (modo cliente — customizado). Modo default reveal (HTML standalone, zero custo). Modo opcional gemini (PNGs gerados via API, requer GEMINI_API_KEY do aluno). Modo markdown-only (Canva/Slides manual). Foco vendedor → cliente final do nicho — vendendo Growth AI.
+argument-hint: "[modo (oferta/cliente) + slug + render-mode (reveal/gemini/markdown-only)]"
+allowed-tools: Agent, Read, Write, Edit, Bash, Glob
+requires:
+  blocking:
+    - "nichos/{slug-nicho}/_index.md status=mapped (sem nicho mapeado, deck vende ar)"
+  recommended:
+    - "clientes/{slug-cliente}/00-perfil.md (pra deck customizado)"
+    - "ofertas/{slug-oferta}/01-oferta.md (pra deck genérico da oferta)"
+writes_to:
+  - "ofertas/{slug-oferta}/deck/deck.html + slides-md/ + slides/  (modo oferta)"
+  - "clientes/{slug-cliente}/deck/deck.html + slides-md/ + slides/  (modo cliente)"
+updates_index:
+  - "{escopo}/{slug}/deck/_index.md  (status, score self-check, modo)"
+  - "{escopo}/{slug}/_index.md"
+  - "memory/per-skill/pitch-deck-builder/learnings.md"
 ---
 
 # Skill: pitch-deck-builder — Apresentação Comercial 20 Slides
@@ -45,7 +58,7 @@ Sua missão é gerar uma **apresentação comercial de 20 slides** que o vendedo
 ### Modo `gemini` (avançado, opcional)
 - Stack: Pipeline Python adaptado do gerador interno Accelera + Gemini 3 Pro Image Preview
 - Pré-requisitos: `GEMINI_API_KEY` do aluno + Python 3.10+ + `pip install -r requirements.txt`
-- Output: 20 PNGs em `workspace/{cliente}/slides/` + deck montado
+- Output: 20 PNGs em `{escopo}/{slug}/deck/slides/` + deck montado em `{escopo}/{slug}/deck/deck.html`
 - Custo: ~US$ 0.20/slide ≈ US$ 4 por deck
 
 ### Modo `markdown-only`
@@ -58,12 +71,22 @@ Sua missão é gerar uma **apresentação comercial de 20 slides** que o vendedo
 
 ## Fluxo conversacional
 
-### Passo 1 — Coletar contexto
-> *"Pra gerar teu deck, me passa:*
-> *(a) Caminho do `mapear-nicho-lite` (nicho-{{slug}}.md) — obrigatório.*
-> *(b) Caminho do `cliente-radar` (briefing-{{empresa}}.md) — opcional.*
-> *(c) Nome do vendedor (você).*
-> *(d) Modo: `reveal` (default), `gemini` ou `markdown-only`."*
+### Passo 1 — Coletar contexto + escopo
+
+A. **Perguntar escopo:** *"Deck da oferta (genérico do nicho) ou do cliente (customizado pra prospect)? Me passa o slug."*
+
+B. **Pré-checagem bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`?
+   - Se NÃO → recusar: *"Deck sem nicho mapeado vende ar. Roda `/mapear-nicho-lite` primeiro."*
+   - Modo degradado disponível com confirmação explícita do aluno.
+
+C. **Pré-checagem recomendada:**
+   - Modo cliente → `clientes/{slug}/00-perfil.md` populado.
+   - Modo oferta → `ofertas/{slug}/01-oferta.md` populado.
+
+D. Perguntar restante:
+> *"Pra fechar o deck:*
+> *(a) Nome do vendedor (você)?*
+> *(b) Modo de render: `reveal` (default), `gemini` ou `markdown-only`?"*
 
 ### Passo 2 — Confirmar
 > *"Vou gerar deck de 20 slides em modo `{{modo}}` parametrizado por:*
@@ -73,13 +96,19 @@ Sua missão é gerar uma **apresentação comercial de 20 slides** que o vendedo
 > *Confirma?"*
 
 ### Passo 3 — Pipeline interno
-1. **Coletor de Contexto:** ler `mapear-nicho-lite` + `cliente-radar`. Extrair variáveis.
-2. **Roteirista:** preencher os 20 templates `templates/slide_NN_*.md`.
-3. **Renderizador:**
-   - Se `reveal`: gerar `deck.html` único usando `reveal-template.html`.
-   - Se `gemini`: orientar aluno a rodar pipeline Python (`gemini-pipeline.md`).
-   - Se `markdown-only`: apenas escrever os 20 .md.
-4. **Self-check:** validar 15 itens (ver `brand-style-deck.md` seção 7) — bloquear se < 12/15.
+
+1. **Coletor de Contexto:** ler dos paths canônicos:
+   - `nichos/{slug-nicho}/03-mecanismo.md`, `02-dores.md`, `04-oferta-base.md`, `05-linguagem.md`.
+   - `ofertas/{slug-oferta}/01-oferta.md`, `04-marca.md` (modo oferta).
+   - `clientes/{slug-cliente}/00-perfil.md`, `_index.md` (modo cliente).
+2. **Pré-criar destino:** copiar de `{escopo}/_modelo/deck/` pra `{escopo}/{slug}/deck/` (se não existir).
+3. **Roteirista:** preencher os 20 templates `templates/slide_NN_*.md` da skill em `{escopo}/{slug}/deck/slides-md/`.
+4. **Renderizador:**
+   - Se `reveal`: gerar `{escopo}/{slug}/deck/deck.html` único usando `reveal-template.html` da skill.
+   - Se `gemini`: orientar aluno a rodar pipeline Python (`gemini-pipeline.md`); PNGs vão pra `{escopo}/{slug}/deck/slides/`.
+   - Se `markdown-only`: parar nos 20 .md em `slides-md/`.
+5. **Self-check:** validar 15 itens (ver `brand-style-deck.md` seção 7) — bloquear se < 12/15.
+6. **Atualizar `{escopo}/{slug}/deck/_index.md`** frontmatter (status, modo, score).
 
 ### Passo 4 — Entregar
 - Listagem de arquivos gerados.
@@ -123,6 +152,42 @@ Ler antes de executar:
 7. **Footer Accelera 360** em todos os slides (regra LICENSE).
 8. **Idioma:** PT-BR. Termos de mercado em inglês.
 9. **Tempo total estimado:** 25-30 min de fala.
+10. **NUNCA escrever em `.claude/skills/pitch-deck-builder/workspace/...`** — output vai SEMPRE pra `{escopo}/{slug}/deck/` na raiz do workspace do aluno.
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:**
+  - `nichos/{slug-nicho}/_index.md` status=`mapped`.
+- **Recomendado:**
+  - Modo cliente: `clientes/{slug-cliente}/00-perfil.md`.
+  - Modo oferta: `ofertas/{slug-oferta}/01-oferta.md`, `04-marca.md`.
+
+**Modo degradado:** aceito com confirmação. Output marcado `degraded_mode: true`.
+
+### `reads`
+- `_contexto/operador.md`, `_contexto/tese-a360.md`, `_contexto/glossario.md`, `MEMORY.md` — sempre.
+- `nichos/{slug-nicho}/02-dores.md`, `03-mecanismo.md`, `04-oferta-base.md`, `05-linguagem.md` — sempre.
+- `ofertas/{slug-oferta}/01-oferta.md`, `04-marca.md` — modo oferta.
+- `clientes/{slug-cliente}/00-perfil.md`, `_index.md` — modo cliente.
+- `${CLAUDE_SKILL_DIR}/templates/slide_NN_*.md` — sempre (20 templates da skill).
+- `${CLAUDE_SKILL_DIR}/reveal-template.html` — modo reveal.
+- `memory/per-skill/pitch-deck-builder/learnings.md` — append.
+
+### `writes_to`
+- `{escopo}/{slug}/deck/deck.html` (modo reveal)
+- `{escopo}/{slug}/deck/slides/` (modo gemini — 20 PNGs)
+- `{escopo}/{slug}/deck/slides-md/slide_NN_*.md` (sempre — 20 .md)
+
+### `updates_index`
+- `{escopo}/{slug}/deck/_index.md` — frontmatter (status, modo, score self-check).
+- `{escopo}/{slug}/_index.md` — `last_updated`.
+- `memory/per-skill/pitch-deck-builder/learnings.md`.
+
+### `registers_decision_in`
+- (não aplicável.)
 
 ---
 

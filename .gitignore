@@ -27,8 +27,8 @@ env/
 # Logs
 *.log
 
-# Outputs locais de teste (workspace gerado pelas skills)
-workspace/
+# Outputs locais de teste (workspace gerado pelas skills) — só na raiz, não em templates/
+/workspace/
 *.tmp
 
 # Dependências node (caso futuramente)
