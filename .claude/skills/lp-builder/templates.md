@@ -143,13 +143,17 @@ accelera360.com.br | Aplique: yayforms.link/4bRG5aE
 
 ---
 
-## Tom de voz por boilerplate
+## Tom de voz por sistema estético
 
-| Boilerplate | Tom | Exemplo CTA |
-|---|---|---|
-| `boilerplate-a360.html` | Executivo, sóbrio, motivacional | "Receber meu diagnóstico" |
-| `boilerplate-saas.html` | Técnico, direto, otimista | "Começar grátis" / "Falar com vendas" |
-| `boilerplate-infoprod.html` | Urgência alta, emocional, transformacional | "🔥 QUERO ENTRAR AGORA" |
+> Cada sistema (`design-tokens.md`) tem tom próprio. O Copy Agent ajusta vocabulário, comprimento de frase e CTA conforme o sistema escolhido pelo `branding-extractor.md`.
+
+| Sistema | Tom | Vocabulário típico | Exemplo CTA |
+|---|---|---|---|
+| `editorial-serif` | Editorial sóbrio, executivo, sem urgência manufaturada. Frases médias, pontuação refinada. | "infraestrutura", "diagnóstico", "operação", "trajetória" | "Pegar meu diagnóstico" / "Conversar com a equipe" / "Agendar diagnóstico" |
+| `brutalist-grid` | Direto, ácido, sem firula. Frases curtas, quebras agressivas, brackets `[ ]` e `///`. | "para de", "bora", "stack", "stop", "não vendemos {X}, vendemos {Y}" | "Bora" / "Quero ver" / "Não me convenceu — me prova" |
+| `mono-tech` | Técnico, preciso, irônico mas profissional. Mostra números, comandos, latência. | "endpoint", "stack", "47ms", "open core", "zero config" | "Ver docs" / "Começar grátis" / "$ npm install" |
+
+**Regra geral (vale pros 3):** SEMPRE evitar a lista do `anti-ai-design.md` ("Soluções", "Transforme seu negócio", "Saiba mais", "Empodere sua equipe", emojis em H1, "Empower your team to...", etc.).
 
 ---
 

@@ -1,8 +1,19 @@
 ---
 name: meeting-prep
-description: Briefing 1-page para uma reunião específica de vendas. Combina outputs anteriores (cliente-radar + mapear-nicho-lite + playbook-vendas) e adapta — quem é o cliente, dores prováveis, gancho de abertura, 5 perguntas SPIN, 3 objeções, próximo passo. Gera doc enxuto pra levar impresso ou aberto na reunião.
-argument-hint: "[nome do prospect — assume contexto de cliente-radar e mapear-nicho-lite já rodados]"
-allowed-tools: Read, Write
+description: Briefing 1-page para uma reunião específica de vendas. Combina outputs anteriores (clientes/{slug}/00-perfil.md + nichos/{slug}/ + playbook-vendas) e adapta — quem é o cliente, dores prováveis, gancho de abertura, 5 perguntas SPIN, 3 objeções, próximo passo. Gera doc enxuto pra levar impresso ou aberto na reunião.
+argument-hint: "[slug do cliente — assume cliente-radar e mapear-nicho-lite já rodados]"
+allowed-tools: Read, Write, Edit, Glob
+requires:
+  blocking:
+    - "clientes/{slug-cliente}/00-perfil.md (do /cliente-radar — sem perfil, briefing é palpite)"
+  recommended:
+    - "nichos/{slug-nicho}/_index.md status=mapped"
+    - "clientes/{slug-cliente}/02-playbook.md (do /playbook-vendas)"
+writes_to:
+  - "clientes/{slug-cliente}/01-meeting-prep.md"
+updates_index:
+  - "clientes/{slug-cliente}/_index.md  (status: radar-done → meeting-prep-done)"
+  - "memory/shared/clientes-ativos.md"
 ---
 
 # Skill: meeting-prep — Briefing 1-Page
@@ -32,19 +43,29 @@ Se algum desses pré-requisitos faltar, a skill avisa e sugere rodar primeiro.
 ## Fluxo conversacional
 
 ### Passo 1 — Localizar contexto
-Perguntar:
-> *"Pra montar teu briefing de reunião, me passa:*
-> *(a) Nome do prospect (mesma do cliente-radar)?*
-> *(b) Caminho do arquivo do cliente-radar (briefing-{{empresa}}.md), se já rodou.*
-> *(c) Caminho do mapear-nicho-lite (nicho-{{slug}}.md), se já rodou.*
-> *(d) Caminho do playbook-vendas, se já rodou."*
+
+1. Pedir slug do cliente.
+2. **Pré-checagem bloqueante:** `clientes/{slug}/00-perfil.md` existe?
+   - Se NÃO → recusar e devolver: *"Não achei `clientes/{slug}/00-perfil.md`. Roda `/cliente-radar` primeiro pra montar o perfil — sem isso o briefing é palpite. Quer rodar agora?"*
+3. **Pré-checagem recomendada:** `clientes/{slug}/_index.md` tem `nicho:` populado E `nichos/{slug-nicho}/_index.md` status=`mapped`?
+   - Se nicho não mapeado → avisar: *"Cliente sem nicho mapeado — briefing vai ficar genérico nas dores. Continuar mesmo assim ou rodar `/mapear-nicho-lite` antes?"* (modo degradado se aluno aceitar).
+4. **Pré-checagem opcional:** `clientes/{slug}/02-playbook.md` existe?
+   - Se sim → usar pra calibrar SPIN + objeções.
+   - Se não → gerar SPIN/objeções a partir de `nichos/{slug-nicho}/07-objecoes.md`.
 
 ### Passo 2 — Ler arquivos
-Ler os 3 outputs anteriores. Se algum faltar, avisar:
-> *"Você ainda não rodou `/cliente-radar` pro {{prospect}}. Recomendo rodar antes — o briefing fica fraco sem isso."*
 
-### Passo 3 — Consolidar 1-page
-Combinar os 3 e gerar `meeting-prep-{{prospect}}.md` com 8 seções:
+Ler:
+- `clientes/{slug}/00-perfil.md` — perfil do cliente
+- `clientes/{slug}/_index.md` — frontmatter (data da reunião, oferta, status)
+- `nichos/{slug-nicho}/01-perfil-cliente-alvo.md`, `02-dores.md`, `03-mecanismo.md`, `06-eventos-gatilho.md`, `07-objecoes.md` — se mapeado
+- `clientes/{slug}/02-playbook.md` — se existir
+
+### Passo 3 — Consolidar em `clientes/{slug}/01-meeting-prep.md`
+
+Gerar (substituir conteúdo do template `_modelo/01-meeting-prep.md` pelo customizado):
+
+8 seções:
 1. Quem é o cliente (3 linhas)
 2. O que ele provavelmente sente (3 dores)
 3. Gancho pra abrir a call (1 frase)
@@ -78,6 +99,34 @@ Ler antes de executar:
 3. **Próximo passo concreto** — sempre fechar com ação proposta + data.
 4. **Idioma:** PT-BR.
 5. **CTA padrão Accelera 360** no fim.
+6. **Bloqueio sem `00-perfil.md`** — recusar rodar (modo degradado não disponível: meeting-prep sem perfil é apenas palpite genérico, perde o ponto).
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:**
+  - `clientes/{slug}/00-perfil.md` (do `/cliente-radar`).
+- **Recomendado:**
+  - `nichos/{slug-nicho}/_index.md` status=`mapped`.
+  - `clientes/{slug}/02-playbook.md` (do `/playbook-vendas`).
+
+### `reads`
+- `_contexto/operador.md`, `MEMORY.md` — sempre.
+- `clientes/{slug}/00-perfil.md`, `_index.md` — sempre.
+- `nichos/{slug-nicho}/01-..07-` — quando nicho mapeado.
+- `clientes/{slug}/02-playbook.md` — opcional.
+
+### `writes_to`
+- `clientes/{slug}/01-meeting-prep.md`
+
+### `updates_index`
+- `clientes/{slug}/_index.md` — frontmatter (`status: meeting-prep-done`, `data_reuniao`, `last_updated`).
+- `memory/shared/clientes-ativos.md`.
+
+### `registers_decision_in`
+- (não aplicável.)
 
 ---
 

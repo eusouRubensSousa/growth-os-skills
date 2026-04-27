@@ -1,8 +1,21 @@
 ---
 name: gtm-architect
-description: Estratégia Go-To-Market — outbound (4 toques cold) ou content marketing (mês 1) ou combo. Entrega ICP de targeting + sequência D+0/D+3/D+7/D+14 + 3 templates email + 2 LinkedIn DM + calendário mês 1 com 3 posts LinkedIn + 2 emails + 1 artigo Substack.
-argument-hint: "[modo: outbound / content / combo + nicho]"
-allowed-tools: WebSearch, Read, Write
+description: Estratégia Go-To-Market — outbound (4 toques cold) ou content marketing (mês 1) ou combo. Output em ofertas/{slug}/gtm/ (modo oferta) ou clientes/{slug}/gtm/ (modo cliente). Entrega ICP de targeting + sequência D+0/D+3/D+7/D+14 + 3 templates email + 2 LinkedIn DM + calendário mês 1 com 3 posts LinkedIn + 2 emails + 1 artigo Substack.
+argument-hint: "[escopo (oferta/cliente) + slug + modo (outbound/content/combo)]"
+allowed-tools: WebSearch, Read, Write, Edit, Glob
+requires:
+  blocking:
+    - "nichos/{slug-nicho}/_index.md status=mapped (sem nicho mapeado, GTM sai genérico — vira spam)"
+  recommended:
+    - "ofertas/{slug-oferta}/01-oferta.md (modo oferta — pra calibrar pricing/oferta nas peças)"
+    - "clientes/{slug-cliente}/00-perfil.md (modo cliente)"
+writes_to:
+  - "ofertas/{slug-oferta}/gtm/outbound.md + content.md  (modo oferta)"
+  - "clientes/{slug-cliente}/gtm/outbound.md + content.md  (modo cliente)"
+updates_index:
+  - "{escopo}/{slug}/gtm/_index.md"
+  - "{escopo}/{slug}/_index.md"
+  - "memory/per-skill/gtm-architect/learnings.md"
 ---
 
 # Skill: gtm-architect — Estratégia Go-To-Market
@@ -33,26 +46,41 @@ Os dois alinhados — outbound como aceleração + content como autoridade.
 
 ## Fluxo conversacional
 
-### Passo 1 — Coletar contexto
-> *"Pra montar tua estratégia GTM, me conta:*
-> *(a) Modo: outbound / content / combo?*
-> *(b) Nicho-alvo?*
-> *(c) Já tem `mapear-nicho-lite` rodado pra esse nicho? (se sim, leio o output e uso o mecanismo + dores)"*
+### Passo 1 — Coletar contexto + escopo
+
+A. **Perguntar escopo:** *"GTM da oferta (genérico do nicho) ou de um cliente específico? Me passa o slug."*
+
+B. **Pré-checagem bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`?
+   - Se NÃO → recusar: *"GTM sem nicho mapeado vira spam. Roda `/mapear-nicho-lite` primeiro."*
+
+C. Perguntar restante:
+> *"Pra fechar:*
+> *(a) Modo: outbound / content / combo (default)?*
+> *(b) Cadência preferida (alta / média / baixa)?"*
 
 ### Passo 2 — Confirmar
 Apresentar plano + pedir confirmação.
 
-### Passo 3 — Ler contexto se houver
-Se aluno passou path do output do `/mapear-nicho-lite`, ler arquivo e usar:
-- ICP (persona)
-- 3 dores
-- Mecanismo proprietário (nome + tagline)
-- Eventos gatilho (5)
+### Passo 3 — Ler contexto canônico
+Sempre ler:
+- `nichos/{slug-nicho}/01-perfil-cliente-alvo.md` — ICP
+- `nichos/{slug-nicho}/02-dores.md` — dores
+- `nichos/{slug-nicho}/03-mecanismo.md` — mecanismo proprietário (nome escolhido + tagline)
+- `nichos/{slug-nicho}/05-linguagem.md` — vocabulário do nicho
+- `nichos/{slug-nicho}/06-eventos-gatilho.md` — 5 triggers
 
-### Passo 4 — Gerar
-- Modo Outbound → ler `playbook-outbound.md` + `templates.md` → gerar `gtm-outbound.md`
-- Modo Content → ler `playbook-content.md` + `templates.md` → gerar `gtm-content.md`
-- Modo Combo → gerar os dois
+Modo cliente: ler também `clientes/{slug-cliente}/00-perfil.md` pra customizar timing/ângulo.
+Modo oferta: ler também `ofertas/{slug-oferta}/01-oferta.md` pra mensagem alinhada à oferta.
+
+### Passo 4 — Gerar nos paths canônicos
+
+Pré-criar destino: copiar `{escopo}/_modelo/gtm/` pra `{escopo}/{slug}/gtm/` (se não existir).
+
+- Modo Outbound → ler `playbook-outbound.md` + `templates.md` da skill → escrever `{escopo}/{slug}/gtm/outbound.md`.
+- Modo Content → ler `playbook-content.md` + `templates.md` da skill → escrever `{escopo}/{slug}/gtm/content.md`.
+- Modo Combo → gerar os dois.
+
+Atualizar `{escopo}/{slug}/gtm/_index.md` frontmatter.
 
 ---
 
@@ -76,11 +104,41 @@ Ler antes de executar:
 
 ## Regras não-negociáveis
 
-1. **Sempre citar o mecanismo proprietário** (do `mapear-nicho-lite`) nas peças.
+1. **Sempre citar o mecanismo proprietário** (do `nichos/{slug}/03-mecanismo.md`) nas peças.
 2. **Tom executivo** — sem clickbait, sem promessas absurdas.
 3. **CTA único** por peça (post, email, DM).
 4. **Idioma:** PT-BR. Inglês em termos técnicos.
 5. **CTA padrão Accelera 360** no fim do output.
+6. **Linguagem do nicho** — usar termos literais de `nichos/{slug}/05-linguagem.md`, evitar "Soluções/Transforme/Empodere".
+7. **Triggers ativos** — sempre alinhar timing aos eventos-gatilho de `nichos/{slug}/06-eventos-gatilho.md`.
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`.
+- **Recomendado:**
+  - Modo oferta: `ofertas/{slug-oferta}/01-oferta.md`.
+  - Modo cliente: `clientes/{slug-cliente}/00-perfil.md`.
+
+### `reads`
+- `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
+- `nichos/{slug-nicho}/01-perfil-cliente-alvo.md`, `02-dores.md`, `03-mecanismo.md`, `05-linguagem.md`, `06-eventos-gatilho.md` — sempre.
+- `ofertas/{slug-oferta}/01-oferta.md` — modo oferta.
+- `clientes/{slug-cliente}/00-perfil.md` — modo cliente.
+
+### `writes_to`
+- `{escopo}/{slug}/gtm/outbound.md` (modos outbound/combo).
+- `{escopo}/{slug}/gtm/content.md` (modos content/combo).
+
+### `updates_index`
+- `{escopo}/{slug}/gtm/_index.md` — frontmatter.
+- `{escopo}/{slug}/_index.md` — `last_updated`.
+- `memory/per-skill/gtm-architect/learnings.md`.
+
+### `registers_decision_in`
+- (não aplicável.)
 
 ---
 

@@ -1,8 +1,18 @@
 ---
 name: cliente-radar
-description: Pesquisa de cliente/prospect específico para preparar reunião de vendas. Investiga em paralelo (4 agentes) a empresa, o decisor, 3 concorrentes diretos e 3 top players nacionais/globais. Entrega briefing 2-3 páginas com gaps, ganchos e perguntas SPIN. Apenas dados públicos.
-argument-hint: "[nome da empresa + setor + URL opcional + nome do decisor opcional]"
-allowed-tools: Agent, WebSearch, WebFetch, Read, Write
+description: Pesquisa de cliente/prospect específico para preparar reunião de vendas. Investiga em paralelo (4 agentes) a empresa, o decisor, 3 concorrentes diretos e 3 top players nacionais/globais. Entrega briefing em clientes/{slug}/00-perfil.md com gaps, ganchos e perguntas SPIN. Apenas dados públicos.
+argument-hint: "[nome da empresa + setor + slug + URL opcional + nome do decisor opcional]"
+allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit, Bash, Glob
+requires:
+  blocking: []
+  recommended:
+    - "nichos/{slug-nicho}/_index.md status=mapped (sem nicho mapeado, radar fica superficial)"
+writes_to:
+  - "clientes/{slug-cliente}/00-perfil.md"
+updates_index:
+  - "clientes/{slug-cliente}/_index.md  (status: prospect → radar-done)"
+  - "clientes/_index.md"
+  - "memory/shared/clientes-ativos.md"
 ---
 
 # Skill: cliente-radar — Pesquisa de Prospect
@@ -73,8 +83,16 @@ Lançar simultaneamente:
 - O que eles fazem que diferencia.
 - O que o prospect pode aprender com eles.
 
-### Passo 4 — Consolidar briefing
-Combinar em `briefing-{{empresa}}.md` seguindo template.
+### Passo 4 — Consolidar briefing em `clientes/{slug-cliente}/`
+
+1. Pedir slug do cliente (kebab-case).
+2. **Pré-checagem:** se `clientes/{slug}/` já existe, usar. Se não, copiar de `clientes/_modelo/`.
+3. Combinar os 4 outputs em `clientes/{slug}/00-perfil.md` seguindo template.
+4. Atualizar `clientes/{slug}/_index.md` frontmatter:
+   - `status: radar-done`
+   - `nicho: {slug-nicho}` (se houver)
+   - `last_updated: {YYYY-MM-DD}`
+5. Adicionar entrada em `memory/shared/clientes-ativos.md`.
 
 ### Passo 5 — Identificar 3 gaps + 3 ganchos + 3 perguntas SPIN
 - **Gaps prováveis** (o que o prospect provavelmente não está fazendo bem).
@@ -107,6 +125,31 @@ Ler antes de executar:
 3. **Sem inferências sobre vida pessoal** do decisor.
 4. **Idioma:** PT-BR.
 5. **CTA padrão Accelera 360** no fim.
+6. **Sempre criar via cópia de `clientes/_modelo/`** — não escrever direto.
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires`
+- **Bloqueante:** nenhum (cliente pode ser primeiro contato).
+- **Recomendado:** nicho do cliente mapeado em `nichos/{slug}/` status=`mapped`. Sem isso, radar fica superficial — avisar e perguntar se prossegue.
+
+### `reads`
+- `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
+- `nichos/{slug-nicho}/01-perfil-cliente-alvo.md`, `nichos/{slug-nicho}/02-dores.md`, `nichos/{slug-nicho}/06-eventos-gatilho.md` — se nicho mapeado.
+- `clientes/_modelo/` — para cópia da estrutura.
+
+### `writes_to`
+- `clientes/{slug-cliente}/00-perfil.md`
+
+### `updates_index`
+- `clientes/{slug-cliente}/_index.md` — frontmatter (status: radar-done, nicho, last_updated).
+- `clientes/_index.md` — tabela raiz.
+- `memory/shared/clientes-ativos.md` — ledger.
+
+### `registers_decision_in`
+- (não aplicável — radar é coleta, não decisão durável.)
 
 ---
 

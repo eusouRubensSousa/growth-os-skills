@@ -2,7 +2,17 @@
 name: nicho-explorer
 description: Pesquisa de mercado para escolha de nicho. Modo A — Top 10 nichos pra montar empresa de IA agora (com score 1-10 em 4 critérios). Modo B — validação GO/NO-GO de 1 nicho específico (TAM/SAM/SOM, CAGR, gap competitivo, ICP acessível).
 argument-hint: "[descrição livre — 'top 10 nichos' ou 'validar nicho X' ou descrição do perfil do usuário]"
-allowed-tools: WebSearch, WebFetch, Read, Write
+allowed-tools: WebSearch, WebFetch, Read, Write, Edit
+requires:
+  blocking: []
+  recommended:
+    - "_contexto/operador.md (pra ranquear top 10 alinhado ao perfil)"
+writes_to:
+  - "nichos/{slug}/00-validacao.md  (Modo B — validação GO/NO-GO)"
+  - "nichos-top10.md  (Modo A — apenas overview, na raiz do workspace)"
+updates_index:
+  - "nichos/_index.md"
+  - "memory/shared/nichos-mapeados.md  (cria entrada com status=researching)"
 ---
 
 # Skill: nicho-explorer — Pesquisa e Escolha de Nicho
@@ -75,17 +85,45 @@ Para análise completa: agendar sessão Accelera 360.
 ## Pipeline interno
 
 ### Modo A
-1. Coletar perfil do usuário.
+1. Coletar perfil do usuário (pular se `_contexto/operador.md` já preenchido).
 2. WebSearch ampla (10-15 queries) sobre nichos com IA aplicável: saúde, jurídico, educação, e-commerce, imobiliário, alimentação, contabilidade, infoproduto, B2B SaaS, mobilidade, etc.
 3. Para cada nicho candidato, score em 4 critérios (Tamanho / Crescimento / Dor / Facilidade IA).
 4. Ranquear top 10 e cruzar com perfil do usuário pra recomendar top 3.
-5. Salvar em `nichos-top10.md`.
+5. Salvar `nichos-top10.md` na raiz do workspace (overview, não vira pasta — quando aluno escolher 1, cria-se `nichos/{slug}/`).
 
 ### Modo B
-1. Confirmar nome do nicho com o usuário.
+1. Confirmar nome do nicho com o usuário e pedir slug kebab-case.
 2. WebSearch 5-8 queries sobre o nicho: tamanho, crescimento, players, dores, regulação.
 3. Aplicar critérios GO/NO-GO.
-4. Salvar `nicho-{nome}-validacao.md` com veredicto + ficha-resumo.
+4. **Criar `nichos/{slug}/`** copiando de `nichos/_modelo/`.
+5. **Preencher `nichos/{slug}/00-validacao.md`** com veredicto + ficha-resumo.
+6. **Atualizar `nichos/{slug}/_index.md`** frontmatter com `status: researching` + setor.
+7. **Adicionar entrada em `memory/shared/nichos-mapeados.md`** (próximo passo: rodar `/mapear-nicho-lite`).
+8. Sugerir ao aluno: *"Se for GO, próximo é `/mapear-nicho-lite` pra preencher 01-09. Quer rodar agora?"*
+
+---
+
+## I/O Contract & Pré-requisitos
+
+### `requires` (pré-requisitos)
+- **Bloqueante:** nenhum (skill é ponto de entrada do pipeline).
+- **Recomendado:** `_contexto/operador.md` populado pra ranquear top 10 alinhado ao perfil. Se faltar, pergunta inline.
+
+### `reads`
+- `_contexto/operador.md` (perfil) — opcional.
+- `_contexto/tese-a360.md` (lentes do método) — sempre.
+- `MEMORY.md` (estado da sessão) — sempre.
+
+### `writes_to`
+- **Modo A:** `nichos-top10.md` na raiz do workspace (overview, não cria pasta).
+- **Modo B:** `nichos/{slug}/` (cópia de `nichos/_modelo/`) + preenchimento de `00-validacao.md` + frontmatter de `_index.md`.
+
+### `updates_index`
+- `nichos/_index.md` (linha nova com slug + status=researching).
+- `memory/shared/nichos-mapeados.md` (linha nova).
+
+### `registers_decision_in`
+- Se aluno declarar nicho-foco (compromisso durável), criar `memory/shared/decisoes/{YYYY-MM-DD}-nicho-foco.md`.
 
 ---
 
