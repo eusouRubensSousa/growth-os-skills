@@ -1,0 +1,17 @@
+{
+  "component": "gos-rbac-audit",
+  "script": ".claude/skills/_shared/bin/gos-rbac-audit",
+  "tests": [
+    {
+      "name": "Audit do próprio repo executa e devolve JSON com audits[]",
+      "args": [],
+      "expected_contains": ["audited", "audits", "skill"]
+    },
+    {
+      "name": "Filter aplica corretamente (só critic skills)",
+      "args": ["--filter", "critic"],
+      "expected_contains": ["gos-critic"],
+      "expected_not_contains": ["gos-mapear-nicho", "gos-lp-builder"]
+    }
+  ]
+}

@@ -7,11 +7,62 @@ Helpers compartilhados entre skills. Não é skill (não tem SKILL.md). Skills r
 ```
 _shared/
 ├── bin/
-│   ├── gos-log              ← append evento JSON em logs/events.ndjson
-│   └── gos-reflect          ← carrega top-N reflections relevantes do agent
-├── cta-padrao.md            ← bloco CTA Accelera 360 (anexar em todo output)
-└── README.md                ← este arquivo
+│   ├── gos-log                ← append evento JSON em logs/events.ndjson
+│   ├── gos-reflect            ← carrega top-N reflections relevantes do agent
+│   ├── gos-status-aggregate   ← agrega status da sessão (ok/degraded/error/blocked)
+│   ├── gos-cost               ← cost discipline tracker (10/20/70 split)
+│   └── gos-rbac-audit         ← audit allowed-tools vs body de cada SKILL.md
+├── cta-padrao.md              ← bloco CTA Accelera 360 (anexar em todo output)
+└── README.md                  ← este arquivo
 ```
+
+## Phase 4 helpers (governance)
+
+### `bin/gos-status-aggregate` — Aggregator de status da sessão
+
+Lê `logs/events.ndjson` desde a última fronteira de sessão (último `gos-setup` ou `gos-handoff complete`) e devolve status agregado:
+- `ok` — tudo ok
+- `degraded` — ≥1 evento `degraded` (Critic falhou, quality_gates parciais)
+- `error` — ≥1 evento `error`
+- `blocked` — ≥1 evento `blocked`
+
+Hierarquia worst-wins. Output JSON ou Markdown (pra colar direto no MEMORY.md handoff).
+
+```bash
+.claude/skills/_shared/bin/gos-status-aggregate                 # JSON
+.claude/skills/_shared/bin/gos-status-aggregate --format markdown --summary "Sessão X..."
+```
+
+Exit codes: 0=ok, 1=degraded, 2=error/blocked.
+
+### `bin/gos-cost` — Cost tracker (10/20/70 split)
+
+Agrega `tokens_in + tokens_out` por tier (coordinator/director/employee), compara com targets de produção (10/20/70 — Anthropic Multi-Agent System). Alerta se um tier passa do target × tolerance (default 1.5×).
+
+Tier inferido automaticamente do nome do agent:
+- `gos` → coordinator
+- `gos-mission-control`, `*-director`, `*-control` → director
+- Resto → employee
+
+```bash
+.claude/skills/_shared/bin/gos-cost --format markdown
+```
+
+Exit codes: 0=within tolerance, 1=over target, 2=sem dados.
+
+### `bin/gos-rbac-audit` — Audit de allowed-tools vs uso real
+
+Pra cada SKILL.md em `.claude/skills/*/`, compara `allowed-tools:` declarado no frontmatter contra tools efetivamente referenciadas no body (regex). Detecta:
+- **USED but NOT DECLARED** (FAIL) — skill invoca tool sem permissão declarada (RBAC bug)
+- **DECLARED but NOT USED** (WARN) — over-permissioning
+
+```bash
+.claude/skills/_shared/bin/gos-rbac-audit
+.claude/skills/_shared/bin/gos-rbac-audit --filter critic        # só skills críticas
+.claude/skills/_shared/bin/gos-rbac-audit --strict               # WARN também falha
+```
+
+⚠️ **False positives conhecidos:** o regex pra "Agent" matches a palavra `subagent` em prose descritiva (ex: "Director invoca employee como subagent"). Skills que SÓ documentam o conceito sem invocar Agent ainda são flaggeadas. Mitigação: declarar Agent ou ajustar prose pra não ativar regex.
 
 ## `bin/gos-log` — Event log helper
 

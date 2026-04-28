@@ -1,0 +1,196 @@
+#!/usr/bin/env python3
+"""
+gos-cost — Cost discipline tracker.
+
+Lê logs/events.ndjson, agrega tokens_in/tokens_out por tier
+(coordinator/director/employee), calcula split atual e compara contra
+targets de produção (10/20/70 — Anthropic Multi-Agent System pattern).
+
+Tier inferido pelo nome do agent:
+    coordinator   = 'gos' (exato)
+    director      = 'gos-mission-control' OR contains '-control', '-director'
+    employee      = todo o resto (incluindo critics, validators, helpers)
+
+Targets locked em AGENTS.md § 7:
+    Coordinator ≤ 10% tokens da sessão
+    Directors   ≤ 20%
+    Employees   ~ 70%
+
+Usage:
+    gos-cost [--workspace-root .] [--format json|markdown]
+
+Exit codes:
+    0 — within targets
+    1 — alguma tier passou do target (warning)
+    2 — sem dados (events.ndjson vazio ou sem tokens_in/out)
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+# Targets (per AGENTS.md § 7)
+TARGETS = {
+    "coordinator": 0.10,
+    "director": 0.20,
+    "employee": 0.70,
+}
+# Margem de tolerância — alerta se passou do target em N%
+TOLERANCE = 1.5  # 50% acima do target dispara warning
+
+
+def infer_tier(agent: str) -> str:
+    """Mapeia agent name pra tier."""
+    if agent == "gos":
+        return "coordinator"
+    if agent.startswith("gos-mission-control") or "-director" in agent or "-control" in agent:
+        return "director"
+    return "employee"
+
+
+def load_events(events_path: Path) -> list[dict]:
+    if not events_path.exists():
+        return []
+    events = []
+    for line in events_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return events
+
+
+def aggregate_costs(events: list[dict]) -> dict:
+    """Sum tokens_in + tokens_out por tier. Retorna dict com totals + percentages."""
+    by_tier: dict[str, dict[str, int]] = defaultdict(lambda: {"tokens_in": 0, "tokens_out": 0, "events": 0})
+
+    for e in events:
+        agent = e.get("agent", "unknown")
+        tier = infer_tier(agent)
+        tokens_in = e.get("tokens_in", 0)
+        tokens_out = e.get("tokens_out", 0)
+        # Numbers might be strings if loaded loose
+        try:
+            tokens_in = int(tokens_in) if tokens_in else 0
+            tokens_out = int(tokens_out) if tokens_out else 0
+        except (TypeError, ValueError):
+            tokens_in = 0
+            tokens_out = 0
+
+        if tokens_in or tokens_out:
+            by_tier[tier]["tokens_in"] += tokens_in
+            by_tier[tier]["tokens_out"] += tokens_out
+            by_tier[tier]["events"] += 1
+
+    total_tokens = sum(t["tokens_in"] + t["tokens_out"] for t in by_tier.values())
+
+    if total_tokens == 0:
+        return {
+            "total_tokens": 0,
+            "tiers": dict(by_tier),
+            "warning": "nenhum evento com tokens_in/tokens_out — log eventos com esses campos pra cost tracking",
+        }
+
+    tiers_report = {}
+    warnings = []
+    for tier in ("coordinator", "director", "employee"):
+        data = by_tier.get(tier, {"tokens_in": 0, "tokens_out": 0, "events": 0})
+        total = data["tokens_in"] + data["tokens_out"]
+        pct = (total / total_tokens) if total_tokens > 0 else 0
+        target = TARGETS[tier]
+        ratio_to_target = pct / target if target > 0 else 0
+
+        status = "ok"
+        if ratio_to_target > TOLERANCE:
+            status = "over_target"
+            warnings.append(
+                f"{tier} consumiu {pct*100:.1f}% (target {target*100:.0f}%, "
+                f"tolerance {target*TOLERANCE*100:.0f}%)"
+            )
+
+        tiers_report[tier] = {
+            "tokens_in": data["tokens_in"],
+            "tokens_out": data["tokens_out"],
+            "total": total,
+            "events": data["events"],
+            "pct_of_session": round(pct * 100, 2),
+            "target_pct": round(target * 100, 2),
+            "status": status,
+        }
+
+    return {
+        "total_tokens": total_tokens,
+        "tiers": tiers_report,
+        "warnings": warnings if warnings else None,
+        "all_within_tolerance": len(warnings) == 0,
+    }
+
+
+def format_markdown(report: dict) -> str:
+    if report["total_tokens"] == 0:
+        return f"⚠️  {report.get('warning', 'sem dados de cost tracking')}"
+
+    md = f"## Cost Report — Sessão atual\n\n"
+    md += f"**Total tokens:** {report['total_tokens']:,}\n\n"
+    md += "| Tier | Tokens | % Sessão | Target | Status |\n"
+    md += "|---|---|---|---|---|\n"
+    for tier, data in report["tiers"].items():
+        icon = "✅" if data["status"] == "ok" else "🟡"
+        md += f"| {tier} | {data['total']:,} | {data['pct_of_session']}% | {data['target_pct']}% | {icon} {data['status']} |\n"
+
+    if report.get("warnings"):
+        md += "\n⚠️ **Alerts:**\n"
+        for w in report["warnings"]:
+            md += f"  • {w}\n"
+
+    return md
+
+
+def find_workspace_root(start: Path) -> Path | None:
+    cur = start.resolve()
+    while cur != cur.parent:
+        if (cur / "logs" / "events.ndjson").exists():
+            return cur
+        cur = cur.parent
+    return None
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Cost discipline tracker (10/20/70 split).")
+    parser.add_argument("--workspace-root", default=".", help="Workspace root (default: cwd)")
+    parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    args = parser.parse_args()
+
+    workspace = Path(args.workspace_root).resolve()
+    events_path = workspace / "logs" / "events.ndjson"
+
+    if not events_path.exists():
+        detected = find_workspace_root(Path.cwd())
+        if detected is None:
+            print(json.dumps({"warning": "logs/events.ndjson não encontrado"}, indent=2, ensure_ascii=False))
+            return 2
+        workspace = detected
+        events_path = workspace / "logs" / "events.ndjson"
+
+    events = load_events(events_path)
+    report = aggregate_costs(events)
+
+    if args.format == "markdown":
+        print(format_markdown(report))
+    else:
+        print(json.dumps(report, indent=2, ensure_ascii=False))
+
+    if report["total_tokens"] == 0:
+        return 2
+    return 0 if report.get("all_within_tolerance", True) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,12 @@
+{
+  "component": "gos-status-aggregate",
+  "script": ".claude/skills/_shared/bin/gos-status-aggregate",
+  "tests": [
+    {
+      "name": "OK — workspace sem logs (vazio)",
+      "args": ["--workspace-root", "/tmp/empty-fixture-ws-status"],
+      "expected_exit": 0,
+      "expected_contains": ["status", "ok"]
+    }
+  ]
+}

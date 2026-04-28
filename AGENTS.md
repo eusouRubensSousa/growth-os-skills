@@ -255,7 +255,33 @@ Target de produção (baseado em research enterprise):
 | Directors | ≤20% |
 | Employees | ~70% |
 
-Implementação em Phase 4 — `cost_budget:` block per skill.
+**Tracker:** `.claude/skills/_shared/bin/gos-cost` — agrega `tokens_in + tokens_out` por tier do `logs/events.ndjson`, alerta se um tier passa do target × tolerance (default 1.5×). Skills devem logar tokens em `complete` events:
+
+```bash
+.claude/skills/_shared/bin/gos-log gos-lp-builder complete \
+    tokens_in=8500 tokens_out=3200 duration_ms=14200
+```
+
+## 7b. Governance helpers (Phase 4)
+
+Suite de helpers em `.claude/skills/_shared/bin/`:
+
+| Helper | Função |
+|---|---|
+| `gos-log` | Append NDJSON event log |
+| `gos-reflect` | Retrieve top-N reflections relevantes per-agent |
+| `gos-status-aggregate` | Agrega status da sessão (ok/degraded/error/blocked) |
+| `gos-cost` | Cost discipline tracker (10/20/70) |
+| `gos-rbac-audit` | Audit allowed-tools vs uso real no body do SKILL.md |
+
+E a skill `/gos-eval` rouda **golden tests** sobre toda essa tooling:
+
+```bash
+.claude/skills/gos-eval/scripts/eval.py
+.claude/skills/gos-eval/scripts/eval.py --filter critic
+```
+
+Fixtures em `tests/*.eval.json` — 10 testes cobrem validate-handoff, critic-nicho, status-aggregate, cost, rbac-audit.
 
 ---
 

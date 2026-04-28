@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""
+gos-status-aggregate — Sessão status aggregator.
+
+Lê logs/events.ndjson desde a última fronteira de sessão (último gos-setup
+ou último gos-handoff complete) e retorna o status agregado da sessão atual,
+junto com lista formatada de pendências pra MEMORY.md.
+
+Hierarquia de status (worst-wins):
+    error    > blocked > degraded > ok
+
+Usage:
+    gos-status-aggregate [--workspace-root .] [--format json|markdown]
+
+Exit codes:
+    0 — ok
+    1 — degraded
+    2 — error or blocked
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+from typing import Any
+
+
+SESSION_BOUNDARY_AGENTS = {"gos-setup", "gos-handoff"}
+SESSION_BOUNDARY_ACTIONS = {"complete"}
+
+
+def find_workspace_root(start: Path) -> Path | None:
+    cur = start.resolve()
+    while cur != cur.parent:
+        if (cur / "logs" / "events.ndjson").exists():
+            return cur
+        cur = cur.parent
+    return None
+
+
+def load_events(events_path: Path) -> list[dict]:
+    if not events_path.exists():
+        return []
+    events = []
+    for line in events_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            # Linha corrompida — pular
+            continue
+    return events
+
+
+def find_session_boundary(events: list[dict]) -> int:
+    """Index do último evento DE FRONTEIRA. 0 se não houver."""
+    last_boundary = -1
+    for i, e in enumerate(events):
+        if e.get("agent") in SESSION_BOUNDARY_AGENTS and e.get("action") in SESSION_BOUNDARY_ACTIONS:
+            last_boundary = i
+    return last_boundary + 1  # eventos DEPOIS do boundary fazem parte da sessão atual
+
+
+def aggregate_status(session_events: list[dict]) -> dict:
+    """Calcula status agregado e lista de pendências."""
+    complete_events = [e for e in session_events if e.get("action") == "complete"]
+    error_events = [e for e in session_events if e.get("action") in ("error", "blocked")]
+
+    statuses_seen = set()
+    for e in complete_events:
+        statuses_seen.add(e.get("status", "ok"))
+    for e in error_events:
+        statuses_seen.add(e.get("status", "error"))
+
+    # Worst wins
+    if "error" in statuses_seen:
+        agg = "error"
+    elif "blocked" in statuses_seen:
+        agg = "blocked"
+    elif "degraded" in statuses_seen:
+        agg = "degraded"
+    elif statuses_seen:
+        agg = "ok"
+    else:
+        agg = "ok"  # sessão vazia ainda é ok
+
+    # Build pendências por evento problemático
+    pendencias = []
+    for e in session_events:
+        status = e.get("status", "ok")
+        if status not in ("degraded", "error", "blocked"):
+            continue
+        agent = e.get("agent", "?")
+        action = e.get("action", "?")
+        details = e.get("details", {}) or {}
+        niche = e.get("niche", "")
+        client = e.get("client", "")
+        scope = niche or client or ""
+        scope_str = f" ({scope})" if scope else ""
+
+        # Build reason
+        if "reason" in details:
+            reason = details["reason"]
+        elif "failed_checks" in details:
+            reason = f"{details['failed_checks']} checks falharam"
+        elif "quality_gates_passed" in details:
+            reason = f"quality_gates {details['quality_gates_passed']}"
+        elif "error_message" in details:
+            reason = details["error_message"]
+        else:
+            reason = action
+
+        pendencias.append({
+            "agent": agent,
+            "status": status,
+            "scope": scope,
+            "reason": reason,
+            "summary": f"{agent}{scope_str}: {status} ({reason})",
+        })
+
+    return {
+        "status": agg,
+        "complete_events": len(complete_events),
+        "error_events": len(error_events),
+        "statuses_seen": sorted(statuses_seen),
+        "pendencias": pendencias,
+        "session_size": len(session_events),
+    }
+
+
+def format_handoff_section(agg: dict, session_summary: str = "(sem resumo)") -> str:
+    """Format pra colar no MEMORY.md handoff section."""
+    status = agg["status"]
+    status_icon = {"ok": "✅", "degraded": "🟡", "error": "🔴", "blocked": "🚫"}[status]
+    md = f"**Sessão {{{{YYYY-MM-DD}}}}** — {session_summary} [STATUS: {status}] {status_icon}\n"
+    if status != "ok" and agg["pendencias"]:
+        md += "\n⚠️ **Pendências:**\n"
+        for p in agg["pendencias"]:
+            md += f"  • {p['summary']}\n"
+    return md
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Aggregate session status from event log.")
+    parser.add_argument("--workspace-root", default=".", help="Workspace root (default: cwd)")
+    parser.add_argument("--format", choices=["json", "markdown"], default="json", help="Output format")
+    parser.add_argument("--summary", default="(sem resumo)", help="Session summary text (markdown mode)")
+    args = parser.parse_args()
+
+    workspace = Path(args.workspace_root).resolve()
+    events_path = workspace / "logs" / "events.ndjson"
+
+    if not events_path.exists():
+        # Try auto-detect
+        detected = find_workspace_root(Path.cwd())
+        if detected is None:
+            print(json.dumps({
+                "status": "ok",
+                "info": "logs/events.ndjson não existe — sessão vazia",
+            }, indent=2, ensure_ascii=False))
+            return 0
+        workspace = detected
+        events_path = workspace / "logs" / "events.ndjson"
+
+    events = load_events(events_path)
+    boundary = find_session_boundary(events)
+    session_events = events[boundary:]
+
+    agg = aggregate_status(session_events)
+
+    if args.format == "markdown":
+        print(format_handoff_section(agg, args.summary))
+    else:
+        print(json.dumps(agg, indent=2, ensure_ascii=False))
+
+    return {
+        "ok": 0,
+        "degraded": 1,
+        "error": 2,
+        "blocked": 2,
+    }[agg["status"]]
+
+
+if __name__ == "__main__":
+    sys.exit(main())

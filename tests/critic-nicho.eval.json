@@ -1,0 +1,12 @@
+{
+  "component": "gos-critic-nicho",
+  "script": ".claude/skills/gos-critic-nicho/scripts/check.py",
+  "tests": [
+    {
+      "name": "ERROR — folder não existe",
+      "args": ["--niche-folder", "/tmp/nonexistent-niche-fixture"],
+      "expected_exit": 2,
+      "expected_contains": ["ERROR", "não existe"]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "component": "gos-cost",
+  "script": ".claude/skills/_shared/bin/gos-cost",
+  "tests": [
+    {
+      "name": "Sem dados (workspace vazio) → exit 2",
+      "args": ["--workspace-root", "/tmp/empty-cost-fixture-ws"],
+      "expected_exit": 2,
+      "expected_contains": ["warning"]
+    }
+  ]
+}

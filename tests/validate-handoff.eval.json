@@ -1,0 +1,60 @@
+{
+  "component": "gos-validate-handoff",
+  "script": ".claude/skills/gos-validate-handoff/scripts/validate.py",
+  "tests": [
+    {
+      "name": "OK case — valid payload pra mapear-nicho",
+      "args": [
+        "gos-mapear-nicho",
+        "--payload-json",
+        "{\"niche_description\":\"Test niche\",\"slug\":\"test-slug\"}"
+      ],
+      "expected_exit": 0,
+      "expected_status": "OK",
+      "expected_contains": ["ready_to_invoke", "true", "required_fields_present"],
+      "expected_not_contains": ["BLOCKED"]
+    },
+    {
+      "name": "BLOCKED case — missing required slug",
+      "args": [
+        "gos-mapear-nicho",
+        "--payload-json",
+        "{\"niche_description\":\"Test\"}"
+      ],
+      "expected_exit": 1,
+      "expected_status": "BLOCKED",
+      "expected_contains": ["missing_fields", "slug", "remediation"]
+    },
+    {
+      "name": "BLOCKED case — missing required niche_description",
+      "args": [
+        "gos-mapear-nicho",
+        "--payload-json",
+        "{\"slug\":\"x\"}"
+      ],
+      "expected_exit": 1,
+      "expected_status": "BLOCKED",
+      "expected_contains": ["niche_description"]
+    },
+    {
+      "name": "Skill não existe",
+      "args": [
+        "gos-skill-fantasma",
+        "--payload-json",
+        "{}"
+      ],
+      "expected_exit": 2
+    },
+    {
+      "name": "OK com warnings (optional fields ausentes)",
+      "args": [
+        "gos-mission-control",
+        "--payload-json",
+        "{\"objective\":\"Test\"}"
+      ],
+      "expected_exit": 0,
+      "expected_status": "OK",
+      "expected_contains": ["warnings", "missing_optional"]
+    }
+  ]
+}
