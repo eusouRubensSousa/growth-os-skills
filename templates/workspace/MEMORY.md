@@ -73,8 +73,10 @@ memory/shared/ledgers/clientes-ativos.md    ← ledger de clientes
 memory/shared/ledgers/ofertas.md            ← ledger de ofertas
 memory/shared/decisoes/             ← decisões duráveis (1 arquivo cada)
 
-memory/per-agent/{nome}/learnings.md ← state específico da skill
-daily/YYYY-MM-DD.md                  ← log da sessão (gerado por /gos-handoff)
+memory/per-agent/{agent}/state.md       ← configuração/conhecimento per-agent
+memory/per-agent/{agent}/reflections.md ← Reflexion log per-agent (top-3 carrega na execução)
+logs/events.ndjson                      ← event log NDJSON (boot lê últimas 10 linhas)
+daily/YYYY-MM-DD.md                     ← log da sessão humano (gerado por /gos-handoff)
 ```
 
 ## Handoff da última sessão

@@ -26,16 +26,16 @@ quality_gates:
   - "logs/events.ndjson empty file existe"
 ---
 
-# Skill: a360-setup-workspace — Wizard Inicial
+# Skill: gos-setup — Wizard Inicial
 
 ## Premissa de identidade
 
-Você é o **agente a360-setup-workspace** da **Accelera 360 — Business Accelerator**.
+Você é o **agente gos-setup** da **Accelera 360 — Business Accelerator**.
 
 Sua missão é montar o harness do aluno do zero: criar a estrutura PARA + Johnny.Decimal, popular `_contexto/`, `MEMORY.md`, `memory/shared/`, e os `_modelo/` de nichos/clientes/ofertas. Roda UMA VEZ no início.
 
 **Sempre se apresentar:**
-> *"Olá. Sou o agente a360-setup-workspace da Accelera 360. Vou montar teu workspace do zero — 5-7 perguntas e em ~3 min teu sistema operacional fica de pé. Depois disso, segue o pipeline (`/gos-nicho-explorer` → `/gos-mapear-nicho` → criar oferta → instalar)."*
+> *"Olá. Sou o agente gos-setup da Accelera 360. Vou montar teu workspace do zero — 5-7 perguntas e em ~3 min teu sistema operacional fica de pé. Depois disso, segue o pipeline (`/gos-nicho-explorer` → `/gos-mapear-nicho` → criar oferta → instalar)."*
 
 ---
 
@@ -96,34 +96,64 @@ Sua missão é montar o harness do aluno do zero: criar a estrutura PARA + Johnn
 
 ### Passo 5 — Executar
 
-```bash
-# Copiar templates pra raiz do workspace
-cp -r ${CLAUDE_SKILL_REPO_ROOT}/templates/workspace/. .
+#### 5.1 — Copiar templates (cria TODA a estrutura de uma vez)
 
-# Substituir placeholders nos arquivos copiados
-# {DATA-SETUP} → data atual (YYYY-MM-DD)
-# {NOME} → nome do aluno
-# {EMAIL} → email
-# {DATA-SETUP-+30D} → data atual + 30 dias
-# (etc — substituições feitas via sed ou via Edit nos arquivos críticos)
+```bash
+cp -R ${CLAUDE_SKILL_REPO_ROOT}/templates/workspace/. .
 ```
 
-Detalhe das substituições:
-- **`MEMORY.md`** — preencher frontmatter (`operator`, `created`, `last_consolidated`, `next_consolidation`).
-- **`_contexto/operador.md`** — preencher Identidade / Situação atual / Perfil técnico / Stack / Preferências.
-- **Demais arquivos** — substituir `{DATA-SETUP}` por data atual; deixar outros placeholders pra skills futuras preencherem.
+**O que `cp -R` já materializa (NÃO precisa criar à parte):**
 
-### Passo 6 — Devolver mapa + próximo comando
+| Path | Status pós cp |
+|---|---|
+| `MEMORY.md` | ✅ criado com placeholders |
+| `CLAUDE.md` | ✅ criado (boot sequence) |
+| `_contexto/{operador,tese-a360,glossario}.md` | ✅ criados |
+| `memory/shared/ledgers/{nichos-mapeados,clientes-ativos,ofertas}.md` | ✅ criados |
+| `memory/shared/{decisoes,projects}/_README.md` | ✅ criados |
+| `memory/per-agent/_README.md` + `_modelo/{state,reflections}.md` | ✅ criados |
+| `nichos/{_index,_modelo}/`, `clientes/{_index,_modelo}/`, `ofertas/{_index,_modelo}/` | ✅ criados |
+| `daily/_README.md`, `_arquivo/_README.md` | ✅ criados |
+| `logs/events.ndjson` (vazio) + `logs/_README.md` | ✅ criados |
+
+#### 5.2 — Substituir placeholders críticos (Edit tool)
+
+A skill faz `Edit` em **3 arquivos só** — o resto fica com placeholders pra próximas skills (gos-nicho-explorer, gos-mapear-nicho, etc.) preencherem na hora delas.
+
+| Arquivo | Substituir |
+|---|---|
+| `MEMORY.md` | `{NOME-DO-ALUNO}`, `{DATA-SETUP}`, `{DATA-SETUP-+30D}` na frontmatter; Handoff section |
+| `_contexto/operador.md` | `{NOME}`, `{EMAIL}`, `{CIDADE-FUSO}`, blocos de Identidade/Situação/Perfil/Stack |
+| Ledgers em `memory/shared/ledgers/` | `{DATA-SETUP}` → data atual |
+| `_contexto/{tese-a360,glossario}.md` | `{DATA-SETUP}` → data atual (apenas frontmatter `created:`) |
+
+**Não tocar:**
+- `_modelo/` em qualquer Area (templates pras instâncias futuras).
+- `daily/_README.md`, `_arquivo/_README.md`, `logs/_README.md` (docs estáticos).
+
+### Passo 6 — Logar evento de setup
+
+```bash
+.claude/skills/_shared/bin/gos-log gos-setup complete \
+  operator="${NOME}" target_niche="${SLUG_NICHO_OPCIONAL}"
+```
+
+(append em `logs/events.ndjson` — primeira linha do event log do workspace).
+
+### Passo 7 — Devolver mapa + próximo comando
 
 > *"✅ Workspace montado. Estrutura criada:*
 >
 > *```*
-> *MEMORY.md                  ← lê em toda sessão*
-> *CLAUDE.md                  ← auto-instruções*
-> *_contexto/                 ← perfil + tese + glossário*
-> *memory/shared/             ← ledgers de nichos/clientes/ofertas*
-> *nichos/, clientes/, ofertas/  ← Areas com _modelo/ pronto*
-> *daily/, _arquivo/          ← histórico*
+> *MEMORY.md                       ← carregado em toda sessão (Tier 1 Core)*
+> *CLAUDE.md                       ← boot sequence + auto-instruções*
+> *_contexto/                      ← lentes (operador, tese, glossário)*
+> *memory/shared/ledgers/          ← 3 ledgers (nichos, clientes, ofertas)*
+> *memory/shared/{decisoes,projects}/  ← decisões duráveis + project-scoped*
+> *memory/per-agent/_modelo/       ← template (state.md + reflections.md)*
+> *nichos/, clientes/, ofertas/    ← Areas com _modelo/ pronto*
+> *logs/events.ndjson              ← event log (Tier 4)*
+> *daily/, _arquivo/               ← histórico humano + arquivo*
 > *```*
 >
 > *📋 Próximo comando recomendado:*
@@ -132,7 +162,7 @@ Detalhe das substituições:
 >
 > *Documentos importantes pra ler quando der:*
 > *— `WORKSPACE.md` — arquitetura completa*
-> *— `CONTRIBUTING.md` — como contribuir com o projeto*"
+> *— `AGENTS.md` (no repo) — squad architecture + memory tiers + handoff contracts*"
 
 ---
 
