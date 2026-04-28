@@ -119,17 +119,46 @@ skills_used: [{{lista}}]
 {{resposta_pergunta_4}}
 ```
 
-### Passo 4 — Atualizar `MEMORY.md` (Handoff + Open Questions)
+### Passo 4 — Atualizar `MEMORY.md` (Handoff + Open Questions + Status)
 
-Localizar a seção `## Handoff da última sessão` em `MEMORY.md` e substituir por:
+#### 4.1 — Detectar status agregado da sessão
 
-```markdown
-**Sessão {{YYYY-MM-DD}}** — {{resumo_1_linha}}. Próximo passo: {{resposta_pergunta_4}}.
+Antes de escrever, scanear `logs/events.ndjson` da sessão atual:
+
+```bash
+# Eventos da sessão (desde último gos-setup ou último handoff anterior)
+grep -E '"action":"complete"' logs/events.ndjson | tail -50
 ```
 
-Se a `resposta_pergunta_3` (bloqueio) está preenchida → adicionar como **Open Question** no MEMORY.md (se não existir já) ou em **Active constraints**.
+Status agregado **da sessão**:
+- **`ok`** — todos `complete` events com `status:ok`
+- **`degraded`** — pelo menos 1 `complete` com `status:degraded` (Critic FAIL ou quality_gates parciais)
+- **`error`** — pelo menos 1 `error` event sem recovery
+- **`blocked`** — pelo menos 1 `blocked` event sem unblock
 
-Se a `resposta_pergunta_2` (decisão) está preenchida → adicionar uma linha em **Decisões load-bearing já tomadas** apontando pro arquivo criado no Passo 5.
+#### 4.2 — Atualizar Handoff section
+
+Localizar `## Handoff da última sessão` em `MEMORY.md` e substituir por:
+
+```markdown
+**Sessão {{YYYY-MM-DD}}** — {{resumo_1_linha}} [STATUS: {{ok|degraded|error}}]. Próximo passo: {{resposta_pergunta_4}}.
+{{if status != ok}}⚠️ Pendências: {{lista de checks/passos que ficaram parciais}}{{end}}
+```
+
+**Sinalização explícita** quando status≠ok:
+- `degraded` → mostrar "⚠️ Pendências: critic-nicho falhou em 3/5 checks → 01-perfil-cliente-alvo.md, 03-mecanismo.md ainda stubs"
+- `error` → mostrar "🔴 Erro pendente: gos-mapear-nicho falhou ao buscar fontes — investigar conexão"
+
+Aluno tem **contexto imediato** ao reabrir sem precisar caçar event log.
+
+#### 4.3 — Open Questions / Active constraints
+
+Se `resposta_pergunta_3` (bloqueio) preenchida → **Open Question** no MEMORY.md (se não existir já) ou em **Active constraints**.
+
+Se `resposta_pergunta_2` (decisão) preenchida → linha em **Decisões load-bearing já tomadas** apontando pro arquivo criado no Passo 5.
+
+Se status=`degraded`/`error`, **adicionar Open Question automática**:
+> *"Pendências da sessão {{YYYY-MM-DD}} — ver Handoff acima. Resolver antes de avançar pra próximo pipeline."*
 
 ### Passo 5 — Se houve decisão durável, criar arquivo
 

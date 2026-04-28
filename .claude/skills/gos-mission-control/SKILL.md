@@ -185,43 +185,98 @@ Apresentar **pipeline expandido** ao aluno com inserções:
   pipeline="{{pipeline-name}}" employees={{count}} client="{{slug-opcional}}"
 ```
 
-### Passo 5 — Executar pipeline (employee por employee)
+### Passo 5 — Executar pipeline com Critic loop
 
-Pra cada employee:
+Pra cada employee, ciclo completo (validate → load reflections → invoke → critic → retry-or-accept):
 
 ```python
-# Pseudocode — implementação via Agent tool
+# Pseudocode — implementação via Agent tool + Bash scripts
+CRITIC_MAP = {
+    "gos-mapear-nicho":      "gos-critic-nicho",
+    "gos-lp-builder":        "gos-critic-lp",
+    "gos-pitch-deck-builder": "gos-critic-deck",
+    "gos-playbook-vendas":   "gos-critic-playbook",
+}
+
 for employee in pipeline:
-    # 5.1 Validate
-    result = run("validate.py", employee, payload)
-    if result.status != "OK":
-        log("error", remediation=result.remediation)
-        return blocked(remediation)
+    retry_count = 0
+    feedback_for_retry = None
 
-    # 5.2 Log start
-    run(f".claude/skills/_shared/bin/gos-log {employee} start ...")
+    while retry_count <= 2:
+        # 5.1 Validate handoff_in
+        result = run("validate.py", employee, payload)
+        if result.status != "OK":
+            log("blocked", remediation=result.remediation)
+            return blocked(remediation)
 
-    # 5.3 Invoke as SUBAGENT (context isolation — Anthropic pattern)
-    output = Agent.invoke(
-        skill=employee,
-        prompt=structured_briefing(payload, objective, boundaries)
-    )
+        # 5.2 Load reflections relevantes (Reflexion pattern)
+        tags = extract_tags(payload, employee)  # ex: ["clinicas-derma", "lp-DOR"]
+        reflections = run("gos-reflect", employee, "--tags", ",".join(tags), "--top", "3")
+        # → injetar `reflections.lessons` no prompt do employee
 
-    # 5.4 Log complete
-    run(f".claude/skills/_shared/bin/gos-log {employee} complete output_path=...")
+        # 5.3 Log start
+        run("gos-log", employee, "start", retry=retry_count, **payload_kvs)
 
-    # 5.5 Check quality_gates declaradas no SKILL.md do employee
-    if not check_quality_gates(employee, output):
-        # Retry up to 2x with feedback
-        if retry_count < 2:
-            output = retry(employee, feedback=quality_gate_failures)
-            retry_count += 1
-        else:
-            return blocked("quality gates failed 2x", output)
+        # 5.4 Invoke as SUBAGENT (context isolation — Anthropic pattern)
+        prompt = structured_briefing(
+            payload=payload,
+            objective=objective,
+            boundaries=boundaries,
+            past_lessons=reflections,
+            retry_feedback=feedback_for_retry,  # None na 1ª iteração
+        )
+        output = Agent.invoke(skill=employee, prompt=prompt)
 
-    # 5.6 Update payload pra próximo employee no pipeline
+        # 5.5 Log complete
+        run("gos-log", employee, "complete", output_path=output.path)
+
+        # 5.6 Critic invocation (se employee tem critic mapeado)
+        critic = CRITIC_MAP.get(employee)
+        if not critic:
+            # Sem critic — passa pra próximo employee
+            break
+
+        critic_result = run(f".claude/skills/{critic}/scripts/check.py", output.path)
+
+        if critic_result.status == "PASS":
+            run("gos-log", critic, "complete", target=employee, status="ok")
+            break  # employee aprovado, próximo
+
+        # 5.7 Critic FAIL — retry com feedback ou abort
+        run("gos-log", critic, "complete", target=employee, status="fail",
+            failed_checks=critic_result.failed_count)
+
+        if retry_count >= 2:
+            # 2 retries esgotados — degraded
+            return degraded(employee, output, critic_result.feedback_for_retry)
+
+        feedback_for_retry = critic_result.feedback_for_retry
+        retry_count += 1
+        # loop continua → re-invoca employee com feedback embedded no prompt
+
+    # 5.8 Update payload pra próximo employee
     payload = merge(payload, output.handoff_out)
 ```
+
+**Reflexion injection no prompt do employee:**
+
+```
+You are gos-lp-builder. Past lessons relevant to this task (from
+memory/per-agent/gos-lp-builder/reflections.md):
+1. [2026-04-28] LP DermaPro — sem emojis em headlines premium; CTA imperativo > gerúndio.
+2. [2026-04-27] LP Solar — balancear técnico com emocional.
+
+Briefing:
+{4-field briefing here}
+
+[If retry] Critic feedback do attempt anterior:
+- 9 blocos canônicos: Adicionar bloco 'objecoes'
+- Anti-AI score: Remover phrase "embarque numa jornada"
+
+Avoid repeating mistakes from past lessons. Address Critic feedback explicitly.
+```
+
+**Limite de retry: 2.** Após 2 falhas do Critic, Mission Control retorna `degraded` com último output + feedback acumulado — aluno decide se aceita parcial ou aborta.
 
 ### Passo 6 — Checkpoint humano (deliverables client-facing)
 

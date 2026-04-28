@@ -182,6 +182,13 @@ def validate_payload(
     paths_validated = sum(1 for p in path_check if p["exists"])
     paths_total = len(path_check)
 
+    # Optional fields ausentes (warnings — não bloqueiam, mas vale flag)
+    optional_missing = [
+        {"field": key, "description": desc}
+        for key, desc in optional.items()
+        if key not in payload or payload[key] in (None, "")
+    ]
+
     blocked = bool(missing_fields) or any(not p["exists"] for p in path_check) or (strict and extra_fields)
 
     result = {
@@ -199,6 +206,19 @@ def validate_payload(
     if path_check:
         result["paths_validated"] = f"{paths_validated}/{paths_total}"
         result["path_check"] = path_check
+
+    # Soft warning pra optional fields ausentes (não bloqueia, mas indica ao operador
+    # que campos úteis ficaram sem preencher — Finding 12 do smoke test #2)
+    if optional_missing and not blocked:
+        result["warnings"] = [
+            {
+                "type": "missing_optional",
+                "field": om["field"],
+                "description": om["description"],
+                "hint": "Não bloqueante, mas o output pode sair menos preciso sem este campo.",
+            }
+            for om in optional_missing
+        ]
 
     if blocked:
         remediation = []
