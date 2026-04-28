@@ -1,0 +1,42 @@
+{
+  "name": "@accelera360/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server exposing Accelera 360 framework-lite skills as programmatically callable tools",
+  "type": "module",
+  "bin": {
+    "a360-mcp": "dist/bin/a360-mcp.js"
+  },
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "yaml": "2.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "fast-check": "3.23.2",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
+  },
+  "keywords": [
+    "mcp",
+    "accelera360",
+    "model-context-protocol",
+    "skills"
+  ],
+  "license": "MIT"
+}
