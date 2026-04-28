@@ -54,36 +54,37 @@ Sua única missão: validar que um **payload de handoff** atende ao schema decla
 
 ---
 
-## Pipeline interno
+## Implementação
 
-### Passo 1 — Ler schema da target_skill
+A skill é uma **fina shell sobre o script Python** em `scripts/validate.py`. Toda lógica de parsing YAML, validação de schema e checks de path está lá. SKILL.md aqui descreve a interface.
 
-```bash
-SKILL_PATH=".claude/skills/{{target_skill}}/SKILL.md"
-[ -f "$SKILL_PATH" ] || { echo "BLOCKED: skill {{target_skill}} não existe"; exit 1; }
-```
-
-Extrair frontmatter YAML (entre os dois `---`). Localizar bloco `handoff_in:`.
-
-### Passo 2 — Comparar payload com schema
-
-Pra cada campo em `handoff_in.required`:
-- Se ausente no payload → `missing_fields[]`.
-- Se presente mas valor é vazio/null → `invalid_fields[]` (com motivo "vazio").
-
-Se `strict=true`, pra cada campo do payload que não está em `handoff_in.required` ou `handoff_in.optional` → `extra_fields[]`.
-
-### Passo 3 — Validar paths declarados (se aplicável)
-
-Se algum campo do payload é uma path declarada como precondition (ex: `"nichos/{slug}/_index.md"`), checar:
+### Invocação direta (CLI)
 
 ```bash
-[ -f "<path>" ] && echo "exists" || echo "missing"
+.claude/skills/gos-validate-handoff/scripts/validate.py <target_skill> --payload-json '<json>'
+.claude/skills/gos-validate-handoff/scripts/validate.py <target_skill> <payload-file.yaml>
+.claude/skills/gos-validate-handoff/scripts/validate.py <target_skill> <payload.json> --strict
 ```
 
-Status do path vai pra `path_check[]`.
+### Pipeline interno (executado pelo script)
 
-### Passo 4 — Retornar resultado
+1. **Encontra SKILL.md da target_skill** em `.claude/skills/<target_skill>/SKILL.md`. Auto-detecta repo root walking up do cwd.
+2. **Parseia frontmatter YAML** (entre os dois `---`). Usa PyYAML se disponível, fallback naive parser.
+3. **Compara payload com `handoff_in.required`** — campos ausentes/vazios viram `missing_fields[]`.
+4. **Em strict mode**, campos do payload fora de `required` ou `optional` viram `extra_fields[]`.
+5. **Path existence check** — heurística: qualquer valor string que parece path relativo `*.md|json|html|yaml|ndjson` é checado contra filesystem.
+6. **Retorna JSON estruturado** + exit code (0=OK, 1=BLOCKED).
+
+### Exit codes
+
+| Code | Significado |
+|---|---|
+| `0` | OK — payload válido, ready_to_invoke |
+| `1` | BLOCKED — missing fields ou paths inválidos |
+| `2` | Erro de input (skill não existe, payload malformado) |
+| `3` | YAML inválido na frontmatter da target_skill |
+
+### Output: formato OK
 
 **Formato OK:**
 
