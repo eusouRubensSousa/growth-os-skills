@@ -13,7 +13,7 @@
 2. **PARA + Johnny.Decimal.** Areas (responsabilidades contínuas: nichos, clientes, ofertas) numeradas `00-NN` dentro de cada pasta para estabilidade de lookup.
 3. **`_index.md` em toda pasta.** Map of Content — lista o que tá na pasta, com status e links. Regenerado por `/a360-map`.
 4. **Memory load-bearing.** `MEMORY.md` < 5KB carregado em toda sessão. Detalhe vai pra `memory/shared/` ou `memory/per-skill/`.
-5. **Pré-requisitos explícitos.** Skill recusa rodar se faltar input (ex: LP só roda com nicho mapeado + oferta definida). Ver `PREREQ.md`.
+5. **Pré-requisitos explícitos.** Skill recusa rodar se faltar input (ex: LP só roda com nicho mapeado + oferta definida). Cada skill declara seus pré-requisitos no bloco `requires:` do seu `SKILL.md`.
 6. **Portável pro Paperclip.** Mesma nomenclatura — quando aluno migrar pra orquestrador de agentes, é um `mv` de pastas, não refactor.
 
 ---
@@ -26,7 +26,6 @@
 ├── CLAUDE.md                         Auto-instruções: carrega MEMORY.md + _contexto/ em toda sessão
 ├── MEMORY.md                         < 5KB load-bearing — single source of truth da sessão
 ├── WORKSPACE.md                      Este arquivo (cópia local, opcional)
-├── PREREQ.md                         Árvore de pré-requisitos entre skills
 │
 ├── _contexto/                        Lentes (lidas em toda sessão)
 │   ├── operador.md                   Quem é o aluno (perfil, stack, preferências)
@@ -158,7 +157,9 @@ Skills de output visual (lp-builder, pitch-deck-builder) também carregam `_cont
 
 ---
 
-## Pré-requisitos entre skills (resumo — detalhe em `PREREQ.md`)
+## Pré-requisitos entre skills (resumo)
+
+Cada skill declara seus pré-requisitos no bloco `requires:` do seu `SKILL.md` (campos `blocking` e `recommended`).
 
 - `nicho-explorer` → ponto de entrada, sem pré-req.
 - `mapear-nicho-lite` → opcional ter `nicho-explorer` antes; recomendado.

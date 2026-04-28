@@ -15,7 +15,7 @@
 | `nichos/`, `clientes/`, `ofertas/` (Areas) | mesmo (Areas continuam Areas) | **idêntico** |
 | Skills (`.claude/skills/{nome}/SKILL.md`) | Agentes (`agents/{slug}/AGENT.md`) | **converte 1:1** com tweaks de adapter |
 | Comandos (`/a360-map`, `/a360-handoff`) | Routines / processes Paperclip | **converte com pequena alteração** |
-| Pré-requisitos (`PREREQ.md`) | Workflow guards do Paperclip | **converte com `protocols/` tier-based** |
+| Pré-requisitos (`requires:` em cada SKILL.md) | Workflow guards do Paperclip | **converte com `protocols/` tier-based** |
 
 ---
 
@@ -193,9 +193,9 @@ No Paperclip viram **routines** (ações disparáveis em horário ou evento) ou 
 
 ---
 
-### 7. Pré-requisitos (`PREREQ.md`) → Protocols Paperclip
+### 7. Pré-requisitos (`requires:` em cada SKILL.md) → Protocols Paperclip
 
-**A360 hoje:** validação de pré-requisitos é responsabilidade de cada SKILL.md (cada skill checa antes de rodar).
+**A360 hoje:** validação de pré-requisitos é responsabilidade de cada SKILL.md (cada skill checa o bloco `requires:` antes de rodar).
 
 **Paperclip:** centraliza em `protocols/` tier-based:
 

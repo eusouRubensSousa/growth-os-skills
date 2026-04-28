@@ -44,7 +44,7 @@ Tese de fundo: *"construa uma vez, instale em N empresas"* — 1 sistema replic�
 ## Approved patterns
 
 - Toda decisão estratégica vira arquivo em `memory/shared/decisoes/`.
-- Skills sempre verificam pré-requisitos antes de rodar (`PREREQ.md`).
+- Skills sempre verificam pré-requisitos antes de rodar (bloco `requires:` do `SKILL.md` de cada skill).
 - Outputs visuais (LP, deck) sempre passam por self-check antes de entregar.
 
 ## Forbidden actions (sem confirmação explícita)
@@ -58,7 +58,6 @@ Tese de fundo: *"construa uma vez, instale em N empresas"* — 1 sistema replic�
 
 ```
 WORKSPACE.md                        ← arquitetura completa do harness
-PREREQ.md                           ← árvore de pré-requisitos entre skills
 CLAUDE.md                           ← lentes carregadas em toda sessão
 
 _contexto/operador.md               ← perfil do aluno

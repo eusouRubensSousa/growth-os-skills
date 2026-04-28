@@ -82,7 +82,7 @@ Detecções:
 
 ### Passo 4 — Validar pré-requisitos cruzados
 
-Pra cada cliente, checar se tem todos pré-reqs declarados em `PREREQ.md`:
+Pra cada cliente, checar se tem todos pré-reqs declarados no bloco `requires:` do SKILL.md de cada skill:
 - Cliente com `lp/` mas sem nicho mapeado → marcar como `degraded`.
 - Cliente com `deck/` mas sem nicho mapeado → marcar como `degraded`.
 

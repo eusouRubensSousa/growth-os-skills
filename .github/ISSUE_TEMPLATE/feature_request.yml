@@ -1,0 +1,54 @@
+name: Feature Request
+description: Sugestão de melhoria ou nova skill.
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sugestões são bem-vindas! Novas skills passam por curadoria da Accelera 360 antes de serem incorporadas.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Tipo de sugestão
+      options:
+        - Melhoria em skill existente
+        - Nova skill
+        - Melhoria de documentação
+        - Novo exemplo
+        - Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qual problema isso resolve?
+      description: Descreva a situação atual e o que está faltando.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solução proposta
+      description: Como você imagina que isso funcionaria?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Existe alguma forma de contornar o problema hoje?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei que não existe issue similar aberta.
+          required: true
+        - label: Esta sugestão respeita a metodologia Growth AI™ da Accelera 360.
+          required: true

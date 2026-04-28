@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>a360-framework-lite — Accelera 360</title>
+  <meta name="description" content="8 skills para Claude Code que te ajudam a estruturar, vender e implementar infraestrutura de IA por nicho.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #4090F7;
+      --color-secondary: #44CCFF;
+      --color-success: #22C55E;
+      --color-error: #FF4444;
+      --color-bg-dark: #070C14;
+      --color-bg-card: rgba(64, 144, 247, 0.07);
+      --color-bg-card-hover: rgba(64, 144, 247, 0.12);
+      --color-border: rgba(64, 144, 247, 0.15);
+      --color-text-primary: #FFFFFF;
+      --color-text-secondary: #828E9D;
+      --color-text-tertiary: #485E79;
+      --font-primary: 'Manrope', sans-serif;
+      --font-secondary: 'Inter', sans-serif;
+      --font-ui: 'Poppins', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--color-bg-dark);
+      color: var(--color-text-primary);
+      font-family: var(--font-secondary);
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* --- Layout --- */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 96px 0;
+    }
+
+    /* --- Typography --- */
+    h1, h2, h3, h4 { font-family: var(--font-primary); line-height: 1.2; }
+    h1 { font-weight: 800; font-size: clamp(2.2rem, 5vw, 3.5rem); }
+    h2 { font-weight: 700; font-size: clamp(1.6rem, 3.5vw, 2.4rem); margin-bottom: 16px; }
+    h3 { font-weight: 600; font-size: 1.2rem; margin-bottom: 8px; }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-muted { color: var(--color-text-secondary); }
+    .text-sm { font-size: 0.875rem; }
+
+    .label {
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    code, .mono {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+    }
+
+    /* --- Buttons --- */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-primary);
+      color: #fff;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-cta:hover {
+      background: var(--color-secondary);
+      box-shadow: 0 8px 24px rgba(64, 144, 247, 0.3);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+    }
+    .btn-outline:hover {
+      background: var(--color-bg-card);
+      border-color: var(--color-primary);
+    }
+
+    /* --- Nav --- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(7, 12, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0 24px;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--color-text-primary);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; list-style: none; }
+    .nav-links a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-family: var(--font-ui);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--color-text-primary); }
+    .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+    /* --- Hero --- */
+    .hero {
+      padding: 160px 0 96px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(64,144,247,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero p.subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--color-text-secondary);
+      max-width: 640px;
+      margin: 20px auto 36px;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-secondary);
+      background: rgba(68, 204, 255, 0.08);
+      border: 1px solid rgba(68, 204, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* --- Cards / Bento Grid --- */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .bento-item {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: all 0.25s ease;
+    }
+    .bento-item:hover {
+      background: var(--color-bg-card-hover);
+      border-color: rgba(64, 144, 247, 0.3);
+      transform: translateY(-2px);
+    }
+    .bento-item .skill-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .bento-item .skill-cmd {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--color-secondary);
+      margin-bottom: 8px;
+    }
+    .bento-item p { color: var(--color-text-secondary); font-size: 0.9rem; }
+    .bento-item--featured {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(64,144,247,0.15), rgba(68,204,255,0.08));
+      border-color: rgba(64, 144, 247, 0.25);
+    }
+
+    /* --- Pipeline --- */
+    .pipeline-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .pipeline-card h3 { color: var(--color-text-primary); }
+    .pipeline-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      align-items: center;
+    }
+    .pipeline-step {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(64, 144, 247, 0.12);
+      border: 1px solid var(--color-border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      color: var(--color-secondary);
+    }
+    .pipeline-arrow { color: var(--color-text-tertiary); font-size: 0.9rem; }
+    .pipeline-meta {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* --- Example --- */
+    .example-block {
+      background: rgba(7, 12, 20, 0.8);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .example-header {
+      background: rgba(64, 144, 247, 0.07);
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .example-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .example-dot--red { background: #FF4444; }
+    .example-dot--yellow { background: #FFAA33; }
+    .example-dot--green { background: #22C55E; }
+    .example-body {
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--color-text-secondary);
+      overflow-x: auto;
+    }
+    .example-body .cmd { color: var(--color-secondary); }
+    .example-body .comment { color: var(--color-text-tertiary); }
+    .example-body .output { color: var(--color-success); }
+
+    /* --- Install --- */
+    .install-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .install-step {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .install-step .step-num {
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      opacity: 0.4;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .install-step code {
+      display: block;
+      background: rgba(7, 12, 20, 0.6);
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--color-secondary);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    /* --- Comparison Table --- */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      font-size: 0.9rem;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 14px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .comparison-table th {
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-secondary);
+    }
+    .comparison-table td:first-child { color: var(--color-text-secondary); }
+    .comparison-table td:last-child { color: var(--color-primary); font-weight: 500; }
+
+    /* --- Footer --- */
+    footer {
+      background: rgba(7, 12, 20, 0.95);
+      border-top: 1px solid var(--color-border);
+      padding: 64px 0 32px;
+      text-align: center;
+    }
+    footer .footer-brand {
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    footer .footer-tagline {
+      font-style: italic;
+      color: var(--color-text-secondary);
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+    footer .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    footer .footer-links a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    footer .footer-links a:hover { color: var(--color-text-primary); }
+    footer .footer-copy {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+    }
+
+    /* --- Section header --- */
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 48px;
+    }
+    .section-header p { color: var(--color-text-secondary); margin-top: 8px; }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      section { padding: 64px 0; }
+      .hero { padding: 120px 0 64px; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        background: rgba(7, 12, 20, 0.98);
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid var(--color-border);
+      }
+      .nav-toggle { display: block; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-item--featured { grid-column: 1; }
+      .install-steps { grid-template-columns: 1fr; }
+      .comparison-table { font-size: 0.8rem; }
+      .comparison-table th, .comparison-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-brand">Accelera 360</a>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#pipelines">Pipelines</a></li>
+        <li><a href="#exemplo">Exemplo</a></li>
+        <li><a href="#instalacao">Instalação</a></li>
+        <li><a href="https://github.com/accelera360/a360-framework-lite" target="_blank">GitHub</a></li>
+        <li><a href="https://yayforms.link/4bRG5aE" class="btn-cta" style="padding:8px 20px;font-size:0.8rem;" target="_blank">Aplique &rarr;</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <span class="hero-badge">v0.1.0 &middot; Open Source &middot; MIT</span>
+      <h1>8 skills de IA para<br><span class="text-gradient">estruturar seu negócio</span></h1>
+      <p class="subtitle">Pacote de skills para Claude Code que te ajuda a escolher nicho, mapear oportunidade, criar LP, montar pitch deck e ir pro mercado — seguindo a metodologia Growth AI&#8482; da Accelera 360.</p>
+      <div class="hero-buttons">
+        <a href="#instalacao" class="btn-cta">Começar agora</a>
+        <a href="#skills" class="btn-cta btn-outline">Ver as skills</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS ===== -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Skills</span>
+        <h2>Do nicho ao pitch deck em 1 sessão</h2>
+        <p>Cada skill resolve uma etapa. O coordenador encadeia tudo automaticamente.</p>
+      </div>
+
+      <div class="bento-grid">
+        <div class="bento-item bento-item--featured">
+          <span class="skill-num">#0 &middot; Coordenador</span>
+          <div class="skill-cmd">/a360-framework-lite</div>
+          <p>Descreva seu objetivo em linguagem natural. O coordenador analisa, monta o pipeline de skills na ordem certa, valida pré-requisitos, e entrega um sumário consolidado no fim.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#1 &middot; Descoberta</span>
+          <div class="skill-cmd">/nicho-explorer</div>
+          <p>Pesquisa top 10 nichos para IA ou valida 1 nicho específico com veredicto GO/NO-GO (TAM, CAGR, gap competitivo, ICP acessível).</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#2 &middot; Mapeamento</span>
+          <div class="skill-cmd">/mapear-nicho-lite</div>
+          <p>Mapeia ICP, dores quantificadas, mecanismo proprietário, oferta base, linguagem do nicho e GTM outline em 1 documento consolidado.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#3 &middot; Prospect</span>
+          <div class="skill-cmd">/cliente-radar</div>
+          <p>Pesquisa um prospect específico: empresa, decisor, concorrentes, top players, gaps e oportunidades de entrada.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#4 &middot; Landing Page</span>
+          <div class="skill-cmd">/lp-builder</div>
+          <p>Gera copy + HTML standalone com frameworks CRO (AIDA, PAS, FAB, Hero 5s). Self-check de 35 itens. 3 sistemas estéticos. Anti-AI audit.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#5 &middot; Go-to-Market</span>
+          <div class="skill-cmd">/gtm-architect</div>
+          <p>Estratégia GTM completa: outbound com sequência de 4 toques e/ou content marketing para o primeiro mês.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#6 &middot; Vendas</span>
+          <div class="skill-cmd">/playbook-vendas</div>
+          <p>Script de diagnóstico 30min (D.E.A.L. lite), 5 objeções com quebras, funil de 5 estágios pronto para usar.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#7 &middot; Reunião</span>
+          <div class="skill-cmd">/meeting-prep</div>
+          <p>Briefing 1-page para uma reunião de vendas específica. Consolida pesquisa do prospect + nicho + deck.</p>
+        </div>
+
+        <div class="bento-item">
+          <span class="skill-num">#8 &middot; Pitch Deck</span>
+          <div class="skill-cmd">/pitch-deck-builder</div>
+          <p>Apresentação comercial de 20 slides parametrizada pelo nicho/cliente. Entrega Reveal.js HTML standalone ou PNGs via Gemini.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PIPELINES ===== -->
+  <section id="pipelines" style="background: rgba(64, 144, 247, 0.035);">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Pipelines</span>
+        <h2>Descreva o objetivo, o coordenador monta o plano</h2>
+        <p>5 pipelines pré-definidos. Você fala o que precisa, ele encadeia as skills certas.</p>
+      </div>
+
+      <div class="pipeline-card">
+        <h3>&#128197; Prospect Meeting</h3>
+        <p class="text-muted text-sm">"Vou apresentar amanhã pra Clínica XPTO"</p>
+        <div class="pipeline-steps">
+          <span class="pipeline-step">/cliente-radar</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/mapear-nicho-lite</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/pitch-deck-builder</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/meeting-prep</span>
+        </div>
+        <p class="pipeline-meta">Output: briefing 1-page + deck 20 slides &middot; ~20 min</p>
+      </div>
+
+      <div class="pipeline-card">
+        <h3>&#127959; Business Foundation</h3>
+        <p class="text-muted text-sm">"Quero estruturar minha empresa pra vender IA pra clínicas"</p>
+        <div class="pipeline-steps">
+          <span class="pipeline-step">/nicho-explorer</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/mapear-nicho-lite</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/gtm-architect</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/lp-builder</span>
+        </div>
+        <p class="pipeline-meta">Output: doc consolidado + playbooks GTM + LP HTML &middot; ~25 min</p>
+      </div>
+
+      <div class="pipeline-card">
+        <h3>&#128230; Client Deliverable</h3>
+        <p class="text-muted text-sm">"Quero entregar pacote completo pro meu cliente"</p>
+        <div class="pipeline-steps">
+          <span class="pipeline-step">/cliente-radar</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/mapear-nicho-lite</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/lp-builder</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/pitch-deck-builder</span>
+        </div>
+        <p class="pipeline-meta">Output: briefing + LP + deck &middot; ~20 min</p>
+      </div>
+
+      <div class="pipeline-card">
+        <h3>&#128269; Niche Discovery</h3>
+        <p class="text-muted text-sm">"Não sei que nicho escolher"</p>
+        <div class="pipeline-steps">
+          <span class="pipeline-step">/nicho-explorer</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step" style="opacity:0.5;">escolha do aluno</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/mapear-nicho-lite</span>
+        </div>
+        <p class="pipeline-meta">Output: ranking top 10 + mapeamento do escolhido &middot; ~12 min</p>
+      </div>
+
+      <div class="pipeline-card">
+        <h3>&#9889; Quick Pitch Deck</h3>
+        <p class="text-muted text-sm">"Só preciso do deck pra amanhã"</p>
+        <div class="pipeline-steps">
+          <span class="pipeline-step">/mapear-nicho-lite</span>
+          <span class="pipeline-arrow">&rarr;</span>
+          <span class="pipeline-step">/pitch-deck-builder</span>
+        </div>
+        <p class="pipeline-meta">Output: deck 20 slides &middot; ~12 min</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXEMPLO ===== -->
+  <section id="exemplo">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Exemplo real</span>
+        <h2>Mapeamento: Clínicas de Dermatologia Estética</h2>
+        <p>Output gerado por <code>/mapear-nicho-lite</code> — dados anonimizados e ilustrativos.</p>
+      </div>
+
+      <div class="example-block">
+        <div class="example-header">
+          <span class="example-dot example-dot--red"></span>
+          <span class="example-dot example-dot--yellow"></span>
+          <span class="example-dot example-dot--green"></span>
+          <span class="text-muted text-sm mono">nicho-clinicas-dermatologia-estetica.md</span>
+        </div>
+        <div class="example-body">
+<span class="comment">## 01 — Perfil do Cliente Alvo (ICP)</span>
+Clínica de dermatologia estética, 1-3 médicos, R$ 30k-150k/mês
+Decisor: médico-proprietário, 35-55 anos, sem time de marketing
+Maturidade digital: baixa a média (Instagram ativo, site desatualizado)
+
+<span class="comment">## 02 — Dores Principais</span>
+<span class="output">Dor 1:</span> Agenda com buracos — 18-25% de no-shows = R$ 5.400-12.000/mês perdidos
+<span class="output">Dor 2:</span> Pacientes inativos sem processo de reativação
+<span class="output">Dor 3:</span> 80%+ de aquisição por indicação (sem canal previsível)
+
+<span class="comment">## 03 — Mecanismo Proprietário</span>
+<span class="cmd">CARE&#8482;</span> — Ciclo Automatizado de Retenção Estética
+"Seu paciente volta antes de você precisar ligar."
+
+<span class="comment">## 04 — Oferta Base</span>
+Promessa: reduzir no-shows em 40% e reativar 15% da base em 60 dias
+Preço: R$ 1.500 setup + R$ 800/mês
+Garantia: devolve setup se não reduzir 30% em 30 dias
+
+<span class="comment">## 05 — Linguagem do Nicho</span>
+Usar: "agenda cheia", "no-show", "paciente sumiu", "procedimento"
+<span class="output">Evitar:</span> "solução", "transforme", "empodere", "ecossistema"
+
+<span class="comment">## 08 — Fontes Auditadas: 8 fontes</span>
+Doctoralia, CFM, ABRAMED, Google Trends, Meta Ads Library...
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INSTALAÇÃO ===== -->
+  <section id="instalacao" style="background: rgba(64, 144, 247, 0.035);">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Instalação</span>
+        <h2>3 passos. Zero dependências.</h2>
+        <p>Precisa apenas do Claude Code instalado e conexão com internet.</p>
+      </div>
+
+      <div class="install-steps">
+        <div class="install-step">
+          <span class="step-num">01</span>
+          <h3>Clone o repositório</h3>
+          <p class="text-muted text-sm">Para o diretório de skills do Claude Code:</p>
+          <code>git clone https://github.com/accelera360/a360-framework-lite.git ~/.claude/skills/a360-framework-lite</code>
+        </div>
+
+        <div class="install-step">
+          <span class="step-num">02</span>
+          <h3>Verifique</h3>
+          <p class="text-muted text-sm">Abra o Claude Code e confirme:</p>
+          <code>claude /help</code>
+        </div>
+
+        <div class="install-step">
+          <span class="step-num">03</span>
+          <h3>Use</h3>
+          <p class="text-muted text-sm">Descreva seu objetivo em linguagem natural:</p>
+          <code>/a360-framework-lite quero estruturar empresa de IA pra clínicas</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPARAÇÃO LITE vs COMPLETA ===== -->
+  <section id="comparacao">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">Versão lite vs completa</span>
+        <h2>Isso é o gostinho. O prato principal é outro.</h2>
+        <p>A versão lite te dá os primeiros 30%. Os 70% que faltam são o que torna a Accelera 360 a Accelera 360.</p>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Skill lite (este repo)</th>
+              <th>Versão completa Accelera 360</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 documento consolidado por nicho</td>
+              <td>20 arquivos com playbook, blueprint, métricas, conteúdo</td>
+            </tr>
+            <tr>
+              <td>8 fontes pesquisadas</td>
+              <td>25-35 fontes auditadas em formato padronizado</td>
+            </tr>
+            <tr>
+              <td>3 dores mapeadas</td>
+              <td>7-8 dores quantificadas em R$ com hierarquia de impacto</td>
+            </tr>
+            <tr>
+              <td>1 LP gerada</td>
+              <td>3 LPs (DOR / OPORTUNIDADE / SISTEMA)</td>
+            </tr>
+            <tr>
+              <td>20 slides no pitch</td>
+              <td>54 slides oficiais com cases reais e prova social</td>
+            </tr>
+            <tr>
+              <td>3 candidatos de naming</td>
+              <td>Mecanismo nomeado e validado pelo Growth Mechanism Naming Engine&#8482;</td>
+            </tr>
+            <tr>
+              <td>Blueprint overview</td>
+              <td>CRM + Pipeline + Automações + Agentes IA ponta a ponta</td>
+            </tr>
+            <tr>
+              <td>Sem implementação</td>
+              <td>Deploy Relâmpago&#8482; (S.W.A.H.) — implementação em &lt;1h</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center;margin-top:48px;">
+        <a href="https://yayforms.link/4bRG5aE" class="btn-cta" target="_blank">Aplique para o programa completo &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <p class="footer-brand">Accelera 360 — Business Accelerator</p>
+      <p class="footer-tagline">"Construa o tipo de negócio que lidera a próxima década."</p>
+      <div class="footer-links">
+        <a href="https://accelera360.com.br/" target="_blank">accelera360.com.br</a>
+        <a href="https://yayforms.link/4bRG5aE" target="_blank">Aplique para o programa</a>
+        <a href="https://github.com/accelera360/a360-framework-lite" target="_blank">GitHub</a>
+        <a href="https://github.com/accelera360/a360-framework-lite/blob/main/CONTRIBUTING.md" target="_blank">Contribuir</a>
+        <a href="https://github.com/accelera360/a360-framework-lite/blob/main/LICENSE" target="_blank">MIT License</a>
+      </div>
+      <p class="footer-copy">Powered by Accelera 360 — A Nova Economia &middot; v0.1.0 &middot; 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>

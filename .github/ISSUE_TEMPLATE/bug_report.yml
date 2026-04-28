@@ -1,0 +1,63 @@
+name: Bug Report
+description: Skill com comportamento inesperado ou output incorreto.
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar! Preencha os campos abaixo para agilizar a correção.
+
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill afetada
+      options:
+        - a360-framework-lite (coordenador)
+        - nicho-explorer
+        - mapear-nicho-lite
+        - cliente-radar
+        - lp-builder
+        - gtm-architect
+        - playbook-vendas
+        - meeting-prep
+        - pitch-deck-builder
+        - a360-setup-workspace
+        - a360-map
+        - a360-handoff
+        - outra
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: O que aconteceu?
+      description: Descreva o comportamento inesperado.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: O que era esperado?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como reproduzir?
+      description: Passo a passo para reproduzir o bug.
+      placeholder: |
+        1. Rodei `/lp-builder` com slug `clinicas-derma-sp`
+        2. Skill não validou pré-requisito X
+        3. Output gerado sem o campo Y
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto adicional
+      description: Versão do Claude Code, sistema operacional, logs relevantes.

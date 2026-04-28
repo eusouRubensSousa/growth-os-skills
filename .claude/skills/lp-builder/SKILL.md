@@ -80,7 +80,7 @@ A skill gera com placeholders coerentes marcados `[FICTÍCIO — substituir]` e 
 ### Passo 1 — Coletar contexto + escopo
 
 A. **Perguntar escopo:** *"LP da oferta (genérica do nicho) ou do cliente (customizada)? Me passa o slug."*
-B. **Pré-checagem bloqueante:** validar pré-requisitos do `PREREQ.md`:
+B. **Pré-checagem bloqueante:** validar pré-requisitos do bloco `requires:` desta skill:
    - `nichos/{slug-nicho}/_index.md` status=`mapped`?
    - `ofertas/{slug-oferta}/01-oferta.md` (modo oferta) OU `clientes/{slug-cliente}/00-perfil.md` (modo cliente) existe?
    - Se algum FALTAR → recusar + listar comandos sugeridos pra resolver. Aceitar modo degradado se aluno confirmar — marcar `degraded_mode: true`.
