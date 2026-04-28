@@ -4,12 +4,12 @@ type: cliente/gtm
 slug: "{SLUG}"
 empresa: "{NOME-EMPRESA}"
 created: "{DATA}"
-source: "/gtm-architect"
+source: "/gos-gtm-architect"
 ---
 
 # GTM — {NOME-EMPRESA}
 
-> Go-to-market customizado pra este cliente. Output do `/gtm-architect` em modo cliente. Inclui outbound + content frameworks alinhados com o trigger atual do cliente.
+> Go-to-market customizado pra este cliente. Output do `/gos-gtm-architect` em modo cliente. Inclui outbound + content frameworks alinhados com o trigger atual do cliente.
 
 ## Arquivos
 

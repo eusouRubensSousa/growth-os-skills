@@ -11,10 +11,10 @@
 | `MEMORY.md` (5KB load-bearing) | `MEMORY.md` (mesmo formato) | **idêntico** |
 | `_contexto/` (operador + tese + glossário) | `companies-spec/{slug}/COMPANY.md` + `AGENTS.md` | **converte 1:1** |
 | `memory/shared/` (ledgers + decisões) | `memory/shared/` | **idêntico** |
-| `memory/per-skill/` | `memory/per-agent/` | **mesmo nome lógico** |
+| `memory/per-agent/` | `memory/per-agent/` | **mesmo nome lógico** |
 | `nichos/`, `clientes/`, `ofertas/` (Areas) | mesmo (Areas continuam Areas) | **idêntico** |
 | Skills (`.claude/skills/{nome}/SKILL.md`) | Agentes (`agents/{slug}/AGENT.md`) | **converte 1:1** com tweaks de adapter |
-| Comandos (`/a360-map`, `/a360-handoff`) | Routines / processes Paperclip | **converte com pequena alteração** |
+| Comandos (`/gos-map`, `/gos-handoff`) | Routines / processes Paperclip | **converte com pequena alteração** |
 | Pré-requisitos (`requires:` em cada SKILL.md) | Workflow guards do Paperclip | **converte com `protocols/` tier-based** |
 
 ---
@@ -74,7 +74,7 @@ companies-spec/{slug}/
 
 ---
 
-### 3. `memory/shared/` e `memory/per-skill/`
+### 3. `memory/shared/` e `memory/per-agent/`
 
 **A360:**
 ```
@@ -179,15 +179,15 @@ Resto (`requires:`, `writes_to:`, `updates_index:`, corpo) — **idêntico**.
 
 ---
 
-### 6. Comandos do harness (`/a360-setup-workspace`, `/a360-map`, `/a360-handoff`)
+### 6. Comandos do harness (`/gos-setup`, `/gos-map`, `/gos-handoff`)
 
 No Paperclip viram **routines** (ações disparáveis em horário ou evento) ou **processes** (workflows determinísticos).
 
 | Comando A360 | Equivalente Paperclip |
 |---|---|
-| `/a360-setup-workspace` | `routine: bootstrap` (one-shot na criação do company) |
-| `/a360-map` | `routine: daily-map` (cron diário) OU `process: map-on-write` (trigger em mudança) |
-| `/a360-handoff` | `routine: end-of-session` (manual ou cron 18h) |
+| `/gos-setup` | `routine: bootstrap` (one-shot na criação do company) |
+| `/gos-map` | `routine: daily-map` (cron diário) OU `process: map-on-write` (trigger em mudança) |
+| `/gos-handoff` | `routine: end-of-session` (manual ou cron 18h) |
 
 **Migração:** reescrever cada um como routine/process com schedule. Lógica é idêntica.
 
@@ -256,7 +256,7 @@ Para cada skill que tu usa:
 3. Renomear `allowed-tools:` → `permissions:`.
 4. Atualizar referências internas (`${CLAUDE_SKILL_DIR}` → `${PAPERCLIP_AGENT_DIR}`).
 
-Skills que **não precisam** virar agente Paperclip imediatamente: as 3 do harness (`/a360-setup-workspace`, `/a360-map`, `/a360-handoff`) — elas substitutem por routines.
+Skills que **não precisam** virar agente Paperclip imediatamente: as 3 do harness (`/gos-setup`, `/gos-map`, `/gos-handoff`) — elas substitutem por routines.
 
 ### Etapa 6 — Criar routines (30 min)
 ```yaml

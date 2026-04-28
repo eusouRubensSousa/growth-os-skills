@@ -22,15 +22,15 @@ Use as skills para:
 
 | # | Comando | O que faz |
 |---|---|---|
-| 0 | `/a360-framework-lite` | 🎯 **Coordenador** — você descreve o objetivo em linguagem natural, ele encadeia as outras skills na ordem certa. |
-| 1 | `/nicho-explorer` | Pesquisa **top 10 nichos** ou valida 1 nicho específico (GO/NO-GO). |
-| 2 | `/mapear-nicho-lite` | Mapeia ICP, dores, mecanismo proprietário, oferta e GTM em **1 documento consolidado**. |
-| 3 | `/cliente-radar` | Pesquisa um **prospect específico** (empresa, decisor, concorrentes, top players, gaps). |
-| 4 | `/lp-builder` | Gera **copy + HTML standalone** de uma landing page com frameworks CRO embutidos (AIDA, PAS, FAB, Hero 5s). |
-| 5 | `/gtm-architect` | Estratégia GTM — outbound (4 toques) e/ou content marketing (mês 1). |
-| 6 | `/playbook-vendas` | Script de diagnóstico 30min (D.E.A.L. lite) + 5 objeções + funil 5 estágios. |
-| 7 | `/meeting-prep` | Briefing 1-page para uma reunião de vendas específica. |
-| 8 | `/pitch-deck-builder` | **Apresentação comercial 20 slides** parametrizada pelo nicho/cliente — entrega Reveal.js HTML standalone. |
+| 0 | `/gos` | 🎯 **Coordenador** — você descreve o objetivo em linguagem natural, ele encadeia as outras skills na ordem certa. |
+| 1 | `/gos-nicho-explorer` | Pesquisa **top 10 nichos** ou valida 1 nicho específico (GO/NO-GO). |
+| 2 | `/gos-mapear-nicho` | Mapeia ICP, dores, mecanismo proprietário, oferta e GTM em **1 documento consolidado**. |
+| 3 | `/gos-cliente-radar` | Pesquisa um **prospect específico** (empresa, decisor, concorrentes, top players, gaps). |
+| 4 | `/gos-lp-builder` | Gera **copy + HTML standalone** de uma landing page com frameworks CRO embutidos (AIDA, PAS, FAB, Hero 5s). |
+| 5 | `/gos-gtm-architect` | Estratégia GTM — outbound (4 toques) e/ou content marketing (mês 1). |
+| 6 | `/gos-playbook-vendas` | Script de diagnóstico 30min (D.E.A.L. lite) + 5 objeções + funil 5 estágios. |
+| 7 | `/gos-meeting-prep` | Briefing 1-page para uma reunião de vendas específica. |
+| 8 | `/gos-pitch-deck-builder` | **Apresentação comercial 20 slides** parametrizada pelo nicho/cliente — entrega Reveal.js HTML standalone. |
 
 ---
 
@@ -45,7 +45,7 @@ claude /help
 
 # 3) Use
 claude
-> /a360-framework-lite quero estruturar uma empresa de IA pra clínicas de dermatologia
+> /gos quero estruturar uma empresa de IA pra clínicas de dermatologia
 ```
 
 Instruções completas: [INSTALL.md](./INSTALL.md).
@@ -59,15 +59,15 @@ Você pode usar de dois jeitos:
 ### Modo solo (chama uma skill direto)
 
 ```
-> /nicho-explorer
-> /lp-builder ângulo dor para nicho clínicas pediátricas
-> /pitch-deck-builder
+> /gos-nicho-explorer
+> /gos-lp-builder ângulo dor para nicho clínicas pediátricas
+> /gos-pitch-deck-builder
 ```
 
 ### Modo coordenado (você descreve, ele orquestra)
 
 ```
-> /a360-framework-lite vou apresentar amanhã pra Clínica XPTO de odonto, me prepara
+> /gos vou apresentar amanhã pra Clínica XPTO de odonto, me prepara
 ```
 
 O coordenador roteia automaticamente: `cliente-radar` → `mapear-nicho-lite` → `pitch-deck-builder` → `meeting-prep`.
@@ -167,4 +167,4 @@ Esta janela não fica aberta para sempre.
 ---
 
 **Powered by Accelera 360 — A Nova Economia**
-*v0.1.0 · 2026*
+*v0.3.0 · 2026*

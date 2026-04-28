@@ -5,7 +5,7 @@ slug: "{SLUG}"
 empresa: "{NOME-EMPRESA}"
 nicho: "{SLUG-NICHO}"
 created: "{DATA}"
-source: "/cliente-radar"
+source: "/gos-cliente-radar"
 ---
 
 # Perfil — {NOME-EMPRESA}

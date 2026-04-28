@@ -141,7 +141,7 @@ Mapa de blocos esperados:
 
 ## Passo 4 — Preencher tokens de copy nos snippets
 
-Cada snippet contém placeholders `{{...}}` que mapeiam para campos do YAML ou para campos coletados no `Passo 1` da skill (`/lp-builder`).
+Cada snippet contém placeholders `{{...}}` que mapeiam para campos do YAML ou para campos coletados no `Passo 1` da skill (`/gos-lp-builder`).
 
 ### Mapa de tokens críticos
 

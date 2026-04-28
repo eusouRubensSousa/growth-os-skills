@@ -11,7 +11,7 @@ degraded_mode: false
 
 # Nicho: Clínicas de Dermatologia Estética
 
-> Output gerado por `/mapear-nicho-lite` — versão lite da metodologia Growth AI™.
+> Output gerado por `/gos-mapear-nicho` — versão lite da metodologia Growth AI™.
 > Dados anonimizados e ilustrativos. Não refletem performance garantida.
 
 ---

@@ -6,7 +6,7 @@ oferta: "{SLUG-OFERTA}"
 modo: reveal
 status: rascunho
 created: "{DATA}"
-source: "/pitch-deck-builder"
+source: "/gos-pitch-deck-builder"
 ---
 
 # Deck — {NOME-OFERTA}

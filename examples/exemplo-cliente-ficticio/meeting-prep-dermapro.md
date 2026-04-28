@@ -10,7 +10,7 @@ degraded_mode: false
 
 # Briefing 1-Page — Reunião DermaPro Clínica
 
-> Output gerado por `/meeting-prep` — versão lite da metodologia Growth AI™.
+> Output gerado por `/gos-meeting-prep` — versão lite da metodologia Growth AI™.
 > **Dados fictícios e ilustrativos.**
 
 ---

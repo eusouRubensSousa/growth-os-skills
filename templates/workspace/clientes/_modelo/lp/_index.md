@@ -7,12 +7,12 @@ oferta: "{SLUG-OFERTA}"
 status: rascunho   # rascunho | revisao | publicada | otimizando | arquivada
 created: "{DATA}"
 url: ""
-source: "/lp-builder"
+source: "/gos-lp-builder"
 ---
 
 # LP — {NOME-EMPRESA}
 
-> LP customizada pra este cliente específico. Output do `/lp-builder` em modo cliente.
+> LP customizada pra este cliente específico. Output do `/gos-lp-builder` em modo cliente.
 
 ## Arquivos
 

@@ -4,7 +4,7 @@
 
 - [Claude Code](https://claude.com/claude-code) instalado e funcionando.
 - `git` instalado.
-- *(opcional)* Python 3.10+ e `GEMINI_API_KEY` — apenas para o modo `gemini` do `/pitch-deck-builder`.
+- *(opcional)* Python 3.10+ e `GEMINI_API_KEY` — apenas para o modo `gemini` do `/gos-pitch-deck-builder`.
 
 ---
 
@@ -33,14 +33,14 @@ Abra o Claude Code:
 claude
 ```
 
-Digite `/help` — você deve ver os 8 comandos do pacote (`/a360-framework-lite`, `/nicho-explorer`, `/mapear-nicho-lite`, `/cliente-radar`, `/lp-builder`, `/gtm-architect`, `/playbook-vendas`, `/meeting-prep`, `/pitch-deck-builder`).
+Digite `/help` — você deve ver os 8 comandos do pacote (`/gos`, `/gos-nicho-explorer`, `/gos-mapear-nicho`, `/gos-cliente-radar`, `/gos-lp-builder`, `/gos-gtm-architect`, `/gos-playbook-vendas`, `/gos-meeting-prep`, `/gos-pitch-deck-builder`).
 
 Se não aparecer, verifique se o caminho do clone está em `~/.claude/skills/` ou em `<projeto>/.claude/skills/`.
 
 ### 3. Primeiro uso
 
 ```
-> /a360-framework-lite
+> /gos
 ```
 
 O coordenador vai te perguntar o que você quer fazer e rotear para a(s) skill(s) certa(s).
@@ -75,14 +75,14 @@ export GEMINI_API_KEY="sua-chave-aqui"
 ### 3. Instale dependências Python
 
 ```bash
-cd ~/.claude/skills/growth-os-skills/.claude/skills/pitch-deck-builder
+cd ~/.claude/skills/growth-os-skills/.claude/skills/gos-pitch-deck-builder
 pip install -r requirements.txt
 ```
 
 ### 4. Use o modo
 
 ```
-> /pitch-deck-builder modo gemini
+> /gos-pitch-deck-builder modo gemini
 ```
 
 > ⚠️ Aviso: 20 slides ≈ US$ 4.00 por chamada. Para pitch deck "de produção" use o modo `gemini`. Para testes ou primeiro deck, use o default `reveal` (zero custo).

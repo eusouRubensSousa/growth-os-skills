@@ -76,7 +76,7 @@ Apresentar:
 > *(3) Tom de voz: editorial-sóbrio / brutalist-direto / mono-técnico / editorial-quente*
 > *(4) Headline de partida (ou tema do que vai ser oferecido)*
 >
-> *Se preferir, rodo `/mapear-nicho-lite` antes pra eu ter contexto completo. Diz aí."*
+> *Se preferir, rodo `/gos-mapear-nicho` antes pra eu ter contexto completo. Diz aí."*
 
 ### Modo FICTÍCIO (quando usuário não tem nada e não quer rodar pesquisa)
 
@@ -197,7 +197,7 @@ Se não passar: voltar pra Passo 2 e refinar.
 
 ## Exemplo real — fluxo PESQUISA
 
-**Input do aluno:** *"/lp-builder ângulo dor para a Clínica Dermatologia Premium SP"*
+**Input do aluno:** *"/gos-lp-builder ângulo dor para a Clínica Dermatologia Premium SP"*
 
 **Glob encontra:**
 - `nicho-clinicas-dermatologia-sp.md` (do mapear-nicho-lite)

@@ -1,7 +1,7 @@
 ---
 title: "Nichos"
 type: nichos/index
-managed_by: "/a360-map"
+managed_by: "/gos-map"
 last_updated: "{DATA-SETUP}"
 ---
 
@@ -13,14 +13,14 @@ last_updated: "{DATA-SETUP}"
 
 | Slug | Setor | Status | Mecanismo | Última edição |
 |---|---|---|---|---|
-| *(vazio — `/nicho-explorer` ou `/mapear-nicho-lite` cria a primeira)* | | | | |
+| *(vazio — `/gos-nicho-explorer` ou `/gos-mapear-nicho` cria a primeira)* | | | | |
 
-> Esta tabela é regenerada por `/a360-map`. Veja também [[../memory/shared/nichos-mapeados\|memory/shared/nichos-mapeados.md]] (mesmo dado, formato ledger).
+> Esta tabela é regenerada por `/gos-map`. Veja também [[../memory/shared/nichos-mapeados\|memory/shared/ledgers/nichos-mapeados.md]] (mesmo dado, formato ledger).
 
 ## Como adicionar
 
-1. **Validar GO/NO-GO:** `/nicho-explorer` Modo B → produz `00-validacao.md`.
-2. **Mapear cérebro:** `/mapear-nicho-lite` → preenche 01-09.
+1. **Validar GO/NO-GO:** `/gos-nicho-explorer` Modo B → produz `00-validacao.md`.
+2. **Mapear cérebro:** `/gos-mapear-nicho` → preenche 01-09.
 3. *(opcional)* Criar oferta: editar `ofertas/{slug}/01-oferta.md`.
 
 ## Estrutura de cada `{slug}/`
@@ -30,7 +30,7 @@ Cada pasta de nicho segue o template em `_modelo/`:
 ```
 {slug}/
 ├── _index.md                         MoC + frontmatter (status, mecanismo)
-├── 00-validacao.md                   /nicho-explorer Modo B (GO/NO-GO)
+├── 00-validacao.md                   /gos-nicho-explorer Modo B (GO/NO-GO)
 ├── 01-perfil-cliente-alvo.md         ICP em 1 página
 ├── 02-dores.md                       3-5 dores (qualitativas + 1-2 R$)
 ├── 03-mecanismo.md                   3 candidatos de naming
@@ -46,4 +46,4 @@ Cada pasta de nicho segue o template em `_modelo/`:
 
 `researching` → `mapped` → `offered` → `validated` → `archived`
 
-(detalhe em `memory/shared/nichos-mapeados.md`)
+(detalhe em `memory/shared/ledgers/nichos-mapeados.md`)

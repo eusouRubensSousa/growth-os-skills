@@ -12,7 +12,7 @@ writes_to:
   - "nichos-top10.md  (Modo A — apenas overview, na raiz do workspace)"
 updates_index:
   - "nichos/_index.md"
-  - "memory/shared/nichos-mapeados.md  (cria entrada com status=researching)"
+  - "memory/shared/ledgers/nichos-mapeados.md  (cria entrada com status=researching)"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -94,7 +94,7 @@ Ler antes de executar:
 
 - **Top 10:** apenas 1 parágrafo + score por nicho — sem análise competitiva detalhada de cada um.
 - **Validação:** apenas 5-8 fontes (vs. 25-35 da versão completa Accelera).
-- **Sem:** análise de TAM/SAM/SOM em profundidade, mapeamento de competidores top 5, projeção financeira mês a mês, ICP completo (isso é o `/mapear-nicho-lite`).
+- **Sem:** análise de TAM/SAM/SOM em profundidade, mapeamento de competidores top 5, projeção financeira mês a mês, ICP completo (isso é o `/gos-mapear-nicho`).
 - **Sem:** garantia de que o nicho escolhido vai dar certo — o veredicto é uma **indicação**, não promessa.
 
 Para análise completa: agendar sessão Accelera 360.
@@ -117,8 +117,8 @@ Para análise completa: agendar sessão Accelera 360.
 4. **Criar `nichos/{slug}/`** copiando de `nichos/_modelo/`.
 5. **Preencher `nichos/{slug}/00-validacao.md`** com veredicto + ficha-resumo.
 6. **Atualizar `nichos/{slug}/_index.md`** frontmatter com `status: researching` + setor.
-7. **Adicionar entrada em `memory/shared/nichos-mapeados.md`** (próximo passo: rodar `/mapear-nicho-lite`).
-8. Sugerir ao aluno: *"Se for GO, próximo é `/mapear-nicho-lite` pra preencher 01-09. Quer rodar agora?"*
+7. **Adicionar entrada em `memory/shared/ledgers/nichos-mapeados.md`** (próximo passo: rodar `/gos-mapear-nicho`).
+8. Sugerir ao aluno: *"Se for GO, próximo é `/gos-mapear-nicho` pra preencher 01-09. Quer rodar agora?"*
 
 ---
 
@@ -139,7 +139,7 @@ Para análise completa: agendar sessão Accelera 360.
 
 ### `updates_index`
 - `nichos/_index.md` (linha nova com slug + status=researching).
-- `memory/shared/nichos-mapeados.md` (linha nova).
+- `memory/shared/ledgers/nichos-mapeados.md` (linha nova).
 
 ### `registers_decision_in`
 - Se aluno declarar nicho-foco (compromisso durável), criar `memory/shared/decisoes/{YYYY-MM-DD}-nicho-foco.md`.

@@ -3,7 +3,7 @@ title: "Mecanismo proprietário — {NOME-NICHO}"
 type: nicho/mecanismo
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 mecanismo_escolhido: ""
 ---
 

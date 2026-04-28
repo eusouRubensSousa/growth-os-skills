@@ -6,7 +6,7 @@ allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit, Bash, Glob
 requires:
   blocking: []
   recommended:
-    - "nichos/{slug}/00-validacao.md (do /nicho-explorer Modo B — pra evitar mapear nicho NO-GO)"
+    - "nichos/{slug}/00-validacao.md (do /gos-nicho-explorer Modo B — pra evitar mapear nicho NO-GO)"
 writes_to:
   - "nichos/{slug}/01-perfil-cliente-alvo.md"
   - "nichos/{slug}/02-dores.md"
@@ -20,7 +20,7 @@ writes_to:
 updates_index:
   - "nichos/{slug}/_index.md  (status: researching → mapped, mecanismo escolhido)"
   - "nichos/_index.md"
-  - "memory/shared/nichos-mapeados.md"
+  - "memory/shared/ledgers/nichos-mapeados.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -67,8 +67,8 @@ Sua missão é entregar um **mapeamento de nicho consolidado em 1 documento** co
 ## Quando usar
 
 - Usuário tem nicho definido e quer estruturar ICP, mecanismo, oferta, GTM.
-- Usuário foi roteado pelo `/a360-framework-lite` ou `/nicho-explorer`.
-- Antes de rodar `/lp-builder`, `/pitch-deck-builder` ou `/playbook-vendas` (que dependem do mecanismo + dores).
+- Usuário foi roteado pelo `/gos` ou `/gos-nicho-explorer`.
+- Antes de rodar `/gos-lp-builder`, `/gos-pitch-deck-builder` ou `/gos-playbook-vendas` (que dependem do mecanismo + dores).
 
 ---
 
@@ -90,7 +90,7 @@ Lançar 3 agentes simultaneamente:
 
 ### Passo 4 — Consolidar em `nichos/{slug}/`
 
-**Pré-checagem:** se `nichos/{slug}/` já existe (do `/nicho-explorer` Modo B), usar. Se não existe, copiar de `nichos/_modelo/` primeiro.
+**Pré-checagem:** se `nichos/{slug}/` já existe (do `/gos-nicho-explorer` Modo B), usar. Se não existe, copiar de `nichos/_modelo/` primeiro.
 
 Distribuir os 3 outputs nos arquivos numerados Johnny.Decimal:
 
@@ -169,7 +169,7 @@ Ler antes de executar:
 
 ### `requires`
 - **Bloqueante:** nenhum.
-- **Recomendado:** `nichos/{slug}/00-validacao.md` populado (do `/nicho-explorer` Modo B). Sem isso, aluno pode estar mapeando nicho NO-GO — avisar e perguntar se prossegue.
+- **Recomendado:** `nichos/{slug}/00-validacao.md` populado (do `/gos-nicho-explorer` Modo B). Sem isso, aluno pode estar mapeando nicho NO-GO — avisar e perguntar se prossegue.
 
 ### `reads`
 - `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
@@ -190,7 +190,7 @@ Ler antes de executar:
 ### `updates_index`
 - `nichos/{slug}/_index.md` — frontmatter (status: mapped, mecanismo, last_updated).
 - `nichos/_index.md` — tabela raiz.
-- `memory/shared/nichos-mapeados.md` — ledger.
+- `memory/shared/ledgers/nichos-mapeados.md` — ledger.
 
 ### `registers_decision_in`
 - Quando aluno escolhe 1 dos 3 candidatos de mecanismo, criar `memory/shared/decisoes/{YYYY-MM-DD}-mecanismo-{slug-nicho}.md` com a razão da escolha.

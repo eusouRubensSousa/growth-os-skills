@@ -14,17 +14,17 @@ Para cada mensagem do usuário, identificar:
 
 | Padrão de fala | Sujeito | Estágio | Artefato | Pipeline |
 |---|---|---|---|---|
-| "não sei que nicho escolher" | eu | descoberta | lista | `/nicho-explorer` modo A |
-| "vale a pena nicho X?" | eu | pesquisa | veredicto | `/nicho-explorer` modo B |
-| "estruturar empresa pra [nicho]" | eu | pesquisa | doc consolidado | `/nicho-explorer` (rápido) → `/mapear-nicho-lite` |
-| "tenho call com cliente X" | cliente | preparação | briefing | `/cliente-radar` → `/meeting-prep` |
-| "vou apresentar pra [cliente]" | cliente | preparação | briefing + deck | `/cliente-radar` → `/mapear-nicho-lite` (nicho do cliente) → `/pitch-deck-builder` → `/meeting-prep` |
-| "criar LP pra [nicho]" | qualquer | produção | LP | `/lp-builder` (com `/mapear-nicho-lite` se não tiver mecanismo definido) |
-| "criar pitch deck" | qualquer | produção | deck | `/pitch-deck-builder` (com `/mapear-nicho-lite` se não tiver mecanismo definido) |
-| "como prospectar" | eu | vendas | playbook | `/gtm-architect` |
-| "script de vendas" | eu | vendas | script | `/playbook-vendas` |
-| "pacote completo pro meu negócio" | eu | full | tudo | `/nicho-explorer` → `/mapear-nicho-lite` → `/gtm-architect` → `/lp-builder` → `/playbook-vendas` |
-| "pacote completo pro cliente" | cliente | full | tudo | `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder` → `/pitch-deck-builder` → `/meeting-prep` |
+| "não sei que nicho escolher" | eu | descoberta | lista | `/gos-nicho-explorer` modo A |
+| "vale a pena nicho X?" | eu | pesquisa | veredicto | `/gos-nicho-explorer` modo B |
+| "estruturar empresa pra [nicho]" | eu | pesquisa | doc consolidado | `/gos-nicho-explorer` (rápido) → `/gos-mapear-nicho` |
+| "tenho call com cliente X" | cliente | preparação | briefing | `/gos-cliente-radar` → `/gos-meeting-prep` |
+| "vou apresentar pra [cliente]" | cliente | preparação | briefing + deck | `/gos-cliente-radar` → `/gos-mapear-nicho` (nicho do cliente) → `/gos-pitch-deck-builder` → `/gos-meeting-prep` |
+| "criar LP pra [nicho]" | qualquer | produção | LP | `/gos-lp-builder` (com `/gos-mapear-nicho` se não tiver mecanismo definido) |
+| "criar pitch deck" | qualquer | produção | deck | `/gos-pitch-deck-builder` (com `/gos-mapear-nicho` se não tiver mecanismo definido) |
+| "como prospectar" | eu | vendas | playbook | `/gos-gtm-architect` |
+| "script de vendas" | eu | vendas | script | `/gos-playbook-vendas` |
+| "pacote completo pro meu negócio" | eu | full | tudo | `/gos-nicho-explorer` → `/gos-mapear-nicho` → `/gos-gtm-architect` → `/gos-lp-builder` → `/gos-playbook-vendas` |
+| "pacote completo pro cliente" | cliente | full | tudo | `/gos-cliente-radar` → `/gos-mapear-nicho` → `/gos-lp-builder` → `/gos-pitch-deck-builder` → `/gos-meeting-prep` |
 
 ## Regras de desambiguação
 

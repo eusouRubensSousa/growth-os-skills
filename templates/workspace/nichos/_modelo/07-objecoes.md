@@ -3,7 +3,7 @@ title: "Objeções — {NOME-NICHO}"
 type: nicho/objecoes
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # Objeções do {NOME-NICHO}

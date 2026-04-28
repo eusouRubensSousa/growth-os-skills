@@ -16,18 +16,18 @@ last_updated: "{DATA}"
 
 ## Mapa
 
-- [[00-perfil]] — quem é, contato, ticket, stack (output `/cliente-radar`)
-- [[01-meeting-prep]] — briefing 1-page pra reunião (output `/meeting-prep`)
-- [[02-playbook]] — script + objeções customizadas (output `/playbook-vendas`)
-- [[lp/_index]] — LP customizada (output `/lp-builder`)
-- [[deck/_index]] — deck comercial (output `/pitch-deck-builder`)
-- [[gtm/_index]] — outbound + content customizados (output `/gtm-architect`)
+- [[00-perfil]] — quem é, contato, ticket, stack (output `/gos-cliente-radar`)
+- [[01-meeting-prep]] — briefing 1-page pra reunião (output `/gos-meeting-prep`)
+- [[02-playbook]] — script + objeções customizadas (output `/gos-playbook-vendas`)
+- [[lp/_index]] — LP customizada (output `/gos-lp-builder`)
+- [[deck/_index]] — deck comercial (output `/gos-pitch-deck-builder`)
+- [[gtm/_index]] — outbound + content customizados (output `/gos-gtm-architect`)
 
 ## Status atual
 
 **Status:** {{status}}
 **Última atualização:** {{last_updated}}
-**Próximo milestone:** *(preenchido por `/a360-map`)*
+**Próximo milestone:** *(preenchido por `/gos-map`)*
 
 ## Decisões importantes deste cliente
 

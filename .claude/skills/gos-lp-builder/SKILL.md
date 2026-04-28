@@ -16,7 +16,7 @@ writes_to:
 updates_index:
   - "{escopo}/{slug}/lp/_index.md  (status, score CRO, score anti-AI)"
   - "{escopo}/{slug}/_index.md"
-  - "memory/per-skill/lp-builder/learnings.md"
+  - "memory/per-agent/gos-lp-builder/reflections.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -65,7 +65,7 @@ Pronta pro aluno abrir no browser, exportar PDF, ou conectar ao seu domínio.
 
 ## Quando usar
 
-- Aluno tem nicho mapeado (preferencialmente após `/mapear-nicho-lite` ou `/cliente-radar`) e quer LP.
+- Aluno tem nicho mapeado (preferencialmente após `/gos-mapear-nicho` ou `/gos-cliente-radar`) e quer LP.
 - Aluno quer testar 1 ângulo (DOR / OPORTUNIDADE / SISTEMA).
 - Aluno quer LP que **não tenha cara de IA** (banimos fontes/cores/layouts genéricos).
 
@@ -92,7 +92,7 @@ Se encontra → extrai brand DNA real (nicho, persona, dores, mecanismo, cor de 
 
 ### Modo PERGUNTAS (quando paths canônicos faltam — modo degradado avisado)
 **Bloqueante:** se nicho não está mapeado, recusar e orientar.
-Se nicho mapeado mas oferta/cliente faltam, perguntar inputs mínimos OU exigir `/cliente-radar`/criar `ofertas/{slug}/01-oferta.md`.
+Se nicho mapeado mas oferta/cliente faltam, perguntar inputs mínimos OU exigir `/gos-cliente-radar`/criar `ofertas/{slug}/01-oferta.md`.
 
 ### Modo FICTÍCIO (quando aluno declara explicitamente)
 A skill gera com placeholders coerentes marcados `[FICTÍCIO — substituir]` e `degraded_mode: true` no frontmatter do output.
@@ -173,7 +173,7 @@ Arquivos escritos:
 
 Atualizações de índice:
 - `{escopo}/{slug}/_index.md` — `last_updated`
-- `memory/per-skill/lp-builder/learnings.md` — append da execução (nicho, sistema, score, lições)
+- `memory/per-agent/gos-lp-builder/reflections.md` — append da execução (nicho, sistema, score, lições)
 
 Relatório final ao aluno:
 - Score do self-check duplo (CRO + anti-AI)
@@ -250,7 +250,7 @@ Relatório final ao aluno:
 - `nichos/{slug-nicho}/01-perfil-cliente-alvo.md`, `02-dores.md`, `03-mecanismo.md`, `05-linguagem.md`, `08-fontes.md` — sempre se mapeado.
 - `ofertas/{slug-oferta}/01-oferta.md`, `04-marca.md` — modo oferta.
 - `clientes/{slug-cliente}/00-perfil.md` — modo cliente.
-- `memory/per-skill/lp-builder/learnings.md` — se existir, ler aprendizados anteriores.
+- `memory/per-agent/gos-lp-builder/reflections.md` — se existir, ler aprendizados anteriores.
 
 ### `writes_to`
 - `{escopo}/{slug}/lp/lp.md`
@@ -260,7 +260,7 @@ Relatório final ao aluno:
 ### `updates_index`
 - `{escopo}/{slug}/lp/_index.md` — frontmatter (status, score CRO, score anti-AI, sistema escolhido, ângulo).
 - `{escopo}/{slug}/_index.md` — `last_updated`.
-- `memory/per-skill/lp-builder/learnings.md` — append.
+- `memory/per-agent/gos-lp-builder/reflections.md` — append.
 
 ### `registers_decision_in`
 - (não aplicável.)

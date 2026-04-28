@@ -14,7 +14,7 @@ writes_to:
   - "clientes/{slug-cliente}/02-playbook.md  (modo cliente — script customizado)"
 updates_index:
   - "{escopo}/{slug}/_index.md"
-  - "memory/per-skill/playbook-vendas/learnings.md"
+  - "memory/per-agent/gos-playbook-vendas/reflections.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -52,9 +52,9 @@ Sua missão é entregar um **playbook de vendas lite** para o aluno conduzir a p
 
 ## Quando usar
 
-- Aluno já tem nicho mapeado (`/mapear-nicho-lite`) e mecanismo escolhido.
+- Aluno já tem nicho mapeado (`/gos-mapear-nicho`) e mecanismo escolhido.
 - Aluno tem reuniões agendadas e precisa de script.
-- Antes de rodar `/meeting-prep` (que adapta ao prospect específico).
+- Antes de rodar `/gos-meeting-prep` (que adapta ao prospect específico).
 
 ---
 
@@ -65,7 +65,7 @@ Sua missão é entregar um **playbook de vendas lite** para o aluno conduzir a p
 A. **Perguntar escopo:** *"Playbook genérico da oferta ou customizado pra cliente específico? Me passa o slug."*
 
 B. **Pré-checagem bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`?
-   - Se NÃO → recusar: *"Playbook sem nicho mapeado é só template. Roda `/mapear-nicho-lite` primeiro."*
+   - Se NÃO → recusar: *"Playbook sem nicho mapeado é só template. Roda `/gos-mapear-nicho` primeiro."*
 
 C. (Pula perguntas de mecanismo/promessa/preço — vêm dos arquivos canônicos.)
 
@@ -139,7 +139,7 @@ Ler antes de executar:
 
 ### `updates_index`
 - `{escopo}/{slug}/_index.md` — `last_updated`.
-- `memory/per-skill/playbook-vendas/learnings.md`.
+- `memory/per-agent/gos-playbook-vendas/reflections.md`.
 
 ### `registers_decision_in`
 - (não aplicável.)

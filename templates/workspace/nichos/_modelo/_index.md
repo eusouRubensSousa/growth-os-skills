@@ -4,7 +4,7 @@ type: nicho
 slug: "{SLUG}"
 setor: "{SETOR}"
 status: researching   # researching | mapped | offered | validated | archived
-mecanismo: ""         # nome do mecanismo proprietário, preenchido após /mapear-nicho-lite
+mecanismo: ""         # nome do mecanismo proprietário, preenchido após /gos-mapear-nicho
 created: "{DATA}"
 last_updated: "{DATA}"
 fontes_auditadas: 0
@@ -16,7 +16,7 @@ fontes_auditadas: 0
 
 ## Mapa
 
-- [[00-validacao]] — GO/NO-GO + 5 evidências (`/nicho-explorer` Modo B)
+- [[00-validacao]] — GO/NO-GO + 5 evidências (`/gos-nicho-explorer` Modo B)
 - [[01-perfil-cliente-alvo]] — ICP em 1 página
 - [[02-dores]] — 3-5 dores quantificadas
 - [[03-mecanismo]] — 3 candidatos de naming
@@ -31,7 +31,7 @@ fontes_auditadas: 0
 
 **Status atual:** {{status}}
 **Última edição:** {{last_updated}}
-**Próximo passo:** *(preenchido por `/a360-map`)*
+**Próximo passo:** *(preenchido por `/gos-map`)*
 
 ## Decisões importantes deste nicho
 

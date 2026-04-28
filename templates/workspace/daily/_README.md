@@ -4,7 +4,7 @@ type: daily/readme
 
 # Daily logs
 
-Log de sessão (1 arquivo por dia em que o aluno opera o workspace). Gerado por `/a360-handoff` no fim da sessão.
+Log de sessão (1 arquivo por dia em que o aluno opera o workspace). Gerado por `/gos-handoff` no fim da sessão.
 
 ## Formato
 

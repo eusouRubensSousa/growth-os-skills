@@ -373,5 +373,5 @@ Premium dashboard visualization, NOT PowerPoint.
 ## Footer fixo (todos os 20 slides — não remover)
 
 ```
-Powered by Accelera 360 — accelera360.com.br · growth-os-skills v0.1.0
+Powered by Accelera 360 — accelera360.com.br · growth-os-skills v0.3.0
 ```

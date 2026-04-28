@@ -50,7 +50,7 @@ Sua missão é deixar o workspace **pronto pra próxima sessão**: registrar o q
 
 **Não usar:**
 - Sessão trivial de 5min sem produção (não há o que registrar).
-- Logo após `/a360-setup-workspace` (handoff inicial já vem com a skill de setup).
+- Logo após `/gos-setup` (handoff inicial já vem com a skill de setup).
 
 ---
 
@@ -227,7 +227,7 @@ git commit -m "session({{YYYY-MM-DD}}): {{resumo_1_linha}}"
 
 ## Limitações deliberadas
 
-- **Não roda mapper automaticamente** — handoff é fechamento, mapper é re-orientação. Aluno escolhe quando rodar `/a360-map`.
+- **Não roda mapper automaticamente** — handoff é fechamento, mapper é re-orientação. Aluno escolhe quando rodar `/gos-map`.
 - **Não atualiza arquivos numerados de nichos/clientes** — só sugere ao aluno.
 - **Não cria múltiplas decisões duráveis numa sessão** — se houver várias, criar uma agora e listar as outras pra próxima sessão.
 

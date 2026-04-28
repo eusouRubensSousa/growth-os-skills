@@ -34,7 +34,7 @@ Antes de abrir, verifique se já existe issue similar aberta.
 ## Como contribuir com código
 
 1. Fork o repositório.
-2. Crie uma branch descritiva: `fix/lp-builder-prereq` ou `docs/exemplo-juridico`.
+2. Crie uma branch descritiva: `fix/gos-lp-builder-prereq` ou `docs/exemplo-juridico`.
 3. Faça as alterações seguindo as convenções abaixo.
 4. Abra um Pull Request com descrição clara do que mudou e por quê.
 

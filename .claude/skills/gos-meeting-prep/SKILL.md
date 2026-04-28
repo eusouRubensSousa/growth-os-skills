@@ -5,15 +5,15 @@ argument-hint: "[slug do cliente — assume cliente-radar e mapear-nicho-lite j�
 allowed-tools: Read, Write, Edit, Glob
 requires:
   blocking:
-    - "clientes/{slug-cliente}/00-perfil.md (do /cliente-radar — sem perfil, briefing é palpite)"
+    - "clientes/{slug-cliente}/00-perfil.md (do /gos-cliente-radar — sem perfil, briefing é palpite)"
   recommended:
     - "nichos/{slug-nicho}/_index.md status=mapped"
-    - "clientes/{slug-cliente}/02-playbook.md (do /playbook-vendas)"
+    - "clientes/{slug-cliente}/02-playbook.md (do /gos-playbook-vendas)"
 writes_to:
   - "clientes/{slug-cliente}/01-meeting-prep.md"
 updates_index:
   - "clientes/{slug-cliente}/_index.md  (status: radar-done → meeting-prep-done)"
-  - "memory/shared/clientes-ativos.md"
+  - "memory/shared/ledgers/clientes-ativos.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -53,9 +53,9 @@ Sua missão é entregar um **briefing 1-2 páginas** consolidando tudo que o ven
 
 ## Quando usar
 
-- Aluno já rodou `/cliente-radar` (briefing do prospect).
+- Aluno já rodou `/gos-cliente-radar` (briefing do prospect).
 - Aluno já tem `mapear-nicho-lite` do nicho do prospect.
-- Idealmente também rodou `/playbook-vendas` (script + objeções).
+- Idealmente também rodou `/gos-playbook-vendas` (script + objeções).
 - Reunião está marcada e o aluno quer 1 doc pra levar.
 
 Se algum desses pré-requisitos faltar, a skill avisa e sugere rodar primeiro.
@@ -68,9 +68,9 @@ Se algum desses pré-requisitos faltar, a skill avisa e sugere rodar primeiro.
 
 1. Pedir slug do cliente.
 2. **Pré-checagem bloqueante:** `clientes/{slug}/00-perfil.md` existe?
-   - Se NÃO → recusar e devolver: *"Não achei `clientes/{slug}/00-perfil.md`. Roda `/cliente-radar` primeiro pra montar o perfil — sem isso o briefing é palpite. Quer rodar agora?"*
+   - Se NÃO → recusar e devolver: *"Não achei `clientes/{slug}/00-perfil.md`. Roda `/gos-cliente-radar` primeiro pra montar o perfil — sem isso o briefing é palpite. Quer rodar agora?"*
 3. **Pré-checagem recomendada:** `clientes/{slug}/_index.md` tem `nicho:` populado E `nichos/{slug-nicho}/_index.md` status=`mapped`?
-   - Se nicho não mapeado → avisar: *"Cliente sem nicho mapeado — briefing vai ficar genérico nas dores. Continuar mesmo assim ou rodar `/mapear-nicho-lite` antes?"* (modo degradado se aluno aceitar).
+   - Se nicho não mapeado → avisar: *"Cliente sem nicho mapeado — briefing vai ficar genérico nas dores. Continuar mesmo assim ou rodar `/gos-mapear-nicho` antes?"* (modo degradado se aluno aceitar).
 4. **Pré-checagem opcional:** `clientes/{slug}/02-playbook.md` existe?
    - Se sim → usar pra calibrar SPIN + objeções.
    - Se não → gerar SPIN/objeções a partir de `nichos/{slug-nicho}/07-objecoes.md`.
@@ -129,10 +129,10 @@ Ler antes de executar:
 
 ### `requires`
 - **Bloqueante:**
-  - `clientes/{slug}/00-perfil.md` (do `/cliente-radar`).
+  - `clientes/{slug}/00-perfil.md` (do `/gos-cliente-radar`).
 - **Recomendado:**
   - `nichos/{slug-nicho}/_index.md` status=`mapped`.
-  - `clientes/{slug}/02-playbook.md` (do `/playbook-vendas`).
+  - `clientes/{slug}/02-playbook.md` (do `/gos-playbook-vendas`).
 
 ### `reads`
 - `_contexto/operador.md`, `MEMORY.md` — sempre.
@@ -145,7 +145,7 @@ Ler antes de executar:
 
 ### `updates_index`
 - `clientes/{slug}/_index.md` — frontmatter (`status: meeting-prep-done`, `data_reuniao`, `last_updated`).
-- `memory/shared/clientes-ativos.md`.
+- `memory/shared/ledgers/clientes-ativos.md`.
 
 ### `registers_decision_in`
 - (não aplicável.)

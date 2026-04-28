@@ -1,7 +1,7 @@
 ---
 title: "Clientes"
 type: clientes/index
-managed_by: "/a360-map"
+managed_by: "/gos-map"
 last_updated: "{DATA-SETUP}"
 ---
 
@@ -13,22 +13,22 @@ last_updated: "{DATA-SETUP}"
 
 | Slug | Empresa | Nicho | Status | Iniciado em |
 |---|---|---|---|---|
-| *(vazio — `/cliente-radar` cria a primeira)* | | | | |
+| *(vazio — `/gos-cliente-radar` cria a primeira)* | | | | |
 
-> Esta tabela é regenerada por `/a360-map`. Veja [[../memory/shared/clientes-ativos\|memory/shared/clientes-ativos.md]] (mesmo dado, formato ledger).
+> Esta tabela é regenerada por `/gos-map`. Veja [[../memory/shared/clientes-ativos\|memory/shared/ledgers/clientes-ativos.md]] (mesmo dado, formato ledger).
 
 ## Como adicionar
 
 ```
-/cliente-radar
+/gos-cliente-radar
 ```
 
 Faz mini-wizard e cria pasta com `00-perfil.md`. Depois encadear:
-- `/meeting-prep` → `01-meeting-prep.md`
-- `/lp-builder` → `lp/`
-- `/pitch-deck-builder` → `deck/`
-- `/gtm-architect` → `gtm/`
-- `/playbook-vendas` → `02-playbook.md`
+- `/gos-meeting-prep` → `01-meeting-prep.md`
+- `/gos-lp-builder` → `lp/`
+- `/gos-pitch-deck-builder` → `deck/`
+- `/gos-gtm-architect` → `gtm/`
+- `/gos-playbook-vendas` → `02-playbook.md`
 
 ## Cliente ≠ Oferta
 

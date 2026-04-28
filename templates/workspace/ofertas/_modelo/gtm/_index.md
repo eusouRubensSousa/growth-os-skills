@@ -4,7 +4,7 @@ type: oferta/gtm
 slug: "{SLUG}"
 oferta: "{SLUG-OFERTA}"
 created: "{DATA}"
-source: "/gtm-architect"
+source: "/gos-gtm-architect"
 ---
 
 # GTM — {NOME-OFERTA}

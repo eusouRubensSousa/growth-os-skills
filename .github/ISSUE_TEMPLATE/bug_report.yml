@@ -13,18 +13,21 @@ body:
     attributes:
       label: Skill afetada
       options:
-        - a360-framework-lite (coordenador)
-        - nicho-explorer
-        - mapear-nicho-lite
-        - cliente-radar
-        - lp-builder
-        - gtm-architect
-        - playbook-vendas
-        - meeting-prep
-        - pitch-deck-builder
-        - a360-setup-workspace
-        - a360-map
-        - a360-handoff
+        - gos (coordenador)
+        - gos-nicho-explorer
+        - gos-mapear-nicho
+        - gos-cliente-radar
+        - gos-lp-builder
+        - gos-gtm-architect
+        - gos-playbook-vendas
+        - gos-meeting-prep
+        - gos-pitch-deck-builder
+        - gos-setup
+        - gos-map
+        - gos-handoff
+        - gos-validate-handoff
+        - gos-configurar-openclaw
+        - gos-configurar-paperclip
         - outra
     validations:
       required: true
@@ -50,7 +53,7 @@ body:
       label: Como reproduzir?
       description: Passo a passo para reproduzir o bug.
       placeholder: |
-        1. Rodei `/lp-builder` com slug `clinicas-derma-sp`
+        1. Rodei `/gos-lp-builder` com slug `clinicas-derma-sp`
         2. Skill não validou pré-requisito X
         3. Output gerado sem o campo Y
     validations:

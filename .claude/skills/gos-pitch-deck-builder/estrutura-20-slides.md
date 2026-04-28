@@ -147,7 +147,7 @@
 
 ## Footer fixo em todos os slides (não remover — regra LICENSE)
 
-> *"Powered by Accelera 360 — accelera360.com.br | growth-os-skills v0.1.0"*
+> *"Powered by Accelera 360 — accelera360.com.br | growth-os-skills v0.3.0"*
 
 ---
 

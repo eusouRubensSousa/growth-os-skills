@@ -7,10 +7,10 @@
 **Quando:** "Vou apresentar pra cliente X"
 
 **Skills:**
-1. `/cliente-radar` (nome da empresa, decisor opcional)
-2. `/mapear-nicho-lite` (do nicho do cliente — pode usar contexto do cliente-radar)
-3. `/pitch-deck-builder` (parametrizado por #2 + dados do #1)
-4. `/meeting-prep` (consolida #1 + #2 + #3)
+1. `/gos-cliente-radar` (nome da empresa, decisor opcional)
+2. `/gos-mapear-nicho` (do nicho do cliente — pode usar contexto do cliente-radar)
+3. `/gos-pitch-deck-builder` (parametrizado por #2 + dados do #1)
+4. `/gos-meeting-prep` (consolida #1 + #2 + #3)
 
 **Output final:** briefing 1-page + deck 20 slides + roteirização .md.
 
@@ -23,10 +23,10 @@
 **Quando:** "Quero estruturar minha empresa pra vender IA pra [nicho]"
 
 **Skills:**
-1. `/nicho-explorer` modo B (validação rápida do nicho — GO/NO-GO)
-2. `/mapear-nicho-lite` (mapeamento completo)
-3. `/gtm-architect` (modo Combo: outbound + content)
-4. `/lp-builder` (1 LP, ângulo escolhido pelo usuário)
+1. `/gos-nicho-explorer` modo B (validação rápida do nicho — GO/NO-GO)
+2. `/gos-mapear-nicho` (mapeamento completo)
+3. `/gos-gtm-architect` (modo Combo: outbound + content)
+4. `/gos-lp-builder` (1 LP, ângulo escolhido pelo usuário)
 
 **Output final:** doc consolidado do nicho + playbooks GTM + LP HTML.
 
@@ -39,10 +39,10 @@
 **Quando:** "Quero entregar pacote completo pro meu cliente"
 
 **Skills:**
-1. `/cliente-radar`
-2. `/mapear-nicho-lite` (nicho do cliente)
-3. `/lp-builder` (LP da empresa do cliente)
-4. `/pitch-deck-builder` (deck que o cliente usa)
+1. `/gos-cliente-radar`
+2. `/gos-mapear-nicho` (nicho do cliente)
+3. `/gos-lp-builder` (LP da empresa do cliente)
+4. `/gos-pitch-deck-builder` (deck que o cliente usa)
 
 **Output final:** briefing + LP + deck.
 
@@ -55,9 +55,9 @@
 **Quando:** "Não sei que nicho escolher"
 
 **Skills:**
-1. `/nicho-explorer` modo A (top 10)
+1. `/gos-nicho-explorer` modo A (top 10)
 2. *(usuário escolhe 1)*
-3. `/mapear-nicho-lite` (do nicho escolhido)
+3. `/gos-mapear-nicho` (do nicho escolhido)
 
 **Output final:** ranking de top 10 + mapeamento do escolhido.
 
@@ -70,8 +70,8 @@
 **Quando:** "Só preciso do deck pra amanhã"
 
 **Skills:**
-1. `/mapear-nicho-lite` (rápido, focado em mecanismo + dores + oferta)
-2. `/pitch-deck-builder`
+1. `/gos-mapear-nicho` (rápido, focado em mecanismo + dores + oferta)
+2. `/gos-pitch-deck-builder`
 
 **Output final:** deck 20 slides.
 

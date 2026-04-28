@@ -3,7 +3,7 @@ title: "Oferta-base do nicho — {NOME-NICHO}"
 type: nicho/oferta-base
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # Oferta-base — {NOME-NICHO}

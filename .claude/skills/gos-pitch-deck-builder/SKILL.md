@@ -15,7 +15,7 @@ writes_to:
 updates_index:
   - "{escopo}/{slug}/deck/_index.md  (status, score self-check, modo)"
   - "{escopo}/{slug}/_index.md"
-  - "memory/per-skill/pitch-deck-builder/learnings.md"
+  - "memory/per-agent/gos-pitch-deck-builder/reflections.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -101,7 +101,7 @@ Sua missão é gerar uma **apresentação comercial de 20 slides** que o vendedo
 A. **Perguntar escopo:** *"Deck da oferta (genérico do nicho) ou do cliente (customizado pra prospect)? Me passa o slug."*
 
 B. **Pré-checagem bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`?
-   - Se NÃO → recusar: *"Deck sem nicho mapeado vende ar. Roda `/mapear-nicho-lite` primeiro."*
+   - Se NÃO → recusar: *"Deck sem nicho mapeado vende ar. Roda `/gos-mapear-nicho` primeiro."*
    - Modo degradado disponível com confirmação explícita do aluno.
 
 C. **Pré-checagem recomendada:**
@@ -177,7 +177,7 @@ Ler antes de executar:
 7. **Footer Accelera 360** em todos os slides (regra LICENSE).
 8. **Idioma:** PT-BR. Termos de mercado em inglês.
 9. **Tempo total estimado:** 25-30 min de fala.
-10. **NUNCA escrever em `.claude/skills/pitch-deck-builder/workspace/...`** — output vai SEMPRE pra `{escopo}/{slug}/deck/` na raiz do workspace do aluno.
+10. **NUNCA escrever em `.claude/skills/gos-pitch-deck-builder/workspace/...`** — output vai SEMPRE pra `{escopo}/{slug}/deck/` na raiz do workspace do aluno.
 
 ---
 
@@ -199,7 +199,7 @@ Ler antes de executar:
 - `clientes/{slug-cliente}/00-perfil.md`, `_index.md` — modo cliente.
 - `${CLAUDE_SKILL_DIR}/templates/slide_NN_*.md` — sempre (20 templates da skill).
 - `${CLAUDE_SKILL_DIR}/reveal-template.html` — modo reveal.
-- `memory/per-skill/pitch-deck-builder/learnings.md` — append.
+- `memory/per-agent/gos-pitch-deck-builder/reflections.md` — append.
 
 ### `writes_to`
 - `{escopo}/{slug}/deck/deck.html` (modo reveal)
@@ -209,7 +209,7 @@ Ler antes de executar:
 ### `updates_index`
 - `{escopo}/{slug}/deck/_index.md` — frontmatter (status, modo, score self-check).
 - `{escopo}/{slug}/_index.md` — `last_updated`.
-- `memory/per-skill/pitch-deck-builder/learnings.md`.
+- `memory/per-agent/gos-pitch-deck-builder/reflections.md`.
 
 ### `registers_decision_in`
 - (não aplicável.)

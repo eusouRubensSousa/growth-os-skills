@@ -3,7 +3,7 @@ title: "Eventos-gatilho — {NOME-NICHO}"
 type: nicho/eventos-gatilho
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # Eventos-gatilho — {NOME-NICHO}

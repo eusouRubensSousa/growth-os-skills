@@ -3,7 +3,7 @@ title: "GTM Outline — {NOME-NICHO}"
 type: nicho/gtm-outline
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # GTM Outline — {NOME-NICHO}
@@ -37,4 +37,4 @@ source: "/mapear-nicho-lite"
 
 ## Próximo passo
 
-→ Quando tiver oferta criada em `ofertas/{slug}/`, rodar `/gtm-architect` pra expandir cada canal em playbook completo.
+→ Quando tiver oferta criada em `ofertas/{slug}/`, rodar `/gos-gtm-architect` pra expandir cada canal em playbook completo.

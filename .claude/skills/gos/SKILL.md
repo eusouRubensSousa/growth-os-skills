@@ -6,7 +6,7 @@ allowed-tools: Agent, Read, Write, Edit, Glob, Bash, TaskCreate, TaskUpdate
 requires:
   blocking: []
   recommended:
-    - "MEMORY.md (workspace inicializado via /a360-setup-workspace)"
+    - "MEMORY.md (workspace inicializado via /gos-setup)"
 writes_to:
   - "(nenhum direto — orquestrador delega pra skills filhas)"
 updates_index:
@@ -47,7 +47,7 @@ Sua função é entender o objetivo do usuário em linguagem natural e **rotear 
 - O usuário quer encadear múltiplas etapas (ex: pesquisar nicho + criar LP + montar pitch deck).
 - O usuário descreveu o objetivo em linguagem natural e não escolheu uma skill específica.
 
-Se o usuário já chamou uma skill específica (ex: `/lp-builder`), **não interceptar** — deixar a skill rodar direto.
+Se o usuário já chamou uma skill específica (ex: `/gos-lp-builder`), **não interceptar** — deixar a skill rodar direto.
 
 ---
 
@@ -57,19 +57,19 @@ Analisar a intenção do usuário e disparar o pipeline correspondente. Se a int
 
 | Intenção detectada | Pipeline a disparar |
 |---|---|
-| "Primeira vez aqui" / "Como começo" | `/a360-setup-workspace` |
-| "Onde parei" / "Atualiza meu mapa" | `/a360-map` |
-| "Quero escolher meu nicho" / "Top nichos pra IA" | `/nicho-explorer` |
-| "Mapeia o nicho X pra mim" / "Quero estruturar empresa pra [nicho]" | `/nicho-explorer` (validação) → `/mapear-nicho-lite` |
-| "Tenho cliente, preciso preparar reunião" | `/cliente-radar` → `/meeting-prep` |
-| "Vou apresentar amanhã pra [cliente]" | `/cliente-radar` → (`/mapear-nicho-lite` se nicho não mapeado) → `/pitch-deck-builder` → `/meeting-prep` |
-| "Cria LP pra esse nicho/cliente" | (`/mapear-nicho-lite` se faltar) → `/lp-builder` |
-| "Como prospectar / GTM" | (`/mapear-nicho-lite` se faltar) → `/gtm-architect` |
-| "Preciso do script de vendas" | (`/mapear-nicho-lite` se faltar) → `/playbook-vendas` |
-| "Quero o deck de apresentação comercial" | (`/mapear-nicho-lite` se faltar) → `/pitch-deck-builder` |
-| "Quero pacote completo do meu próprio negócio" | `/nicho-explorer` → `/mapear-nicho-lite` → criar oferta em `ofertas/{slug}/01-oferta.md` → `/gtm-architect` → `/lp-builder` → `/playbook-vendas` |
-| "Quero pacote completo pra entregar pro cliente" | `/cliente-radar` → (`/mapear-nicho-lite` se faltar) → `/lp-builder` → `/pitch-deck-builder` → `/meeting-prep` |
-| "Vou fechar a sessão" | `/a360-handoff` |
+| "Primeira vez aqui" / "Como começo" | `/gos-setup` |
+| "Onde parei" / "Atualiza meu mapa" | `/gos-map` |
+| "Quero escolher meu nicho" / "Top nichos pra IA" | `/gos-nicho-explorer` |
+| "Mapeia o nicho X pra mim" / "Quero estruturar empresa pra [nicho]" | `/gos-nicho-explorer` (validação) → `/gos-mapear-nicho` |
+| "Tenho cliente, preciso preparar reunião" | `/gos-cliente-radar` → `/gos-meeting-prep` |
+| "Vou apresentar amanhã pra [cliente]" | `/gos-cliente-radar` → (`/gos-mapear-nicho` se nicho não mapeado) → `/gos-pitch-deck-builder` → `/gos-meeting-prep` |
+| "Cria LP pra esse nicho/cliente" | (`/gos-mapear-nicho` se faltar) → `/gos-lp-builder` |
+| "Como prospectar / GTM" | (`/gos-mapear-nicho` se faltar) → `/gos-gtm-architect` |
+| "Preciso do script de vendas" | (`/gos-mapear-nicho` se faltar) → `/gos-playbook-vendas` |
+| "Quero o deck de apresentação comercial" | (`/gos-mapear-nicho` se faltar) → `/gos-pitch-deck-builder` |
+| "Quero pacote completo do meu próprio negócio" | `/gos-nicho-explorer` → `/gos-mapear-nicho` → criar oferta em `ofertas/{slug}/01-oferta.md` → `/gos-gtm-architect` → `/gos-lp-builder` → `/gos-playbook-vendas` |
+| "Quero pacote completo pra entregar pro cliente" | `/gos-cliente-radar` → (`/gos-mapear-nicho` se faltar) → `/gos-lp-builder` → `/gos-pitch-deck-builder` → `/gos-meeting-prep` |
+| "Vou fechar a sessão" | `/gos-handoff` |
 
 Detalhamento dos pipelines: ver `routing.md` e `pipelines.md` desta skill.
 
@@ -94,10 +94,10 @@ Identificar a intenção (tabela de roteamento). Se ambígua, fazer 1 pergunta d
 Mostrar o pipeline escolhido e **pedir confirmação**:
 
 > *"Entendi. Vou rodar:*
-> *1. `/cliente-radar` — pesquisar a Clínica XPTO*
-> *2. `/mapear-nicho-lite` — mapear o nicho dermato*
-> *3. `/pitch-deck-builder` — montar o deck de 20 slides*
-> *4. `/meeting-prep` — briefing 1-page pra você levar pra reunião*
+> *1. `/gos-cliente-radar` — pesquisar a Clínica XPTO*
+> *2. `/gos-mapear-nicho` — mapear o nicho dermato*
+> *3. `/gos-pitch-deck-builder` — montar o deck de 20 slides*
+> *4. `/gos-meeting-prep` — briefing 1-page pra você levar pra reunião*
 >
 > *Confirma? (s/n)"*
 
@@ -133,10 +133,10 @@ para cada skill no pipeline:
 ```
 
 **Exemplo:** aluno pede "cria LP pra Clínica XPTO" mas:
-- `clientes/clinica-xpto/00-perfil.md` não existe → injetar `/cliente-radar` antes.
-- `nichos/clinicas-derma-sp/_index.md` status=`researching` (não mapped) → injetar `/mapear-nicho-lite` antes.
+- `clientes/clinica-xpto/00-perfil.md` não existe → injetar `/gos-cliente-radar` antes.
+- `nichos/clinicas-derma-sp/_index.md` status=`researching` (não mapped) → injetar `/gos-mapear-nicho` antes.
 
-Pipeline final fica: `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder`.
+Pipeline final fica: `/gos-cliente-radar` → `/gos-mapear-nicho` → `/gos-lp-builder`.
 
 **Apresentar pipeline expandido pro aluno** antes de rodar — ele pode pular passos com confirmação (modo degradado).
 
@@ -167,7 +167,7 @@ Pipeline final fica: `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder`
 
 ### `requires`
 - **Bloqueante:** nenhum (orquestrador é entry-point alto-nível).
-- **Recomendado:** `MEMORY.md` populado (workspace inicializado via `/a360-setup-workspace`). Se faltar → primeiro pipeline injetado é `/a360-setup-workspace`.
+- **Recomendado:** `MEMORY.md` populado (workspace inicializado via `/gos-setup`). Se faltar → primeiro pipeline injetado é `/gos-setup`.
 
 ### `reads`
 - `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.

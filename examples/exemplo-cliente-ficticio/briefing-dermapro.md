@@ -10,7 +10,7 @@ degraded_mode: false
 
 # Briefing de Prospect — DermaPro Clínica
 
-> Output gerado por `/cliente-radar` — versão lite da metodologia Growth AI™.
+> Output gerado por `/gos-cliente-radar` — versão lite da metodologia Growth AI™.
 > **Todos os dados são fictícios e ilustrativos.** Criados para demonstrar o formato do output.
 
 ---

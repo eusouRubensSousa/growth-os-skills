@@ -43,10 +43,10 @@ Sua missão é manter o **mapa** do workspace vivo: regenerar `_index.md` de cad
 - Início de sessão quando aluno não sabe onde parou.
 - Depois de operar várias skills em sequência (ex: criou 2 clientes novos, quer ver tudo organizado).
 - Quando aluno suspeita que MEMORY.md está desatualizado.
-- Antes de `/a360-handoff` (opcional — handoff já chama mapper).
+- Antes de `/gos-handoff` (opcional — handoff já chama mapper).
 
 **Não usar:**
-- Em workspace recém-criado sem nada — não há nada pra mapear (rodar `/a360-setup-workspace` primeiro).
+- Em workspace recém-criado sem nada — não há nada pra mapear (rodar `/gos-setup` primeiro).
 
 ---
 
@@ -118,9 +118,9 @@ Cada linha da tabela: `[slug](slug/_index.md) | setor/nicho | status | mecanismo
 ### Passo 6 — Regenerar ledgers em `memory/shared/`
 
 Reescrever:
-- `memory/shared/nichos-mapeados.md`
-- `memory/shared/clientes-ativos.md`
-- `memory/shared/ofertas.md`
+- `memory/shared/ledgers/nichos-mapeados.md`
+- `memory/shared/ledgers/clientes-ativos.md`
+- `memory/shared/ledgers/ofertas.md`
 
 Cada um com tabela completa + campo "próximo passo" sugerido por instância (ver Passo 7).
 
@@ -129,16 +129,16 @@ Cada um com tabela completa + campo "próximo passo" sugerido por instância (ve
 Heurística por status:
 
 **Nichos:**
-- `researching` → "Rodar `/mapear-nicho-lite` pra preencher 01-09."
+- `researching` → "Rodar `/gos-mapear-nicho` pra preencher 01-09."
 - `mapped` sem oferta → "Criar oferta em `ofertas/{slug}/01-oferta.md` baseada em `nichos/{slug}/04-oferta-base.md`."
-- `mapped` com oferta → "Rodar `/gtm-architect` ou `/lp-builder` na oferta."
+- `mapped` com oferta → "Rodar `/gos-gtm-architect` ou `/gos-lp-builder` na oferta."
 - `offered` sem cliente → "Prospecção: ativar GTM definido."
 - `validated` → "Replicar pra próximo cliente."
 
 **Clientes:**
-- `prospect` → "Rodar `/cliente-radar`."
-- `radar-done` → "Rodar `/meeting-prep` antes da reunião."
-- `meeting-prep-done` sem deck → "Rodar `/pitch-deck-builder` se for apresentação."
+- `prospect` → "Rodar `/gos-cliente-radar`."
+- `radar-done` → "Rodar `/gos-meeting-prep` antes da reunião."
+- `meeting-prep-done` sem deck → "Rodar `/gos-pitch-deck-builder` se for apresentação."
 - `closed` → "Iniciar implementação (LP + sistema)."
 - `implementing` → "Validar ROI antes de virar `live`."
 
@@ -151,9 +151,9 @@ Heurística por status:
 
 **NÃO mexer em MEMORY.md.** O mapper só atualiza ledgers e `_index.md` raiz.
 
-`MEMORY.md` é responsabilidade do `/a360-handoff` (que tem permissão de editar).
+`MEMORY.md` é responsabilidade do `/gos-handoff` (que tem permissão de editar).
 
-Se detectar drift relevante (ex: nicho que está em `mapped` mas MEMORY.md ainda lista como Open Question), **avisar no relatório final** — aluno decide se atualiza manual ou roda `/a360-handoff`.
+Se detectar drift relevante (ex: nicho que está em `mapped` mas MEMORY.md ainda lista como Open Question), **avisar no relatório final** — aluno decide se atualiza manual ou roda `/gos-handoff`.
 
 ### Passo 9 — Relatório
 

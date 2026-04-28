@@ -3,7 +3,7 @@ title: "Dores — {NOME-NICHO}"
 type: nicho/dores
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # Dores do {NOME-NICHO}

@@ -12,7 +12,7 @@ writes_to:
 updates_index:
   - "clientes/{slug-cliente}/_index.md  (status: prospect → radar-done)"
   - "clientes/_index.md"
-  - "memory/shared/clientes-ativos.md"
+  - "memory/shared/ledgers/clientes-ativos.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -55,7 +55,7 @@ Sua missão é pesquisar um **prospect específico** e entregar um **briefing 2-
 
 - Vendedor tem reunião marcada com prospect específico.
 - Vendedor quer estudar profundamente um cliente do cliente dele (B2B2C).
-- Antes de rodar `/meeting-prep` ou `/pitch-deck-builder` (que se beneficiam do contexto).
+- Antes de rodar `/gos-meeting-prep` ou `/gos-pitch-deck-builder` (que se beneficiam do contexto).
 
 ---
 
@@ -115,7 +115,7 @@ Lançar simultaneamente:
    - `status: radar-done`
    - `nicho: {slug-nicho}` (se houver)
    - `last_updated: {YYYY-MM-DD}`
-5. Adicionar entrada em `memory/shared/clientes-ativos.md`.
+5. Adicionar entrada em `memory/shared/ledgers/clientes-ativos.md`.
 
 ### Passo 5 — Identificar 3 gaps + 3 ganchos + 3 perguntas SPIN
 - **Gaps prováveis** (o que o prospect provavelmente não está fazendo bem).
@@ -169,7 +169,7 @@ Ler antes de executar:
 ### `updates_index`
 - `clientes/{slug-cliente}/_index.md` — frontmatter (status: radar-done, nicho, last_updated).
 - `clientes/_index.md` — tabela raiz.
-- `memory/shared/clientes-ativos.md` — ledger.
+- `memory/shared/ledgers/clientes-ativos.md` — ledger.
 
 ### `registers_decision_in`
 - (não aplicável — radar é coleta, não decisão durável.)

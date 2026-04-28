@@ -64,23 +64,23 @@ Skills puxam **dados reais** antes de sugerir. Sem pesquisa, output sai genéric
 ## Pipeline canônico do método
 
 ```
-DESCOBRIR    /nicho-explorer       → top 10 ou validação GO/NO-GO
-             /mapear-nicho-lite    → cérebro completo do nicho
+DESCOBRIR    /gos-nicho-explorer       → top 10 ou validação GO/NO-GO
+             /gos-mapear-nicho    → cérebro completo do nicho
 
 CONSTRUIR    [aluno cria oferta]   → ofertas/{slug}/01-oferta.md (briefing mestre)
-             /gtm-architect        → outbound + content frameworks da oferta
-             /lp-builder           → LP da oferta (DOR / OPORT / SISTEMA)
-             /pitch-deck-builder   → deck genérico do nicho
-             /playbook-vendas      → script + objeções + funil
+             /gos-gtm-architect        → outbound + content frameworks da oferta
+             /gos-lp-builder           → LP da oferta (DOR / OPORT / SISTEMA)
+             /gos-pitch-deck-builder   → deck genérico do nicho
+             /gos-playbook-vendas      → script + objeções + funil
 
-INSTALAR     /cliente-radar        → pesquisa do prospect específico
-             /meeting-prep         → briefing 1-page pra reunião
-             /lp-builder           → LP customizada do cliente
-             /pitch-deck-builder   → deck customizado do cliente
-             /playbook-vendas      → script customizado
+INSTALAR     /gos-cliente-radar        → pesquisa do prospect específico
+             /gos-meeting-prep         → briefing 1-page pra reunião
+             /gos-lp-builder           → LP customizada do cliente
+             /gos-pitch-deck-builder   → deck customizado do cliente
+             /gos-playbook-vendas      → script customizado
 
-ITERAR       /a360-map             → diagnóstico de drift
-             /a360-handoff         → fecha sessão e registra aprendizados
+ITERAR       /gos-map             → diagnóstico de drift
+             /gos-handoff         → fecha sessão e registra aprendizados
 ```
 
 ---

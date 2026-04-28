@@ -6,7 +6,7 @@ oferta: "{SLUG-OFERTA}"
 status: rascunho
 created: "{DATA}"
 url: ""
-source: "/lp-builder"
+source: "/gos-lp-builder"
 ---
 
 # LP — {NOME-OFERTA}

@@ -3,7 +3,7 @@ title: "Linguagem do nicho — {NOME-NICHO}"
 type: nicho/linguagem
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # Linguagem do {NOME-NICHO}

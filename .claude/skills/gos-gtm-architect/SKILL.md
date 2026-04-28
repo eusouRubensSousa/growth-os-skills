@@ -15,7 +15,7 @@ writes_to:
 updates_index:
   - "{escopo}/{slug}/gtm/_index.md"
   - "{escopo}/{slug}/_index.md"
-  - "memory/per-skill/gtm-architect/learnings.md"
+  - "memory/per-agent/gos-gtm-architect/reflections.md"
 tier: employee
 reports_to: gos-mission-control
 version: 0.3.0
@@ -75,7 +75,7 @@ Os dois alinhados — outbound como aceleração + content como autoridade.
 A. **Perguntar escopo:** *"GTM da oferta (genérico do nicho) ou de um cliente específico? Me passa o slug."*
 
 B. **Pré-checagem bloqueante:** `nichos/{slug-nicho}/_index.md` status=`mapped`?
-   - Se NÃO → recusar: *"GTM sem nicho mapeado vira spam. Roda `/mapear-nicho-lite` primeiro."*
+   - Se NÃO → recusar: *"GTM sem nicho mapeado vira spam. Roda `/gos-mapear-nicho` primeiro."*
 
 C. Perguntar restante:
 > *"Pra fechar:*
@@ -159,7 +159,7 @@ Ler antes de executar:
 ### `updates_index`
 - `{escopo}/{slug}/gtm/_index.md` — frontmatter.
 - `{escopo}/{slug}/_index.md` — `last_updated`.
-- `memory/per-skill/gtm-architect/learnings.md`.
+- `memory/per-agent/gos-gtm-architect/reflections.md`.
 
 ### `registers_decision_in`
 - (não aplicável.)

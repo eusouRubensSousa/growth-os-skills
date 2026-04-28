@@ -1,7 +1,7 @@
 ---
 title: "Ofertas"
 type: ofertas/index
-managed_by: "/a360-map"
+managed_by: "/gos-map"
 last_updated: "{DATA-SETUP}"
 ---
 
@@ -15,7 +15,7 @@ last_updated: "{DATA-SETUP}"
 |---|---|---|---|---|---|
 | *(vazio — copiar `_modelo/` pra `{slug-oferta}/` e preencher)* | | | | | |
 
-> Esta tabela é regenerada por `/a360-map`. Veja [[../memory/shared/ofertas\|memory/shared/ofertas.md]].
+> Esta tabela é regenerada por `/gos-map`. Veja [[../memory/shared/ofertas\|memory/shared/ledgers/ofertas.md]].
 
 ## Como criar
 
@@ -32,13 +32,13 @@ last_updated: "{DATA-SETUP}"
 ├── 02-estrutura.md          Como entrega
 ├── 03-persona.md            ICP detalhado
 ├── 04-marca.md              Tom, paleta, voz da oferta
-├── lp/                      LP genérica (output /lp-builder)
-├── deck/                    Deck genérico (output /pitch-deck-builder)
-└── gtm/                     GTM frameworks (output /gtm-architect)
+├── lp/                      LP genérica (output /gos-lp-builder)
+├── deck/                    Deck genérico (output /gos-pitch-deck-builder)
+└── gtm/                     GTM frameworks (output /gos-gtm-architect)
 ```
 
 ## Status possíveis
 
 `draft` → `ready` → `validating` → `validated` → `archived`
 
-(detalhe em `memory/shared/ofertas.md`)
+(detalhe em `memory/shared/ledgers/ofertas.md`)

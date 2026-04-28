@@ -1,11 +1,11 @@
 ---
 title: "Meeting prep — {NOME-EMPRESA}"
-type: cliente/meeting-prep
+type: cliente/gos-meeting-prep
 slug: "{SLUG}"
 empresa: "{NOME-EMPRESA}"
 data_reuniao: "{DATA-REUNIAO}"
 created: "{DATA}"
-source: "/meeting-prep"
+source: "/gos-meeting-prep"
 ---
 
 # Briefing pra reunião — {NOME-EMPRESA}

@@ -6,12 +6,12 @@ empresa: "{NOME-EMPRESA}"
 modo: reveal   # reveal | gemini | markdown-only
 status: rascunho
 created: "{DATA}"
-source: "/pitch-deck-builder"
+source: "/gos-pitch-deck-builder"
 ---
 
 # Deck — {NOME-EMPRESA}
 
-> Apresentação comercial 20 slides customizada. Output do `/pitch-deck-builder`.
+> Apresentação comercial 20 slides customizada. Output do `/gos-pitch-deck-builder`.
 
 ## Arquivos
 

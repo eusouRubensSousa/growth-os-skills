@@ -1,12 +1,12 @@
 ---
 type: ledger
 last_updated: "{DATA-SETUP}"
-managed_by: "/a360-map"
+managed_by: "/gos-map"
 ---
 
 # Ofertas
 
-> Ledger pesquisável de ofertas criadas pelo aluno (próprias ou genéricas do nicho). **Regenerado por `/a360-map`** — não editar manualmente.
+> Ledger pesquisável de ofertas criadas pelo aluno (próprias ou genéricas do nicho). **Regenerado por `/gos-map`** — não editar manualmente.
 
 | Slug | Nome | Nicho-alvo | Status | Setup | Recorrência | Clientes ativos |
 |---|---|---|---|---|---|---|
@@ -36,6 +36,6 @@ Pra status virar `ready`, `ofertas/{slug}/` precisa ter:
 - `04-marca.md` — tom + paleta + voz da oferta
 
 Opcionalmente:
-- `lp/` (gerada por `/lp-builder`)
-- `deck/` (gerada por `/pitch-deck-builder`)
-- `gtm/` (gerada por `/gtm-architect`)
+- `lp/` (gerada por `/gos-lp-builder`)
+- `deck/` (gerada por `/gos-pitch-deck-builder`)
+- `gtm/` (gerada por `/gos-gtm-architect`)

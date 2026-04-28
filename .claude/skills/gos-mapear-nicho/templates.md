@@ -180,7 +180,7 @@
 - **Sequência (4 toques):** D+0 {{t1}} / D+3 {{t2}} / D+7 {{t3}} / D+14 {{t4}}
 - **KPI:** {{kpi_outbound}}
 
-> Para playbooks completos: rode `/gtm-architect` com este nicho.
+> Para playbooks completos: rode `/gos-gtm-architect` com este nicho.
 
 ---
 
@@ -198,10 +198,10 @@
 ## XI. Próximos Passos Sugeridos
 
 1. **Escolher 1 dos 3 mecanismos** (sugerido: {{escolha}}).
-2. **Rodar `/lp-builder`** para criar landing page.
-3. **Rodar `/gtm-architect`** para playbook GTM completo.
-4. **Rodar `/playbook-vendas`** para script de diagnóstico.
-5. **Rodar `/pitch-deck-builder`** para deck de apresentação.
+2. **Rodar `/gos-lp-builder`** para criar landing page.
+3. **Rodar `/gos-gtm-architect`** para playbook GTM completo.
+4. **Rodar `/gos-playbook-vendas`** para script de diagnóstico.
+5. **Rodar `/gos-pitch-deck-builder`** para deck de apresentação.
 
 ---
 
@@ -216,5 +216,5 @@ Esse é um mapeamento lite. A versão completa Accelera 360 entrega 20 arquivos:
 
 ---
 
-*Gerado por `mapear-nicho-lite` — pacote `growth-os-skills` v0.1.0.*
+*Gerado por `gos-mapear-nicho` — pacote `growth-os-skills` v0.3.0.*
 ```

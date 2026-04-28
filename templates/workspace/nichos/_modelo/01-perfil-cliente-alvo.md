@@ -3,7 +3,7 @@ title: "ICP — {NOME-NICHO}"
 type: nicho/icp
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 ---
 
 # ICP — {NOME-NICHO}

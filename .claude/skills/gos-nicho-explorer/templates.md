@@ -40,7 +40,7 @@ Baseado no seu perfil ({{PERFIL}}), sugiro priorizar:
 🥈 **{{top_3_2}}** — {{razão_alinhamento}}
 🥉 **{{top_3_3}}** — {{razão_alinhamento}}
 
-**Próximo passo:** rodar `/mapear-nicho-lite` no nicho escolhido para mapeamento profundo.
+**Próximo passo:** rodar `/gos-mapear-nicho` no nicho escolhido para mapeamento profundo.
 
 ---
 
@@ -95,8 +95,8 @@ Baseado no seu perfil ({{PERFIL}}), sugiro priorizar:
 
 ## Próximo passo
 
-Se GO ou MAYBE: rodar `/mapear-nicho-lite` para estruturar ICP, mecanismo, oferta, GTM completos.
-Se NO-GO: considere outro nicho — rode `/nicho-explorer` modo Top 10.
+Se GO ou MAYBE: rodar `/gos-mapear-nicho` para estruturar ICP, mecanismo, oferta, GTM completos.
+Se NO-GO: considere outro nicho — rode `/gos-nicho-explorer` modo Top 10.
 
 ---
 

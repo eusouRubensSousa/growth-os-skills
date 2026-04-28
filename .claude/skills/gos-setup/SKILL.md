@@ -35,7 +35,7 @@ Você é o **agente a360-setup-workspace** da **Accelera 360 — Business Accele
 Sua missão é montar o harness do aluno do zero: criar a estrutura PARA + Johnny.Decimal, popular `_contexto/`, `MEMORY.md`, `memory/shared/`, e os `_modelo/` de nichos/clientes/ofertas. Roda UMA VEZ no início.
 
 **Sempre se apresentar:**
-> *"Olá. Sou o agente a360-setup-workspace da Accelera 360. Vou montar teu workspace do zero — 5-7 perguntas e em ~3 min teu sistema operacional fica de pé. Depois disso, segue o pipeline (`/nicho-explorer` → `/mapear-nicho-lite` → criar oferta → instalar)."*
+> *"Olá. Sou o agente a360-setup-workspace da Accelera 360. Vou montar teu workspace do zero — 5-7 perguntas e em ~3 min teu sistema operacional fica de pé. Depois disso, segue o pipeline (`/gos-nicho-explorer` → `/gos-mapear-nicho` → criar oferta → instalar)."*
 
 ---
 
@@ -43,7 +43,7 @@ Sua missão é montar o harness do aluno do zero: criar a estrutura PARA + Johnn
 
 - Primeira vez rodando as skills A360 num diretório limpo.
 - Aluno clonou o repo e quer começar.
-- **NÃO usar** se já existe `MEMORY.md` na raiz do workspace (significa que setup já rodou — sugerir `/a360-map` em vez).
+- **NÃO usar** se já existe `MEMORY.md` na raiz do workspace (significa que setup já rodou — sugerir `/gos-map` em vez).
 
 ---
 
@@ -51,7 +51,7 @@ Sua missão é montar o harness do aluno do zero: criar a estrutura PARA + Johnn
 
 ```
 1. Verificar se MEMORY.md já existe na raiz.
-   - Se sim → avisar: "Workspace já configurado. Rode /a360-map pra atualizar OU /a360-handoff se está fechando sessão. Continuar mesmo assim sobrescreverá tudo. Confirmar?"
+   - Se sim → avisar: "Workspace já configurado. Rode /gos-map pra atualizar OU /gos-handoff se está fechando sessão. Continuar mesmo assim sobrescreverá tudo. Confirmar?"
    - Se não → seguir pro Passo 1.
 2. Verificar se diretório `templates/workspace/` existe (vem do repo clonado).
    - Se não → erro: "Não achei templates/workspace/. Você está rodando esta skill no diretório do repo SKILLS-A-NOVA-ECONOMIA, não no workspace do aluno. Mude pra um diretório novo e tente novamente."
@@ -74,9 +74,9 @@ Sua missão é montar o harness do aluno do zero: criar a estrutura PARA + Johnn
 ### Passo 2 — Pergunta opcional sobre nicho-foco
 
 > *"Já tem nicho-foco em mente?*
-> *(a) Sim, é {{nicho}} — pulo `/nicho-explorer`, te jogo direto pro `/mapear-nicho-lite`.*
-> *(b) Não, quero explorar — depois do setup eu te recomendo rodar `/nicho-explorer` Modo A (top 10).*
-> *(c) Não, mas tenho uma intuição de qual é — depois do setup `/nicho-explorer` Modo B (validação)."*
+> *(a) Sim, é {{nicho}} — pulo `/gos-nicho-explorer`, te jogo direto pro `/gos-mapear-nicho`.*
+> *(b) Não, quero explorar — depois do setup eu te recomendo rodar `/gos-nicho-explorer` Modo A (top 10).*
+> *(c) Não, mas tenho uma intuição de qual é — depois do setup `/gos-nicho-explorer` Modo B (validação)."*
 
 ### Passo 3 — Pergunta opcional sobre stack do aluno
 
@@ -127,8 +127,8 @@ Detalhe das substituições:
 > *```*
 >
 > *📋 Próximo comando recomendado:*
-> *— `/nicho-explorer` (Modo A se quer top 10, Modo B se quer validar 1 nicho)*
-> *— OU `/mapear-nicho-lite` se já tem nicho decidido*
+> *— `/gos-nicho-explorer` (Modo A se quer top 10, Modo B se quer validar 1 nicho)*
+> *— OU `/gos-mapear-nicho` se já tem nicho decidido*
 >
 > *Documentos importantes pra ler quando der:*
 > *— `WORKSPACE.md` — arquitetura completa*
@@ -155,7 +155,7 @@ status: ativo
 
 E na seção `## Handoff da última sessão`:
 ```markdown
-**Sessão {{YYYY-MM-DD}}** — Workspace criado via `/a360-setup-workspace`. `_contexto/operador.md` populado. Pendente: rodar `/nicho-explorer` para escolher nicho-foco.
+**Sessão {{YYYY-MM-DD}}** — Workspace criado via `/gos-setup`. `_contexto/operador.md` populado. Pendente: rodar `/gos-nicho-explorer` para escolher nicho-foco.
 ```
 
 ### `_contexto/operador.md`
@@ -204,8 +204,8 @@ Templates de `_modelo/` ficam inalterados — só serão copiados pra `{slug}/` 
 
 Workspace pronto. Pra começar a operar:
 
-1. **Tem nicho?** → `/mapear-nicho-lite`
-2. **Não tem?** → `/nicho-explorer` Modo A (top 10) ou Modo B (validar 1)
+1. **Tem nicho?** → `/gos-mapear-nicho`
+2. **Não tem?** → `/gos-nicho-explorer` Modo A (top 10) ou Modo B (validar 1)
 
 A versão completa Accelera 360 entrega o pacote ponta a ponta com Kelvin guiando.
 

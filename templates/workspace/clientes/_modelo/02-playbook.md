@@ -4,7 +4,7 @@ type: cliente/playbook
 slug: "{SLUG}"
 empresa: "{NOME-EMPRESA}"
 created: "{DATA}"
-source: "/playbook-vendas"
+source: "/gos-playbook-vendas"
 ---
 
 # Playbook customizado — {NOME-EMPRESA}

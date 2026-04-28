@@ -4,7 +4,7 @@ type: nicho/validacao
 slug: "{SLUG}"
 created: "{DATA}"
 veredicto: ""   # GO | NO-GO | TENTATIVE
-source: "/nicho-explorer"
+source: "/gos-nicho-explorer"
 ---
 
 # Validação GO/NO-GO — {NOME-NICHO}

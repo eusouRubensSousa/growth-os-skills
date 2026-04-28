@@ -47,7 +47,7 @@
 Os exemplos são **outputs estáticos** congelados no momento de release. Pra regerar com dados atualizados:
 
 ```
-> /a360-framework-lite quero rodar o exemplo de saude-estetica
+> /gos quero rodar o exemplo de saude-estetica
 ```
 
 A skill vai puxar dados frescos via `WebSearch` e regerar os arquivos.

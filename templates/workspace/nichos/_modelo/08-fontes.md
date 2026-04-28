@@ -3,7 +3,7 @@ title: "Fontes auditadas — {NOME-NICHO}"
 type: nicho/fontes
 slug: "{SLUG}"
 created: "{DATA}"
-source: "/mapear-nicho-lite"
+source: "/gos-mapear-nicho"
 total_fontes: 0
 ---
 
