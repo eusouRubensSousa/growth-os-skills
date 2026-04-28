@@ -1,25 +1,69 @@
-# CLAUDE.md — Workspace A360
+# CLAUDE.md — Workspace growth-os-skills
 
 > Este arquivo é carregado automaticamente em toda sessão do Claude Code rodando neste workspace.
-> Define **lentes** que precedem qualquer ação das skills A360.
+> Define **lentes** que precedem qualquer ação das skills.
+>
+> Spec canônica: ver `AGENTS.md` no repo `growth-os-skills`.
 
 ---
 
-## Lentes carregadas em toda sessão (ordem)
+## Boot sequence (toda sessão, nesta ordem)
 
-Antes de qualquer ação de skill, carregar:
+### 1. Carregar Core (sempre)
 
-1. **`MEMORY.md`** — estado load-bearing da sessão (< 5KB, sempre).
-2. **`_contexto/operador.md`** — quem é o aluno (perfil, stack, tom).
-3. **`_contexto/tese-a360.md`** — método A360 (Growth AI) e princípios não-negociáveis.
-4. **`_contexto/glossario.md`** — termos do método.
-5. **`_contexto/marca.md`** *(se existir)* — identidade visual (cores, fontes, voz) — usado por skills de output visual (`lp-builder`, `pitch-deck-builder`).
+```
+MEMORY.md                      — estado load-bearing da sessão (< 5KB)
+_contexto/operador.md          — quem é o aluno (perfil, stack, tom)
+_contexto/tese-a360.md         — método A360 (Growth AI) e princípios
+_contexto/glossario.md         — termos do método
+_contexto/marca.md             — identidade visual (se existir)
+```
 
-Antes de escrever em qualquer pasta `Areas` (`nichos/`, `clientes/`, `ofertas/`), consultar:
+### 2. Reconstruir contexto do event log
 
-6. **`memory/shared/nichos-mapeados.md`** — ledger de nichos.
-7. **`memory/shared/clientes-ativos.md`** — ledger de clientes.
-8. **`memory/shared/ofertas.md`** — ledger de ofertas.
+Ler **últimas 10 linhas** de `logs/events.ndjson`:
+
+```bash
+tail -n 10 logs/events.ndjson
+```
+
+Cada linha é JSON: `{timestamp, agent, action, status, ...}`. Reconstruir:
+- Última skill rodada
+- Última ação completed
+- Eventual erro/bloqueio pendente
+
+Apresentar resumo de boot:
+
+> *"Última sessão: rodaste `gos-mapear-nicho` em `clinicas-derma-sp` (concluído). Próximo passo sugerido: criar oferta em `ofertas/clinicas-derma-sp/01-oferta.md` ou prospectar via `gos-cliente-radar`."*
+
+### 3. Consultar ledgers antes de Areas
+
+Antes de escrever em `nichos/`, `clientes/`, `ofertas/`, ler:
+
+```
+memory/shared/ledgers/nichos-mapeados.md
+memory/shared/ledgers/clientes-ativos.md
+memory/shared/ledgers/ofertas.md
+```
+
+---
+
+## Memory (3 tiers + event log)
+
+| Tier | Onde | Quando carrega |
+|---|---|---|
+| 🔥 Core | `MEMORY.md` + `_contexto/` | Sempre (passo 1) |
+| 🌡️ Recall | `memory/per-agent/`, `memory/shared/` | On-demand pela skill |
+| ❄️ Archival | `nichos/`, `clientes/`, `ofertas/`, `_arquivo/` | Por grep/glob |
+| 📜 Event log | `logs/events.ndjson` | Boot (passo 2) |
+
+### Reflections per-agent
+
+Cada agent mantém `memory/per-agent/{agent}/reflections.md` — lições aprendidas em execuções anteriores. Carregado no início de toda execução do agent (top-3 relevantes).
+
+### Decisões duráveis
+
+Decisão estratégica que vai durar > 1 mês → vira arquivo em `memory/shared/decisoes/{YYYY-MM-DD}-{topic}.md`. Não fica só no daily.
 
 ---
 
@@ -32,67 +76,67 @@ Antes de escrever em qualquer pasta `Areas` (`nichos/`, `clientes/`, `ofertas/`)
 - Frontmatter YAML em todo arquivo gerado por skill.
 
 ### Pré-requisitos entre skills
-- Cada skill declara `requires:` no seu `SKILL.md` (bloqueante e recomendado).
-- Skill recusa rodar se faltar input bloqueante; aceita "modo degradado" com confirmação explícita do aluno.
+- Cada skill declara `requires:`, `handoff_in:`, `handoff_out:`, `quality_gates:` no SKILL.md.
+- Skill recusa rodar se faltar input bloqueante.
 - Modo degradado vira flag `degraded_mode: true` no frontmatter do output.
-
-### Memory
-- `MEMORY.md` < 5KB. Detalhe vai pra `memory/shared/` ou `memory/per-skill/{nome}/`.
-- Decisão estratégica vira arquivo em `memory/shared/decisoes/YYYY-MM-DD-topic.md`.
-- Log de sessão (opcional) em `daily/YYYY-MM-DD.md` — gerado por `/a360-handoff`.
+- Validador `/gos-validate-handoff` checa schema antes de invocação.
 
 ### Slugs
 - kebab-case minúsculo, sem acento. Ex: `clinicas-derma-sp`, `escritorios-contabeis-rj`.
 - Slug do cliente diferente do slug do nicho. Cliente herda nicho via frontmatter (`nicho: {slug}`).
 
 ### Datas
-- Sempre absolutas (`2026-04-26`), nunca relativas ("ontem", "Thursday").
+- Sempre absolutas (`2026-04-28`), nunca relativas ("ontem", "Thursday").
 
 ---
 
 ## Comandos do harness
 
-3 comandos cuidam da espinha:
+3 comandos cuidam da espinha do workspace:
 
-- **`/a360-setup-workspace`** — wizard inicial (na primeira execução). Popula `_contexto/`, `MEMORY.md`, `_modelo/`, `memory/shared/` skeletons.
-- **`/a360-map`** — varre todas as Areas, regenera `_index.md`, sincroniza ledgers, detecta drift, sugere próximo passo. Rodar quando começar nova sessão ou quando perder o fio.
-- **`/a360-handoff`** — fecha sessão. Atualiza `Handoff` em MEMORY.md, escreve `daily/{date}.md`, sugere `git commit`. Rodar antes de fechar o terminal.
+- **`/gos-setup`** — wizard inicial (primeira execução). Popula `_contexto/`, `MEMORY.md`, `_modelo/`, `memory/shared/` skeletons, `logs/events.ndjson`.
+- **`/gos-map`** — varre todas as Areas, regenera `_index.md`, sincroniza ledgers, detecta drift, sugere próximo passo. Rodar quando começar nova sessão ou perder o fio.
+- **`/gos-handoff`** — fecha sessão. Atualiza `Handoff` em MEMORY.md, escreve `daily/{date}.md`, escreve reflection em `memory/per-agent/{agent}/reflections.md`, sugere `git commit`. Rodar antes de fechar terminal.
 
 ---
 
-## Skills A360 disponíveis
+## Skills disponíveis
 
 ```
-ENTRADA / DESCOBERTA
-/nicho-explorer          → top 10 nichos OU validação GO/NO-GO de 1 nicho
-/mapear-nicho-lite       → cérebro completo do nicho (12 arquivos Johnny.Decimal)
+ENTRY
+/gos                       → coordinator (intent routing automático)
+
+DESCOBERTA
+/gos-nicho-explorer        → top 10 nichos OU validação GO/NO-GO de 1 nicho
+/gos-mapear-nicho          → cérebro completo do nicho (12 arquivos JD)
 
 CLIENTE
-/cliente-radar           → pesquisa de prospect específico → clientes/{slug}/00-perfil.md
-/meeting-prep            → briefing 1-page pra reunião → clientes/{slug}/01-meeting-prep.md
+/gos-cliente-radar         → pesquisa de prospect → clientes/{slug}/00-perfil.md
+/gos-meeting-prep          → briefing 1-page → clientes/{slug}/01-meeting-prep.md
 
 OUTPUT VISUAL
-/lp-builder              → LP copy + HTML standalone (modo nicho ou cliente-específico)
-/pitch-deck-builder      → 20 slides comerciais (reveal/gemini/markdown-only)
+/gos-lp-builder            → LP copy + HTML standalone
+/gos-pitch-deck-builder    → 20 slides comerciais (reveal/gemini)
 
 GO-TO-MARKET
-/gtm-architect           → outbound + content frameworks
-/playbook-vendas         → script + objeções + funil
+/gos-gtm-architect         → outbound + content frameworks
+/gos-playbook-vendas       → script + objeções + funil
 
-ORQUESTRADOR
-/a360-framework-lite     → coordenador (encadeia skills em pipelines)
+VALIDADOR
+/gos-validate-handoff      → valida payload contra schema da skill alvo
 ```
 
-Todas seguem os contratos `io:` (reads/writes_to/updates_index) e `requires:` (pré-requisitos) declarados no SKILL.md de cada uma.
+Todas seguem os contratos `requires:`, `handoff_in:`, `handoff_out:`, `quality_gates:` declarados no SKILL.md.
 
 ---
 
 ## Workflow
 
-Antes de executar tarefa, verificar:
-1. Há skill em `.claude/skills/` que cobre? Se sim, usar.
-2. Pré-requisitos da skill estão atendidos? Se não, rodar a skill anterior.
-3. Skill é genérica do nicho ou customizada do cliente? Decide path canônico (`ofertas/{slug}/` vs `clientes/{slug}/`).
+Antes de executar tarefa:
+1. Ler boot sequence acima.
+2. Há skill em `.claude/skills/` que cobre? Se sim, usar (validar handoff_in primeiro).
+3. Pré-requisitos atendidos? Se não, rodar a skill anterior.
+4. Skill é genérica do nicho ou customizada do cliente? Decidir path canônico (`ofertas/{slug}/` vs `clientes/{slug}/`).
 
 Quando não há skill, executar normalmente. Se a tarefa for repetível, sugerir transformar em skill.
 
@@ -100,9 +144,13 @@ Quando não há skill, executar normalmente. Se a tarefa for repetível, sugerir
 
 ## Auto-reflexão
 
-- **Captura de correção em tempo real.** Se o aluno corrigir algo ("não é assim", "prefiro outro tom"), perguntar uma vez se quer salvar a regra. Se sim, ir pro arquivo certo (`_contexto/operador.md` se é fato sobre o aluno, `_contexto/tese-a360.md` se é regra do método, `MEMORY.md` se é load-bearing da sessão).
+- **Captura de correção em tempo real.** Se o aluno corrigir algo ("não é assim", "prefiro outro tom"), perguntar uma vez se quer salvar a regra. Se sim, ir pro arquivo certo:
+  - `_contexto/operador.md` — fato sobre o aluno
+  - `_contexto/tese-a360.md` — regra do método
+  - `MEMORY.md` — load-bearing da sessão
+  - `memory/per-agent/{agent}/reflections.md` — aprendizado per-agent
 - **Drift detection passiva.** Se o aluno pedir ação envolvendo dado já registrado, cruzar: o que disse condiz com o documentado? Se não, sinalizar e perguntar qual está atualizado.
-- **Auditoria por demanda.** `/a360-map` faz varredura completa e devolve relatório de drift.
+- **Auditoria por demanda.** `/gos-map` faz varredura completa e devolve relatório de drift.
 
 ---
 
@@ -112,3 +160,5 @@ Quando não há skill, executar normalmente. Se a tarefa for repetível, sugerir
 - ❌ Pular pré-requisito sem o aluno saber — sempre avisar e marcar `degraded_mode`.
 - ❌ Inventar dados que não vieram da pesquisa — marcar `[FICTÍCIO — substituir]`.
 - ❌ MEMORY.md > 5KB — enxugar e mover detalhe pra `memory/shared/`.
+- ❌ Handoff entre skills sem schema validation — passar pelo `/gos-validate-handoff`.
+- ❌ Fechar sessão sem rodar `/gos-handoff` — perde reflection + daily.
