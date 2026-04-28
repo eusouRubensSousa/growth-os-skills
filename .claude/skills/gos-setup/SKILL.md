@@ -3,6 +3,27 @@ name: gos-setup
 description: Wizard inicial do harness A360. Faz 5-7 perguntas pro aluno (perfil, nicho-foco se já tiver, tom, stack), copia templates de `templates/workspace/` pro workspace, popula MEMORY.md + _contexto/ + _modelo/ + ledgers em memory/shared/, e devolve mapa do que ficou pronto + próximo comando sugerido. Rodar UMA vez na primeira execução.
 argument-hint: "(sem argumentos — wizard interativo)"
 allowed-tools: Read, Write, Edit, Bash, Glob
+tier: employee
+reports_to: gos
+version: 0.3.0
+handoff_in:
+  optional:
+    operator_profile: "Quem é o aluno (perfil, stack, tom)"
+    target_niche: "Nicho-alvo se já tem"
+handoff_out:
+  produces:
+    workspace_skeleton: "Estrutura completa do workspace criada"
+  paths:
+    - "MEMORY.md"
+    - "_contexto/{operador,tese-a360,glossario}.md"
+    - "memory/shared/ledgers/"
+    - "memory/per-agent/_modelo/"
+    - "logs/events.ndjson"
+quality_gates:
+  - "MEMORY.md created < 5KB"
+  - "_contexto/ populated com 3+ arquivos"
+  - "memory/shared/ledgers/ skeletons criados"
+  - "logs/events.ndjson empty file existe"
 ---
 
 # Skill: a360-setup-workspace — Wizard Inicial

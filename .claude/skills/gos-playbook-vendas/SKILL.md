@@ -15,6 +15,26 @@ writes_to:
 updates_index:
   - "{escopo}/{slug}/_index.md"
   - "memory/per-skill/playbook-vendas/learnings.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    nicho_slug: "Slug do nicho"
+    nicho_mapped: "nichos/{slug}/_index.md status=mapped"
+  optional:
+    cliente_slug: "Customizar pra cliente específico"
+handoff_out:
+  produces:
+    playbook: "Script + objeções + funil"
+  paths:
+    - "ofertas/{slug-oferta}/02-playbook.md (genérico)"
+    - "clientes/{slug-cliente}/02-playbook.md (customizado)"
+quality_gates:
+  - "Script de diagnóstico 30min (D.E.A.L. lite)"
+  - "5 objeções com handle"
+  - "Funil 5 estágios"
+  - "Top 3 dores quantificadas"
 ---
 
 # Skill: playbook-vendas — Script + Objeções + Funil

@@ -14,6 +14,28 @@ writes_to:
 updates_index:
   - "clientes/{slug-cliente}/_index.md  (status: radar-done → meeting-prep-done)"
   - "memory/shared/clientes-ativos.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    cliente_slug: "Slug do cliente"
+    cliente_perfil: "clientes/{slug}/00-perfil.md (do cliente-radar)"
+  optional:
+    nicho_slug: "Slug do nicho relacionado"
+    playbook: "clientes/{slug}/02-playbook.md (do playbook-vendas)"
+handoff_out:
+  produces:
+    meeting_briefing: "1-page briefing"
+  paths:
+    - "clientes/{slug}/01-meeting-prep.md"
+quality_gates:
+  - "1 page (não pode passar)"
+  - "Top 3 dores prováveis"
+  - "5 perguntas SPIN"
+  - "3 objeções + handle"
+  - "Gancho de abertura definido"
+  - "Próximo passo claro"
 ---
 
 # Skill: meeting-prep — Briefing 1-Page

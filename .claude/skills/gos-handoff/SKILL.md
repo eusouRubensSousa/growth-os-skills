@@ -3,6 +3,30 @@ name: gos-handoff
 description: Fecha sessão. Atualiza Handoff em MEMORY.md (1 parágrafo do que rolou), escreve daily/{YYYY-MM-DD}.md com decisões/aprendizados/próximo passo, opcionalmente cria entradas em memory/shared/decisoes/ se tiver decisão durável, sugere git commit. Roda antes de fechar o terminal.
 argument-hint: "(sem argumentos — usa contexto da sessão)"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
+tier: employee
+reports_to: gos
+version: 0.3.0
+handoff_in:
+  optional:
+    session_summary: "O que rolou na sessão"
+    decision: "Decisão estratégica durável"
+    blockers: "Bloqueios pendentes"
+    next_step: "Próximo passo"
+handoff_out:
+  produces:
+    daily_log: "Markdown session log"
+    memory_update: "MEMORY.md handoff section atualizada"
+    reflection: "Per-agent reflection (se aplicável)"
+  paths:
+    - "daily/{YYYY-MM-DD}.md"
+    - "MEMORY.md"
+    - "memory/shared/decisoes/{date}-{topic}.md (se decisão)"
+    - "memory/per-agent/{agent}/reflections.md (se reflection)"
+quality_gates:
+  - "MEMORY.md < 5KB após update"
+  - "Daily log escrito (append se existe, create se não)"
+  - "git commit sugerido (não executado)"
+  - "Reflection escrita se houve aprendizado per-agent"
 ---
 
 # Skill: a360-handoff — Fecha Sessão

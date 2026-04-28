@@ -16,6 +16,30 @@ updates_index:
   - "{escopo}/{slug}/gtm/_index.md"
   - "{escopo}/{slug}/_index.md"
   - "memory/per-skill/gtm-architect/learnings.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    escopo: "oferta | cliente"
+    slug: "kebab-case"
+    mode: "outbound | content | combo"
+    nicho_mapped: "nichos/{slug-nicho}/_index.md status=mapped"
+  optional:
+    oferta_briefing: "ofertas/{slug}/01-oferta.md (modo oferta)"
+    cliente_perfil: "clientes/{slug}/00-perfil.md (modo cliente)"
+handoff_out:
+  produces:
+    gtm_plan: "Outbound + content frameworks"
+  paths:
+    - "{escopo}/{slug}/gtm/outbound.md"
+    - "{escopo}/{slug}/gtm/content.md"
+quality_gates:
+  - "Outbound 4-touch (D+0/D+3/D+7/D+14)"
+  - "3 templates email"
+  - "2 LinkedIn DM templates"
+  - "Calendário mês 1: 3 LinkedIn posts + 2 emails + 1 artigo"
+  - "ICP de targeting definido"
 ---
 
 # Skill: gtm-architect — Estratégia Go-To-Market

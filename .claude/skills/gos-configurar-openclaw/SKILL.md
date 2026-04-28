@@ -24,6 +24,23 @@ tools:
   - Bash
   - Grep
   - Glob
+tier: employee
+reports_to: gos
+version: 0.3.0
+handoff_in:
+  required:
+    target: "local | remote-ssh | docker"
+  optional:
+    audit_mode: "Auto-apply melhorias (default: false — dry-run)"
+    instance_url: "URL da instância OpenClaw"
+handoff_out:
+  produces:
+    config_state: "Configurado + validado + relatório de auditoria"
+quality_gates:
+  - "Setup completo passa em smoke-test"
+  - "Patches aplicados com backup"
+  - "Audit mode tem aprovação humana antes de aplicar"
+  - "Secrets nunca commitados em texto puro"
 ---
 
 # configurar-openclaw — Skill de configuração assistida

@@ -11,6 +11,21 @@ writes_to:
   - "(nenhum direto — orquestrador delega pra skills filhas)"
 updates_index:
   - "MEMORY.md  (atualiza Open Questions / Handoff conforme pipeline avança)"
+tier: coordinator
+version: 0.3.0
+handoff_in:
+  required:
+    objective: "Free-text objective from user (PT-BR)"
+  optional:
+    project_id: "Slug if multi-project workspace"
+handoff_out:
+  produces:
+    pipeline_plan: "Ordered list of skills to invoke"
+    briefing: "Structured 4-field briefing for first skill (objective, output_format, tools, boundaries)"
+quality_gates:
+  - "Intent classified into known pipeline OR clarification asked"
+  - "Pipeline ≤4 skills (limite serial)"
+  - "Pre-requisitos validados antes de invocação"
 ---
 
 # Skill: a360-framework-lite — Coordenador

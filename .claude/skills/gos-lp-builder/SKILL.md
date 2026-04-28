@@ -17,6 +17,32 @@ updates_index:
   - "{escopo}/{slug}/lp/_index.md  (status, score CRO, score anti-AI)"
   - "{escopo}/{slug}/_index.md"
   - "memory/per-skill/lp-builder/learnings.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    mode: "oferta | cliente"
+    slug: "kebab-case (oferta or cliente)"
+    angle: "DOR | OPORTUNIDADE | SISTEMA"
+    nicho_mapped: "nichos/{slug-nicho}/_index.md status=mapped"
+  optional:
+    reference_url: "URL referência estética"
+    branding: "ofertas/{slug}/04-marca.md (paleta + fontes)"
+handoff_out:
+  produces:
+    landing_page: "Copy + HTML standalone"
+  paths:
+    - "{escopo}/{slug}/lp/lp.md"
+    - "{escopo}/{slug}/lp/lp.html"
+    - "{escopo}/{slug}/lp/README-customizar.md"
+quality_gates:
+  - "9 blocos canônicos presentes"
+  - "Self-check CRO score ≥21/25"
+  - "Self-check anti-AI score ≥7/10"
+  - "Score combinado ≥28/35"
+  - "Tailwind CDN, single-file, mobile-first"
+  - "Footer A360 fixo"
 ---
 
 # Skill: lp-builder — LP Copy → HTML Físico (CRO + Anti-AI)

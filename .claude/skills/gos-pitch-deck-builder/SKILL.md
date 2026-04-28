@@ -16,6 +16,31 @@ updates_index:
   - "{escopo}/{slug}/deck/_index.md  (status, score self-check, modo)"
   - "{escopo}/{slug}/_index.md"
   - "memory/per-skill/pitch-deck-builder/learnings.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    mode: "oferta | cliente"
+    slug: "kebab-case"
+    nicho_mapped: "nichos/{slug-nicho}/_index.md status=mapped"
+  optional:
+    render_mode: "reveal | gemini | markdown-only (default: reveal)"
+    cliente_perfil: "clientes/{slug}/00-perfil.md (modo cliente)"
+    oferta: "ofertas/{slug}/01-oferta.md (modo oferta)"
+handoff_out:
+  produces:
+    pitch_deck: "20 slides comerciais"
+  paths:
+    - "{escopo}/{slug}/deck/deck.html"
+    - "{escopo}/{slug}/deck/slides-md/"
+    - "{escopo}/{slug}/deck/slides/ (modo gemini)"
+quality_gates:
+  - "Exatamente 20 slides (não 19, não 21)"
+  - "Footer fixo em todos os slides"
+  - "CTA final no slide 20"
+  - "Variáveis parametrizadas preenchidas"
+  - "Mode reveal: HTML standalone funciona offline"
 ---
 
 # Skill: pitch-deck-builder — Apresentação Comercial 20 Slides

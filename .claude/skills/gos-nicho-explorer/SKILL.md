@@ -13,6 +13,25 @@ writes_to:
 updates_index:
   - "nichos/_index.md"
   - "memory/shared/nichos-mapeados.md  (cria entrada com status=researching)"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    mode: "top10 | validate"
+  optional:
+    niche_hint: "Free-text descrição (mode=validate)"
+    operator_profile_lens: "Considerar perfil do aluno em ranking (mode=top10)"
+handoff_out:
+  produces:
+    niches_or_validation: "10 niches OR 1 GO/NO-GO doc"
+  paths:
+    - "nichos-top10.md (mode=top10)"
+    - "nichos/{slug}/00-validacao.md (mode=validate)"
+quality_gates:
+  - "10 niches scored 1-10 em 4 critérios (top10)"
+  - "GO/NO-GO + TAM/SAM/SOM + ICP gap (validate)"
+  - "≥8 fontes públicas auditadas"
 ---
 
 # Skill: nicho-explorer — Pesquisa e Escolha de Nicho

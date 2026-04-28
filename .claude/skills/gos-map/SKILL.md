@@ -3,6 +3,26 @@ name: gos-map
 description: Varre todas as Areas (nichos/, clientes/, ofertas/) do workspace, regenera os _index.md, sincroniza ledgers em memory/shared/, valida pré-requisitos, detecta drift entre MEMORY.md e o estado real, e devolve relatório acionável com próximo passo sugerido. Não modifica conteúdo dos arquivos numerados — só os MoCs e ledgers.
 argument-hint: "(sem argumentos — varredura completa) OU [--filter=nichos|clientes|ofertas] OR [--quick]"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
+tier: employee
+reports_to: gos
+version: 0.3.0
+handoff_in:
+  optional:
+    filter: "nichos | clientes | ofertas (default: all)"
+    quick: "boolean — skip index regen (default: false)"
+handoff_out:
+  produces:
+    map_report: "Markdown report com status + drift + next-step"
+  paths:
+    - "nichos/_index.md"
+    - "clientes/_index.md"
+    - "ofertas/_index.md"
+    - "memory/shared/ledgers/*.md"
+quality_gates:
+  - "Todas Areas escaneadas"
+  - "Indexes regenerados"
+  - "Ledgers sincronizados com state real"
+  - "Drift report presente (mesmo se vazio)"
 ---
 
 # Skill: a360-map — Mapper do Workspace

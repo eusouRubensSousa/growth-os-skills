@@ -21,6 +21,34 @@ updates_index:
   - "nichos/{slug}/_index.md  (status: researching → mapped, mecanismo escolhido)"
   - "nichos/_index.md"
   - "memory/shared/nichos-mapeados.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    niche_description: "Descrição livre do nicho"
+    slug: "kebab-case slug"
+  optional:
+    validation_doc: "nichos/{slug}/00-validacao.md (do nicho-explorer)"
+handoff_out:
+  produces:
+    niche_brain: "9 arquivos JD (01-09)"
+  paths:
+    - "nichos/{slug}/01-perfil-cliente-alvo.md"
+    - "nichos/{slug}/02-dores.md"
+    - "nichos/{slug}/03-mecanismo.md"
+    - "nichos/{slug}/04-oferta-base.md"
+    - "nichos/{slug}/05-linguagem.md"
+    - "nichos/{slug}/06-eventos-gatilho.md"
+    - "nichos/{slug}/07-objecoes.md"
+    - "nichos/{slug}/08-fontes.md"
+    - "nichos/{slug}/09-gtm-outline.md"
+quality_gates:
+  - "Min 5 dores quantificadas"
+  - "Min 3 ICPs definidos"
+  - "Mecanismo proprietário nomeado (3 candidatos)"
+  - "Min 8 fontes públicas auditadas"
+  - "Status: researching → mapped"
 ---
 
 # Skill: mapear-nicho-lite — Mapeamento de Nicho (versão lite)

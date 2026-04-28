@@ -13,6 +13,29 @@ updates_index:
   - "clientes/{slug-cliente}/_index.md  (status: prospect → radar-done)"
   - "clientes/_index.md"
   - "memory/shared/clientes-ativos.md"
+tier: employee
+reports_to: gos-mission-control
+version: 0.3.0
+handoff_in:
+  required:
+    company_name: "Nome da empresa"
+    sector: "Setor de atuação"
+    slug: "kebab-case"
+  optional:
+    company_url: "URL da empresa"
+    decisor_name: "Nome do decisor se conhecido"
+    nicho_slug: "Slug do nicho (recomendado)"
+handoff_out:
+  produces:
+    client_profile: "Briefing completo do prospect"
+  paths:
+    - "clientes/{slug}/00-perfil.md"
+quality_gates:
+  - "Decisor identificado (LinkedIn ou similar)"
+  - "≥3 concorrentes diretos mapeados"
+  - "≥3 top players nacionais/globais"
+  - "≥3 gaps + ganchos identificados"
+  - "Apenas dados públicos"
 ---
 
 # Skill: cliente-radar — Pesquisa de Prospect
