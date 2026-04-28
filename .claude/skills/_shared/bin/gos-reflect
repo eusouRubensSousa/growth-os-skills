@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""
+gos-reflect — Carrega top-N reflections relevantes de um agent.
+
+Lê memory/per-agent/{agent}/reflections.md, parseia entradas, e retorna
+top-N por relevância (tags overlap + recência). Usado por Critics e Employees
+no início da execução pra carregar aprendizado prévio.
+
+Usage:
+    gos-reflect <agent> [--tags tag1,tag2] [--top 3] [--workspace-root .]
+
+Exit codes:
+    0  — ok (output JSON com reflections)
+    1  — agent não tem reflections.md (não é erro — primeira execução)
+    2  — erro de input
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+
+ENTRY_RE = re.compile(
+    r"### (?P<date>\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?) — (?P<task>.+?)\n+"
+    r"(?P<body>.*?)(?=\n### |\Z)",
+    re.DOTALL,
+)
+TAGS_RE = re.compile(r"\*\*Tags:\*\*\s*\[(.*?)\]")
+LESSON_RE = re.compile(r"\*\*Lição:\*\*\s*(.+?)(?:\n|$)")
+WORKED_RE = re.compile(r"\*\*O que funcionou:\*\*\s*\n((?:- .+\n?)+)", re.MULTILINE)
+FAILED_RE = re.compile(r"\*\*O que falhou:\*\*\s*\n((?:- .+\n?)+)", re.MULTILINE)
+CONTEXT_RE = re.compile(r"\*\*Contexto:\*\*\s*(.+?)(?:\n|$)")
+
+
+def parse_reflections(md_text: str) -> list[dict]:
+    """Parse all entries (### blocks) from reflections.md."""
+    entries = []
+    for match in ENTRY_RE.finditer(md_text):
+        body = match.group("body")
+        tags_match = TAGS_RE.search(body)
+        tags = []
+        if tags_match:
+            tags = [t.strip() for t in tags_match.group(1).split(",") if t.strip()]
+
+        lesson_match = LESSON_RE.search(body)
+        lesson = lesson_match.group(1).strip() if lesson_match else ""
+
+        context_match = CONTEXT_RE.search(body)
+        context = context_match.group(1).strip() if context_match else ""
+
+        worked_match = WORKED_RE.search(body)
+        worked = []
+        if worked_match:
+            worked = [
+                line.lstrip("- ").strip()
+                for line in worked_match.group(1).strip().split("\n")
+                if line.strip().startswith("-")
+            ]
+
+        failed_match = FAILED_RE.search(body)
+        failed = []
+        if failed_match:
+            failed = [
+                line.lstrip("- ").strip()
+                for line in failed_match.group(1).strip().split("\n")
+                if line.strip().startswith("-")
+            ]
+
+        entries.append({
+            "date": match.group("date"),
+            "task": match.group("task").strip(),
+            "context": context,
+            "tags": tags,
+            "lesson": lesson,
+            "what_worked": worked,
+            "what_failed": failed,
+        })
+    return entries
+
+
+def score_relevance(entry: dict, target_tags: set[str]) -> float:
+    """Score entry by tag overlap + recency. Higher = more relevant."""
+    tag_overlap = len(set(entry["tags"]) & target_tags)
+    recency_bonus = 0.0
+    # Most recent gets boost (entries later in file are more recent)
+    return tag_overlap * 10 + recency_bonus
+
+
+def find_workspace_root(start: Path) -> Path | None:
+    """Walk up to find a workspace root (has MEMORY.md + memory/per-agent/)."""
+    cur = start.resolve()
+    while cur != cur.parent:
+        if (cur / "MEMORY.md").exists() and (cur / "memory" / "per-agent").is_dir():
+            return cur
+        cur = cur.parent
+    return None
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Retrieve top-N relevant reflections for an agent.")
+    parser.add_argument("agent", help="Agent name (e.g., gos-lp-builder)")
+    parser.add_argument("--tags", default="", help="Comma-separated tags for relevance filtering")
+    parser.add_argument("--top", type=int, default=3, help="Top N entries to return (default: 3)")
+    parser.add_argument("--workspace-root", default=".", help="Workspace root (default: cwd)")
+    args = parser.parse_args()
+
+    workspace = Path(args.workspace_root).resolve()
+    if not (workspace / "MEMORY.md").exists():
+        # Try to auto-detect
+        detected = find_workspace_root(Path.cwd())
+        if detected is None:
+            print(json.dumps({
+                "agent": args.agent,
+                "reflections": [],
+                "warning": "workspace root não encontrado (MEMORY.md ausente)",
+            }, indent=2, ensure_ascii=False))
+            return 2
+        workspace = detected
+
+    refl_path = workspace / "memory" / "per-agent" / args.agent / "reflections.md"
+
+    if not refl_path.exists():
+        # Não é erro — primeira execução do agent
+        result = {
+            "agent": args.agent,
+            "reflections": [],
+            "info": f"sem reflections registradas — {refl_path} não existe (primeira execução do agent)",
+        }
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 1
+
+    text = refl_path.read_text(encoding="utf-8")
+    entries = parse_reflections(text)
+
+    target_tags = {t.strip() for t in args.tags.split(",") if t.strip()}
+
+    if target_tags:
+        entries.sort(key=lambda e: score_relevance(e, target_tags), reverse=True)
+    # else: keep file order (most recent at top per convention)
+
+    top = entries[: args.top]
+
+    result = {
+        "agent": args.agent,
+        "total_entries": len(entries),
+        "returned": len(top),
+        "tags_filter": list(target_tags) if target_tags else None,
+        "reflections": top,
+    }
+
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

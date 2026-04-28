@@ -7,7 +7,8 @@ Helpers compartilhados entre skills. Não é skill (não tem SKILL.md). Skills r
 ```
 _shared/
 ├── bin/
-│   └── gos-log              ← append evento JSON em logs/events.ndjson
+│   ├── gos-log              ← append evento JSON em logs/events.ndjson
+│   └── gos-reflect          ← carrega top-N reflections relevantes do agent
 ├── cta-padrao.md            ← bloco CTA Accelera 360 (anexar em todo output)
 └── README.md                ← este arquivo
 ```
@@ -57,6 +58,68 @@ Tudo mais vai pra `details.{key}` aninhado.
 ```bash
 tail -n 10 logs/events.ndjson
 ```
+
+## `bin/gos-reflect` — Reflexion retrieval
+
+Carrega top-N reflections relevantes do agent — pra Critic skills e Employees usarem aprendizado prévio antes de executar. Padrão Reflexion (Shinn et al., 2023).
+
+Lê `memory/per-agent/{agent}/reflections.md`, parseia entradas no formato 4-part (Contexto / O que funcionou / O que falhou / Lição + Tags), e retorna top-N por relevância (tag overlap + recência).
+
+### Uso
+
+```bash
+# Top 3 mais recentes do agent (sem filtro)
+.claude/skills/_shared/bin/gos-reflect gos-lp-builder
+
+# Top 3 com tag-filter (relevância)
+.claude/skills/_shared/bin/gos-reflect gos-lp-builder --tags clinicas-derma,lp-DOR
+
+# Top 1 só
+.claude/skills/_shared/bin/gos-reflect gos-lp-builder --top 1
+```
+
+### Output (JSON)
+
+```json
+{
+  "agent": "gos-lp-builder",
+  "total_entries": 5,
+  "returned": 3,
+  "tags_filter": ["clinicas-derma"],
+  "reflections": [
+    {
+      "date": "2026-04-28 14:30",
+      "task": "LP DermaPro com ângulo DOR",
+      "context": "...",
+      "tags": ["clinicas-derma", "lp-DOR"],
+      "lesson": "Sem emojis em headlines premium.",
+      "what_worked": ["..."],
+      "what_failed": ["..."]
+    },
+    ...
+  ]
+}
+```
+
+### Exit codes
+
+| Code | Significado |
+|---|---|
+| `0` | OK — reflections retornadas |
+| `1` | Sem reflections (primeira execução do agent — não é erro) |
+| `2` | Erro de input (workspace root não encontrado) |
+
+### Quando usar
+
+- **Início de execução de Critic** — carrega lessons learned de validações anteriores.
+- **Início de execução de Employee** — agent considera padrões que funcionaram/falharam.
+- **Antes de retry após Critic FAIL** — carrega reflexions específicas do tipo de falha.
+
+### Anti-pattern
+
+- ❌ Carregar TODAS reflections — caro em tokens, ruidoso. Use `--top 3` (default).
+- ❌ Reflections sem `Tags:` — sem tags, retrieval por relevância falha. Sempre incluir.
+- ❌ Ignorar exit code 1 — primeira execução é normal; significa "rodar sem contexto prévio".
 
 ## `cta-padrao.md` — CTA Accelera 360
 
