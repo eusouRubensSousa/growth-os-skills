@@ -1,4 +1,4 @@
-# Pipelines — a360-framework-lite
+# Pipelines — gos-mission-control
 
 > Combos prontos de skills encadeadas. O coordenador chama estes pipelines quando o usuário descreve uma intenção que mapeia para um deles.
 

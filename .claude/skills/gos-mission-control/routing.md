@@ -1,6 +1,6 @@
-# Routing — a360-framework-lite
+# Routing — gos-mission-control (Pipeline Reference)
 
-> Como o coordenador decide qual skill chamar.
+> Como o Director Mission Control decide qual pipeline montar e quais employees encadear.
 
 ## Heurística de classificação
 
