@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+#
+# gos-log — append event JSON to logs/events.ndjson (1 line per event)
+#
+# Usage:
+#   gos-log <agent> <action> [key=value ...]
+#
+# Required args:
+#   agent   — skill name (e.g., gos-lp-builder)
+#   action  — start | complete | error | checkpoint | handoff_in | handoff_out | reflection
+#
+# Optional kvs (free-form, become details.{key}):
+#   client=<slug>          niche=<slug>
+#   duration_ms=<n>        tokens_in=<n>          tokens_out=<n>
+#   status=ok|error|degraded|blocked  (default: ok if action=complete, error if action=error)
+#   output_path=<path>     quality_gate=passed|failed
+#
+# Examples:
+#   gos-log gos-setup complete operator="João Silva" target_niche=clinicas-derma
+#   gos-log gos-lp-builder start client=clinica-x mode=cliente angle=DOR
+#   gos-log gos-lp-builder complete client=clinica-x duration_ms=14200 status=ok
+#   gos-log gos-mapear-nicho error niche=foo status=error error_message="missing source"
+#
+# Output:
+#   appends 1 line of JSON to ./logs/events.ndjson (relative to cwd)
+#   creates ./logs/ if missing
+#   prints the appended line to stdout
+#
+# Exit codes:
+#   0  — appended ok
+#   1  — missing required args
+#   2  — could not write log (permission / disk)
+
+set -euo pipefail
+
+if [ $# -lt 2 ]; then
+    echo "ERROR: usage: gos-log <agent> <action> [key=value ...]" >&2
+    echo "Example: gos-log gos-lp-builder complete client=foo duration_ms=12000" >&2
+    exit 1
+fi
+
+AGENT="$1"
+ACTION="$2"
+shift 2
+
+# Default status based on action
+case "$ACTION" in
+    error)        DEFAULT_STATUS="error" ;;
+    blocked)      DEFAULT_STATUS="blocked" ;;
+    *)            DEFAULT_STATUS="ok" ;;
+esac
+
+# ISO 8601 UTC timestamp
+TIMESTAMP="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+# Parse key=value pairs from remaining args
+STATUS=""
+TOP_LEVEL_KEYS=""
+DETAIL_KEYS=""
+
+# Top-level keys (promoted out of details)
+TOP_LEVEL_LIST="status client niche duration_ms tokens_in tokens_out"
+
+is_top_level() {
+    local key="$1"
+    for tk in $TOP_LEVEL_LIST; do
+        if [ "$tk" = "$key" ]; then return 0; fi
+    done
+    return 1
+}
+
+json_escape() {
+    # Escape backslashes, quotes, control chars for JSON value
+    printf '%s' "$1" | python3 -c 'import sys, json; print(json.dumps(sys.stdin.read()), end="")'
+}
+
+is_number() {
+    case "$1" in
+        ''|*[!0-9.-]*) return 1 ;;
+        *) return 0 ;;
+    esac
+}
+
+format_value() {
+    local val="$1"
+    if is_number "$val"; then
+        printf '%s' "$val"
+    else
+        json_escape "$val"
+    fi
+}
+
+for arg in "$@"; do
+    if [[ "$arg" != *=* ]]; then
+        echo "ERROR: arg '$arg' is not key=value" >&2
+        exit 1
+    fi
+    key="${arg%%=*}"
+    val="${arg#*=}"
+    formatted_val="$(format_value "$val")"
+
+    if [ "$key" = "status" ]; then
+        STATUS="$formatted_val"
+    elif is_top_level "$key"; then
+        if [ -n "$TOP_LEVEL_KEYS" ]; then
+            TOP_LEVEL_KEYS="${TOP_LEVEL_KEYS},"
+        fi
+        TOP_LEVEL_KEYS="${TOP_LEVEL_KEYS}\"${key}\":${formatted_val}"
+    else
+        if [ -n "$DETAIL_KEYS" ]; then
+            DETAIL_KEYS="${DETAIL_KEYS},"
+        fi
+        DETAIL_KEYS="${DETAIL_KEYS}\"${key}\":${formatted_val}"
+    fi
+done
+
+# Default status if not given
+if [ -z "$STATUS" ]; then
+    STATUS="\"${DEFAULT_STATUS}\""
+fi
+
+# Build final JSON line
+JSON="{\"timestamp\":\"${TIMESTAMP}\",\"agent\":\"${AGENT}\",\"action\":\"${ACTION}\",\"status\":${STATUS}"
+
+if [ -n "$TOP_LEVEL_KEYS" ]; then
+    JSON="${JSON},${TOP_LEVEL_KEYS}"
+fi
+
+if [ -n "$DETAIL_KEYS" ]; then
+    JSON="${JSON},\"details\":{${DETAIL_KEYS}}"
+fi
+
+JSON="${JSON}}"
+
+# Validate it's valid JSON before writing (safety)
+echo "$JSON" | python3 -c 'import sys, json; json.loads(sys.stdin.read())' 2>/dev/null || {
+    echo "ERROR: generated invalid JSON: $JSON" >&2
+    exit 2
+}
+
+# Ensure logs/ exists
+mkdir -p logs
+
+# Append (atomic append on POSIX append-mode)
+echo "$JSON" >> logs/events.ndjson
+
+# Echo back so caller can pipe
+echo "$JSON"
