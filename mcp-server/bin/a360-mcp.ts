@@ -96,7 +96,7 @@ async function main(): Promise<void> {
         `Verificado a partir de:\n` +
         `  - Workspace: ${workspace}\n` +
         `  - Script: ${path.dirname(new URL(import.meta.url).pathname)}\n` +
-        `Certifique-se de que o servidor está sendo executado dentro do repositório a360-framework-lite.\n`,
+        `Certifique-se de que o servidor está sendo executado dentro do repositório growth-os-skills.\n`,
     );
     process.exit(1);
   }

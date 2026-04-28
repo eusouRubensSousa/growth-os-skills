@@ -68,14 +68,14 @@ function slugProp(description: string): JSONSchema7 {
 type SchemaBuilder = (skillDef: SkillDef) => JSONSchema7;
 
 const KNOWN_SCHEMAS: Record<string, SchemaBuilder> = {
-  'nicho-explorer': buildNichoExplorerSchema,
-  'mapear-nicho-lite': buildMapearNichoSchema,
-  'cliente-radar': buildClienteRadarSchema,
-  'lp-builder': buildLpBuilderSchema,
-  'gtm-architect': buildGtmArchitectSchema,
-  'playbook-vendas': buildPlaybookVendasSchema,
-  'meeting-prep': buildMeetingPrepSchema,
-  'pitch-deck-builder': buildPitchDeckBuilderSchema,
+  'gos-nicho-explorer': buildNichoExplorerSchema,
+  'gos-mapear-nicho': buildMapearNichoSchema,
+  'gos-cliente-radar': buildClienteRadarSchema,
+  'gos-lp-builder': buildLpBuilderSchema,
+  'gos-gtm-architect': buildGtmArchitectSchema,
+  'gos-playbook-vendas': buildPlaybookVendasSchema,
+  'gos-meeting-prep': buildMeetingPrepSchema,
+  'gos-pitch-deck-builder': buildPitchDeckBuilderSchema,
 };
 
 // ---------------------------------------------------------------------------

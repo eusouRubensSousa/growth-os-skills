@@ -32,7 +32,7 @@ export interface JSONSchema7 {
 // ---------------------------------------------------------------------------
 
 export interface SkillDef {
-  /** Kebab-case skill identifier, e.g. "nicho-explorer" */
+  /** Kebab-case skill identifier, e.g. "gos-nicho-explorer" */
   name: string;
   /** Human-readable description */
   description: string;

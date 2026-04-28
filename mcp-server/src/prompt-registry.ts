@@ -62,7 +62,7 @@ const PIPELINES: PipelineDef[] = [
     },
     steps: [
       {
-        skillName: 'cliente-radar',
+        skillName: 'gos-cliente-radar',
         description: 'Pesquisar o prospect e gerar perfil',
         buildArgs: (args) => ({
           companyName: args.companyName,
@@ -70,7 +70,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'mapear-nicho-lite',
+        skillName: 'gos-mapear-nicho',
         description: 'Mapear o nicho do prospect (9 arquivos Johnny.Decimal)',
         buildArgs: (args) => ({
           nichoSlug: args.nichoSlug,
@@ -78,7 +78,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'pitch-deck-builder',
+        skillName: 'gos-pitch-deck-builder',
         description: 'Gerar deck de apresentação para o prospect',
         buildArgs: (args) => ({
           scope: 'cliente',
@@ -87,7 +87,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'meeting-prep',
+        skillName: 'gos-meeting-prep',
         description: 'Gerar briefing de 1 página para a reunião',
         buildArgs: (args) => ({
           clienteSlug: args.clienteSlug,
@@ -108,7 +108,7 @@ const PIPELINES: PipelineDef[] = [
     },
     steps: [
       {
-        skillName: 'nicho-explorer',
+        skillName: 'gos-nicho-explorer',
         description: 'Validar nicho (modo B — GO/NO-GO)',
         buildArgs: (args) => ({
           mode: 'B',
@@ -116,7 +116,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'mapear-nicho-lite',
+        skillName: 'gos-mapear-nicho',
         description: 'Mapear o nicho completo (9 arquivos)',
         buildArgs: (args) => ({
           nichoSlug: args.nichoSlug,
@@ -124,7 +124,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'gtm-architect',
+        skillName: 'gos-gtm-architect',
         description: 'Gerar estratégia GTM completa (outbound + content)',
         buildArgs: (args) => ({
           mode: 'combo',
@@ -134,7 +134,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'lp-builder',
+        skillName: 'gos-lp-builder',
         description: 'Gerar landing page para a oferta',
         buildArgs: (args) => ({
           mode: 'oferta',
@@ -159,7 +159,7 @@ const PIPELINES: PipelineDef[] = [
     },
     steps: [
       {
-        skillName: 'cliente-radar',
+        skillName: 'gos-cliente-radar',
         description: 'Pesquisar o cliente e gerar perfil',
         buildArgs: (args) => ({
           companyName: args.companyName,
@@ -167,7 +167,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'mapear-nicho-lite',
+        skillName: 'gos-mapear-nicho',
         description: 'Mapear o nicho do cliente',
         buildArgs: (args) => ({
           nichoSlug: args.nichoSlug,
@@ -175,7 +175,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'lp-builder',
+        skillName: 'gos-lp-builder',
         description: 'Gerar LP personalizada para o cliente',
         buildArgs: (args) => ({
           mode: 'cliente',
@@ -184,7 +184,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'pitch-deck-builder',
+        skillName: 'gos-pitch-deck-builder',
         description: 'Gerar deck de apresentação',
         buildArgs: (args) => ({
           scope: 'cliente',
@@ -207,14 +207,14 @@ const PIPELINES: PipelineDef[] = [
     },
     steps: [
       {
-        skillName: 'nicho-explorer',
+        skillName: 'gos-nicho-explorer',
         description: 'Explorar Top 10 nichos (modo A)',
         buildArgs: () => ({
           mode: 'A',
         }),
       },
       {
-        skillName: 'mapear-nicho-lite',
+        skillName: 'gos-mapear-nicho',
         description: 'Mapear o nicho escolhido',
         buildArgs: (args) => ({
           nichoSlug: args.nichoSlug,
@@ -236,7 +236,7 @@ const PIPELINES: PipelineDef[] = [
     },
     steps: [
       {
-        skillName: 'mapear-nicho-lite',
+        skillName: 'gos-mapear-nicho',
         description: 'Mapear o nicho',
         buildArgs: (args) => ({
           nichoSlug: args.nichoSlug,
@@ -244,7 +244,7 @@ const PIPELINES: PipelineDef[] = [
         }),
       },
       {
-        skillName: 'pitch-deck-builder',
+        skillName: 'gos-pitch-deck-builder',
         description: 'Gerar deck de apresentação',
         buildArgs: (args) => ({
           scope: 'oferta',

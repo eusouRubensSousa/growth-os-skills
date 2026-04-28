@@ -150,7 +150,7 @@ async function checkPrerequisite(
  *   "nichos/{slug-nicho}/_index.md status=mapped (sem nicho mapeado, LP sai genérica)"
  *   → { filePath: "nichos/my-slug/_index.md", statusKey: "status", statusValue: "mapped" }
  *
- *   "clientes/{slug-cliente}/00-perfil.md (do /cliente-radar)"
+ *   "clientes/{slug-cliente}/00-perfil.md (do /gos-cliente-radar)"
  *   → { filePath: "clientes/my-slug/00-perfil.md", statusKey: null, statusValue: null }
  */
 function parsePrerequisitePath(

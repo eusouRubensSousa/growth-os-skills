@@ -131,14 +131,14 @@ type SkillHandler = (
 // ---------------------------------------------------------------------------
 
 const SKILL_HANDLERS: Record<string, SkillHandler> = {
-  'nicho-explorer': handleNichoExplorer,
-  'mapear-nicho-lite': handleMapearNicho,
-  'cliente-radar': handleClienteRadar,
-  'lp-builder': handleLpBuilder,
-  'gtm-architect': handleGtmArchitect,
-  'playbook-vendas': handlePlaybookVendas,
-  'meeting-prep': handleMeetingPrep,
-  'pitch-deck-builder': handlePitchDeckBuilder,
+  'gos-nicho-explorer': handleNichoExplorer,
+  'gos-mapear-nicho': handleMapearNicho,
+  'gos-cliente-radar': handleClienteRadar,
+  'gos-lp-builder': handleLpBuilder,
+  'gos-gtm-architect': handleGtmArchitect,
+  'gos-playbook-vendas': handlePlaybookVendas,
+  'gos-meeting-prep': handleMeetingPrep,
+  'gos-pitch-deck-builder': handlePitchDeckBuilder,
 };
 
 // ---------------------------------------------------------------------------
@@ -266,7 +266,7 @@ profile: "${userProfile}"
 
 # 🎯 Top 10 Nichos para Montar Empresa de IA
 
-> Gerado pela skill **nicho-explorer** (Modo A) — Accelera 360
+> Gerado pela skill **gos-nicho-explorer** (Modo A) — Accelera 360
 
 ## Critérios de Avaliação
 
@@ -328,7 +328,7 @@ verdict: "<!-- GO / NO-GO / MAYBE -->"
 
 # 🔍 Validação GO/NO-GO: ${nichoSlug}
 
-> Gerado pela skill **nicho-explorer** (Modo B) — Accelera 360
+> Gerado pela skill **gos-nicho-explorer** (Modo B) — Accelera 360
 
 ## Veredicto
 
@@ -713,7 +713,7 @@ generated: ${today()}
 
 # 🔍 Perfil do Prospect: ${companyName}
 
-> Gerado pela skill **cliente-radar** — Accelera 360
+> Gerado pela skill **gos-cliente-radar** — Accelera 360
 
 ## Dados da Empresa
 
@@ -875,7 +875,7 @@ generated: ${today()}
 
 # Landing Page Copy — ${slug}
 
-> Gerado pela skill **lp-builder** — Accelera 360
+> Gerado pela skill **gos-lp-builder** — Accelera 360
 ${contextNote}
 
 ## Configuração
@@ -936,7 +936,7 @@ ${contextNote}
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Sistema estético: ${aestheticSystem} */
-    /* Gerado pela skill lp-builder — Accelera 360 */
+    /* Gerado pela skill gos-lp-builder — Accelera 360 */
     /* Ângulo: ${angle} */
   </style>
 </head>
@@ -1158,7 +1158,7 @@ generated: ${today()}
 
 # 📤 Estratégia GTM — Outbound
 
-> Gerado pela skill **gtm-architect** — Accelera 360
+> Gerado pela skill **gos-gtm-architect** — Accelera 360
 ${contextNote}
 
 ## ICP de Targeting
@@ -1221,7 +1221,7 @@ generated: ${today()}
 
 # 📝 Estratégia GTM — Content Marketing
 
-> Gerado pela skill **gtm-architect** — Accelera 360
+> Gerado pela skill **gos-gtm-architect** — Accelera 360
 ${contextNote}
 
 ## Calendário Mês 1
@@ -1333,7 +1333,7 @@ generated: ${today()}
 
 # 📋 Playbook de Vendas — ${slug}
 
-> Gerado pela skill **playbook-vendas** — Accelera 360
+> Gerado pela skill **gos-playbook-vendas** — Accelera 360
 ${contextNote}
 
 ## Script de Diagnóstico (30 min)
@@ -1456,7 +1456,7 @@ generated: ${today()}
 
 # 📋 Briefing 1-Page: Reunião com ${clienteSlug}
 
-> Gerado pela skill **meeting-prep** — Accelera 360
+> Gerado pela skill **gos-meeting-prep** — Accelera 360
 ${perfilNote}
 ${playbookNote}
 
@@ -1654,7 +1654,7 @@ ${contextNote}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/theme/white.css">
   <style>
-    /* Gerado pela skill pitch-deck-builder — Accelera 360 */
+    /* Gerado pela skill gos-pitch-deck-builder — Accelera 360 */
     /* Nicho: ${nichoSlug} | Render: ${renderMode} */
     .reveal h2 { font-size: 1.8em; }
     .reveal p { font-size: 1.1em; }
