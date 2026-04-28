@@ -1,5 +1,5 @@
 ---
-name: nicho-explorer
+name: gos-nicho-explorer
 description: Pesquisa de mercado para escolha de nicho. Modo A — Top 10 nichos pra montar empresa de IA agora (com score 1-10 em 4 critérios). Modo B — validação GO/NO-GO de 1 nicho específico (TAM/SAM/SOM, CAGR, gap competitivo, ICP acessível).
 argument-hint: "[descrição livre — 'top 10 nichos' ou 'validar nicho X' ou descrição do perfil do usuário]"
 allowed-tools: WebSearch, WebFetch, Read, Write, Edit

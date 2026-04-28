@@ -1,5 +1,5 @@
 ---
-name: cliente-radar
+name: gos-cliente-radar
 description: Pesquisa de cliente/prospect específico para preparar reunião de vendas. Investiga em paralelo (4 agentes) a empresa, o decisor, 3 concorrentes diretos e 3 top players nacionais/globais. Entrega briefing em clientes/{slug}/00-perfil.md com gaps, ganchos e perguntas SPIN. Apenas dados públicos.
 argument-hint: "[nome da empresa + setor + slug + URL opcional + nome do decisor opcional]"
 allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit, Bash, Glob

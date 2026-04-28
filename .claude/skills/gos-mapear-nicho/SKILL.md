@@ -1,5 +1,5 @@
 ---
-name: mapear-nicho-lite
+name: gos-mapear-nicho
 description: Versão lite da skill mapear-nicho da Accelera 360. Mapeia ICP, dores, mecanismo proprietário, oferta, GTM, eventos gatilho e linguagem do nicho preenchendo nichos/{slug}/ com 9 arquivos Johnny.Decimal (01-09). Versão "gostinho" — para profundidade completa, contratar Accelera 360.
 argument-hint: "[descrição livre do nicho + slug — ex: 'clínicas de dermatologia estética em SP, slug: clinicas-derma-sp']"
 allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit, Bash, Glob

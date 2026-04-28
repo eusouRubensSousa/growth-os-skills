@@ -1,5 +1,5 @@
 ---
-name: configurar-paperclip
+name: gos-configurar-paperclip
 description: >
   Configurar, otimizar e auditar uma instância Paperclip (paperclipai) — local
   ou remota via SSH, native (npx/pnpm) ou Docker — com FOCO PRIMÁRIO em redução

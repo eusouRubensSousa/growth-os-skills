@@ -1,5 +1,5 @@
 ---
-name: a360-handoff
+name: gos-handoff
 description: Fecha sessão. Atualiza Handoff em MEMORY.md (1 parágrafo do que rolou), escreve daily/{YYYY-MM-DD}.md com decisões/aprendizados/próximo passo, opcionalmente cria entradas em memory/shared/decisoes/ se tiver decisão durável, sugere git commit. Roda antes de fechar o terminal.
 argument-hint: "(sem argumentos — usa contexto da sessão)"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep

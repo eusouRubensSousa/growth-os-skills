@@ -1,5 +1,5 @@
 ---
-name: a360-setup-workspace
+name: gos-setup
 description: Wizard inicial do harness A360. Faz 5-7 perguntas pro aluno (perfil, nicho-foco se já tiver, tom, stack), copia templates de `templates/workspace/` pro workspace, popula MEMORY.md + _contexto/ + _modelo/ + ledgers em memory/shared/, e devolve mapa do que ficou pronto + próximo comando sugerido. Rodar UMA vez na primeira execução.
 argument-hint: "(sem argumentos — wizard interativo)"
 allowed-tools: Read, Write, Edit, Bash, Glob

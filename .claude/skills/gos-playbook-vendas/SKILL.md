@@ -1,5 +1,5 @@
 ---
-name: playbook-vendas
+name: gos-playbook-vendas
 description: Script de diagnóstico de vendas 30min (D.E.A.L. lite + SPIN abreviado) + 5 quebras de objeção + funil 5 estágios. Output em ofertas/{slug}/playbook.md (genérico do nicho) ou clientes/{slug}/02-playbook.md (customizado pra cliente). Versão lite para o vendedor estruturar a primeira call de qualificação/fechamento.
 argument-hint: "[escopo (oferta/cliente) + slug]"
 allowed-tools: Read, Write, Edit, Glob

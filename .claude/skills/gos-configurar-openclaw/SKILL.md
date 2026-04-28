@@ -1,5 +1,5 @@
 ---
-name: configurar-openclaw
+name: gos-configurar-openclaw
 description: >
   Configurar e auditar uma instância OpenClaw (local ou remota via SSH, bare metal
   ou Docker Compose) através do Claude Code. Inclui modo audit ("analisa e aplica

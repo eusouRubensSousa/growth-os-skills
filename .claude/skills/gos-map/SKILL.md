@@ -1,5 +1,5 @@
 ---
-name: a360-map
+name: gos-map
 description: Varre todas as Areas (nichos/, clientes/, ofertas/) do workspace, regenera os _index.md, sincroniza ledgers em memory/shared/, valida pré-requisitos, detecta drift entre MEMORY.md e o estado real, e devolve relatório acionável com próximo passo sugerido. Não modifica conteúdo dos arquivos numerados — só os MoCs e ledgers.
 argument-hint: "(sem argumentos — varredura completa) OU [--filter=nichos|clientes|ofertas] OR [--quick]"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep

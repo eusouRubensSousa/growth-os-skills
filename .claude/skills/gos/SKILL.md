@@ -1,5 +1,5 @@
 ---
-name: a360-framework-lite
+name: gos
 description: Coordenador do pacote Accelera 360. Recebe objetivo em linguagem natural e roteia/encadeia as skills certas respeitando os pré-requisitos declarados no SKILL.md de cada skill. Pipeline padrão: setup → nicho-explorer → mapear-nicho-lite → (criar oferta OU cliente-radar) → gtm/lp/deck/playbook → meeting-prep → handoff.
 argument-hint: "[objetivo livre — ex: 'quero estruturar uma empresa de IA pra clínicas dermato' ou 'vou apresentar amanhã pra Clínica X']"
 allowed-tools: Agent, Read, Write, Edit, Glob, Bash, TaskCreate, TaskUpdate

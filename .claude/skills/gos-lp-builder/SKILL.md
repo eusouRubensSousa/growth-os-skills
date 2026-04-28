@@ -1,5 +1,5 @@
 ---
-name: lp-builder
+name: gos-lp-builder
 description: Gera landing page (copy + HTML standalone) com brand DNA REAL extraído de pesquisas anteriores (nichos/{slug}/ + clientes/{slug}/ + ofertas/{slug}/). Não usa boilerplate fixo — compõe HTML do zero combinando 1 dos 3 sistemas estéticos (editorial-serif / brutalist-grid / mono-tech) + pattern library de snippets por bloco. Frameworks CRO embutidos (AIDA, PAS, FAB, Hero 5s, Single Goal). 9 blocos canônicos. Self-check 35 itens (25 CRO + 10 anti-AI) com bloqueio se score<28/35. Tailwind CDN, single-file, mobile-first.
 argument-hint: "[modo (oferta/cliente) + slug + ângulo (DOR/OPORTUNIDADE/SISTEMA) + URL referência opcional]"
 allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Edit, Bash, Glob

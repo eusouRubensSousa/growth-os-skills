@@ -1,5 +1,5 @@
 ---
-name: pitch-deck-builder
+name: gos-pitch-deck-builder
 description: Gera apresentação comercial 20 slides parametrizada por nicho/cliente. Output em ofertas/{slug}/deck/ (modo oferta) ou clientes/{slug}/deck/ (modo cliente — customizado). Modo default reveal (HTML standalone, zero custo). Modo opcional gemini (PNGs gerados via API, requer GEMINI_API_KEY do aluno). Modo markdown-only (Canva/Slides manual). Foco vendedor → cliente final do nicho — vendendo Growth AI.
 argument-hint: "[modo (oferta/cliente) + slug + render-mode (reveal/gemini/markdown-only)]"
 allowed-tools: Agent, Read, Write, Edit, Bash, Glob

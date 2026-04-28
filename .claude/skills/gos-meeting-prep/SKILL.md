@@ -1,5 +1,5 @@
 ---
-name: meeting-prep
+name: gos-meeting-prep
 description: Briefing 1-page para uma reunião específica de vendas. Combina outputs anteriores (clientes/{slug}/00-perfil.md + nichos/{slug}/ + playbook-vendas) e adapta — quem é o cliente, dores prováveis, gancho de abertura, 5 perguntas SPIN, 3 objeções, próximo passo. Gera doc enxuto pra levar impresso ou aberto na reunião.
 argument-hint: "[slug do cliente — assume cliente-radar e mapear-nicho-lite já rodados]"
 allowed-tools: Read, Write, Edit, Glob

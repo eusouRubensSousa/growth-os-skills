@@ -1,5 +1,5 @@
 ---
-name: gtm-architect
+name: gos-gtm-architect
 description: Estratégia Go-To-Market — outbound (4 toques cold) ou content marketing (mês 1) ou combo. Output em ofertas/{slug}/gtm/ (modo oferta) ou clientes/{slug}/gtm/ (modo cliente). Entrega ICP de targeting + sequência D+0/D+3/D+7/D+14 + 3 templates email + 2 LinkedIn DM + calendário mês 1 com 3 posts LinkedIn + 2 emails + 1 artigo Substack.
 argument-hint: "[escopo (oferta/cliente) + slug + modo (outbound/content/combo)]"
 allowed-tools: WebSearch, Read, Write, Edit, Glob
