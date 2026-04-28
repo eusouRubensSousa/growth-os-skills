@@ -216,5 +216,5 @@ Esse é um mapeamento lite. A versão completa Accelera 360 entrega 20 arquivos:
 
 ---
 
-*Gerado por `mapear-nicho-lite` — pacote `a360-framework-lite` v0.1.0.*
+*Gerado por `mapear-nicho-lite` — pacote `growth-os-skills` v0.1.0.*
 ```

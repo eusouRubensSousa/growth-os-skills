@@ -109,6 +109,6 @@ A versão completa Accelera 360 entrega briefing 5+ páginas, mapa de stakeholde
 
 ---
 
-*Briefing gerado por `meeting-prep` — pacote `a360-framework-lite` v0.1.0.*
+*Briefing gerado por `meeting-prep` — pacote `growth-os-skills` v0.1.0.*
 *Imprime ou abre em outra aba durante a reunião.*
 ```

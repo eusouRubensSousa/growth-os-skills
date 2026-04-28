@@ -1,4 +1,4 @@
-# a360-framework-lite
+# growth-os-skills
 
 > **Pacote oficial de skills da Accelera 360 — Business Accelerator**
 > Apresentado no evento **A Nova Economia**.
@@ -38,7 +38,7 @@ Use as skills para:
 
 ```bash
 # 1) Clone para o diretório de skills do Claude Code
-git clone https://github.com/accelera360/a360-framework-lite.git ~/.claude/skills/a360-framework-lite
+git clone https://github.com/kcleto-ai/growth-os-skills.git ~/.claude/skills/growth-os-skills
 
 # 2) (opcional) Verifique se o Claude Code reconhece
 claude /help
@@ -117,7 +117,7 @@ Esta é a **versão lite** do framework Accelera 360. Para você ter ideia do qu
 ## Estrutura do repo
 
 ```
-a360-framework-lite/
+growth-os-skills/
 ├── README.md                     # você está aqui
 ├── INSTALL.md                    # passo-a-passo de instalação
 ├── CONTRIBUTING.md               # como contribuir

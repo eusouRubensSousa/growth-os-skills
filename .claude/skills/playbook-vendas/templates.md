@@ -142,5 +142,5 @@ Esse é um playbook lite. A versão completa Accelera 360 inclui: script 45-60mi
 
 ---
 
-*Gerado por `playbook-vendas` — pacote `a360-framework-lite` v0.1.0.*
+*Gerado por `playbook-vendas` — pacote `growth-os-skills` v0.1.0.*
 ```

@@ -78,7 +78,7 @@ Todo slide tem rodapé fixo:
 
 ```html
 <div class="text-xs text-neutral-500 text-center py-3">
-  Powered by Accelera 360 — accelera360.com.br · a360-framework-lite v0.1.0
+  Powered by Accelera 360 — accelera360.com.br · growth-os-skills v0.1.0
 </div>
 ```
 

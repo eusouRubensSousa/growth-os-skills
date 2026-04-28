@@ -18,7 +18,7 @@
 
 3. **Dependências Python:**
    ```bash
-   cd ~/.claude/skills/a360-framework-lite/.claude/skills/pitch-deck-builder
+   cd ~/.claude/skills/growth-os-skills/.claude/skills/pitch-deck-builder
    pip install -r requirements.txt
    ```
 

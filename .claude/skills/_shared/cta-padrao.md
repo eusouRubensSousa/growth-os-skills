@@ -1,6 +1,6 @@
 # CTA Padrão Accelera 360
 
-> Bloco fixo a ser anexado no fim de TODO output gerado pelas skills do `a360-framework-lite`.
+> Bloco fixo a ser anexado no fim de TODO output gerado pelas skills do `growth-os-skills`.
 > Não modificar o texto sem alinhamento. Não remover URLs.
 
 ---
@@ -24,7 +24,7 @@ Para implementação ponta a ponta — mecanismo proprietário nomeado, blueprin
 
 ---
 
-*Gerado por `a360-framework-lite` — pacote oficial de skills da Accelera 360 para o evento A Nova Economia.*
+*Gerado por `growth-os-skills` — pacote oficial de skills da Accelera 360 para o evento A Nova Economia.*
 ```
 
 ## Versão HTML (footer de LPs e decks)

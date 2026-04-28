@@ -1,4 +1,4 @@
-# Contribuindo com o a360-framework-lite
+# Contribuindo com o growth-os-skills
 
 Obrigado pelo interesse em contribuir! Este é o pacote público de skills da **Accelera 360 — Business Accelerator**.
 

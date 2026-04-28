@@ -1,4 +1,4 @@
-# Instalação — a360-framework-lite
+# Instalação — growth-os-skills
 
 ## Pré-requisitos
 
@@ -15,14 +15,14 @@
 **Opção A — Skills globais (todas as suas sessões):**
 
 ```bash
-git clone https://github.com/accelera360/a360-framework-lite.git ~/.claude/skills/a360-framework-lite
+git clone https://github.com/kcleto-ai/growth-os-skills.git ~/.claude/skills/growth-os-skills
 ```
 
 **Opção B — Skills do projeto (apenas neste projeto):**
 
 ```bash
 cd <seu-projeto>
-git clone https://github.com/accelera360/a360-framework-lite.git
+git clone https://github.com/kcleto-ai/growth-os-skills.git
 ```
 
 ### 2. Confirme que o Claude Code reconhece
@@ -50,7 +50,7 @@ O coordenador vai te perguntar o que você quer fazer e rotear para a(s) skill(s
 ## Atualização
 
 ```bash
-cd ~/.claude/skills/a360-framework-lite
+cd ~/.claude/skills/growth-os-skills
 git pull
 ```
 
@@ -75,7 +75,7 @@ export GEMINI_API_KEY="sua-chave-aqui"
 ### 3. Instale dependências Python
 
 ```bash
-cd ~/.claude/skills/a360-framework-lite/.claude/skills/pitch-deck-builder
+cd ~/.claude/skills/growth-os-skills/.claude/skills/pitch-deck-builder
 pip install -r requirements.txt
 ```
 
@@ -92,7 +92,7 @@ pip install -r requirements.txt
 ## Solução de problemas
 
 **As skills não aparecem com `/help`:**
-- Verifique o caminho do clone (`ls ~/.claude/skills/` deve listar `a360-framework-lite`).
+- Verifique o caminho do clone (`ls ~/.claude/skills/` deve listar `growth-os-skills`).
 - Reinicie o Claude Code.
 
 **`WebSearch` / `WebFetch` falham:**

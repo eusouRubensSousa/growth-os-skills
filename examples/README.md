@@ -1,4 +1,4 @@
-# Exemplos de Output — a360-framework-lite
+# Exemplos de Output — growth-os-skills
 
 > Exemplos reais (anonimizados) de outputs gerados pelas 8 skills.
 > Use pra ter ideia do que esperar antes de rodar com seu próprio nicho/cliente.

@@ -1,4 +1,4 @@
-# Changelog — a360-framework-lite
+# Changelog — growth-os-skills
 
 Todas as mudanças notáveis deste projeto são documentadas aqui.
 

@@ -150,5 +150,5 @@ Esse é um briefing lite. A versão completa Accelera 360 inclui CRM enrichment,
 
 ---
 
-*Gerado por `cliente-radar` — pacote `a360-framework-lite` v0.1.0.*
+*Gerado por `cliente-radar` — pacote `growth-os-skills` v0.1.0.*
 ```
