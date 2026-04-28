@@ -63,8 +63,16 @@ def main() -> int:
         print(__doc__, file=sys.stderr)
         return 1
 
-    cfg_path = Path(sys.argv[1])
+    cfg_path = Path(sys.argv[1]).resolve()
     snippet_arg = sys.argv[2]
+
+    # Validar que cfg_path não escapa do diretório de trabalho
+    cwd = Path.cwd().resolve()
+    try:
+        cfg_path.relative_to(cwd)
+    except ValueError:
+        print(f"ERRO: {cfg_path} está fora do diretório de trabalho.", file=sys.stderr)
+        return 6
 
     if not cfg_path.exists():
         print(f"ERRO: {cfg_path} não existe.", file=sys.stderr)
@@ -74,7 +82,13 @@ def main() -> int:
     if snippet_arg == "-":
         snippet_data = sys.stdin.read()
     else:
-        snippet_data = Path(snippet_arg).read_text(encoding="utf-8")
+        snippet_path = Path(snippet_arg).resolve()
+        try:
+            snippet_path.relative_to(cwd)
+        except ValueError:
+            print(f"ERRO: {snippet_path} está fora do diretório de trabalho.", file=sys.stderr)
+            return 6
+        snippet_data = snippet_path.read_text(encoding="utf-8")
 
     try:
         snippet = json.loads(snippet_data)

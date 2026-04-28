@@ -1,0 +1,208 @@
+{
+  "brand": {
+    "name": "Accelera 360",
+    "project": "A Nova Economia da IA",
+    "theme": "Dark Mode / Tech-Forward",
+    "atmosphere": "Futurista, inovadora, profissional",
+    "inspiration": "Interfaces de código, dashboards de IA"
+  },
+  "colors": {
+    "primary": {
+      "blue": {
+        "hex": "#4090F7",
+        "rgb": "rgb(64, 144, 247)",
+        "usage": "Botões, destaques, elementos interativos"
+      },
+      "cyan": {
+        "hex": "#44CCFF",
+        "rgb": "rgb(68, 204, 255)",
+        "usage": "Acentos, gradientes, efeitos visuais"
+      }
+    },
+    "secondary": {
+      "success": {
+        "hex": "#22C55E",
+        "rgb": "rgb(34, 197, 94)",
+        "usage": "Status 'LIVE', indicadores positivos"
+      },
+      "error": {
+        "hex": "#FF4444",
+        "rgb": "rgb(255, 68, 68)",
+        "usage": "Alertas, erros, chamadas de atenção"
+      },
+      "lightBlue": {
+        "hex": "#8CAFE6",
+        "rgba": "rgba(140, 175, 230, 0.6)",
+        "usage": "Fundos translúcidos, overlays"
+      }
+    },
+    "neutral": {
+      "white": {
+        "hex": "#FFFFFF",
+        "rgb": "rgb(255, 255, 255)",
+        "usage": "Texto principal, backgrounds claros"
+      },
+      "black": {
+        "hex": "#000000",
+        "rgb": "rgb(0, 0, 0)",
+        "usage": "Textos, contrastes"
+      },
+      "darkGray": {
+        "hex": "#070C14",
+        "rgb": "rgb(7, 12, 20)",
+        "usage": "Fundo principal, backgrounds"
+      },
+      "mediumGray": {
+        "hex": "#485E79",
+        "rgb": "rgb(72, 94, 121)",
+        "usage": "Textos secundários"
+      },
+      "lightGray": {
+        "hex": "#828E9D",
+        "rgb": "rgb(130, 142, 157)",
+        "usage": "Textos terciários, placeholders"
+      },
+      "iceWhite": {
+        "hex": "#F2F9FE",
+        "rgb": "rgb(242, 249, 254)",
+        "usage": "Backgrounds suaves, cards"
+      },
+      "borderGray": {
+        "hex": "#C8D3E3",
+        "rgb": "rgb(200, 211, 227)",
+        "usage": "Borders, divisores"
+      }
+    },
+    "opacity": {
+      "baseColor": "rgba(64, 144, 247, {alpha})",
+      "levels": {
+        "0.035": "Muito sutil, backgrounds",
+        "0.07": "Leve, overlays",
+        "0.12": "Moderado, elementos destacados",
+        "0.15": "Mais visível, borders",
+        "0.2": "Forte, backgrounds de cards",
+        "0.4": "Muito forte, elementos principais"
+      }
+    }
+  },
+  "typography": {
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap",
+    "families": {
+      "primary": {
+        "name": "Manrope",
+        "type": "sans-serif",
+        "weights": [300, 400, 500, 600, 700, 800],
+        "usage": "Headlines, títulos, chamadas principais"
+      },
+      "secondary": {
+        "name": "Inter",
+        "type": "sans-serif",
+        "weights": [300, 400, 500, 600, 700, 800],
+        "usage": "Corpo de texto, descrições, conteúdo"
+      },
+      "ui": {
+        "name": "Poppins",
+        "type": "sans-serif",
+        "weights": [300, 400, 500, 600, 700],
+        "usage": "Elementos UI, botões, labels"
+      },
+      "monospace": {
+        "name": "JetBrains Mono",
+        "type": "monospace",
+        "weights": [300, 400, 500],
+        "usage": "Código, terminal, elementos técnicos"
+      }
+    },
+    "hierarchy": {
+      "h1_h2": {
+        "family": "Manrope",
+        "weight": "700-800"
+      },
+      "h3_h4": {
+        "family": "Manrope",
+        "weight": "600"
+      },
+      "body": {
+        "family": "Inter",
+        "weight": "400-500"
+      },
+      "labels_ui": {
+        "family": "Poppins",
+        "weight": "500-600"
+      },
+      "code_terminal": {
+        "family": "JetBrains Mono",
+        "weight": "400"
+      }
+    }
+  },
+  "components": {
+    "buttons": {
+      "classes": [".btn-cta", ".btn-cta--full", ".btn-cta--lg"],
+      "styles": {
+        "backgroundColor": "#4090F7",
+        "color": "#FFFFFF",
+        "fontWeight": 600,
+        "borderRadius": "8px",
+        "padding": "12px 24px",
+        "hover": {
+          "backgroundColor": "#44CCFF",
+          "boxShadow": "0 8px 24px rgba(64, 144, 247, 0.3)"
+        }
+      }
+    },
+    "cards": {
+      "classes": [".bento-item", ".bento-item--featured", ".case-card"],
+      "styles": {
+        "backgroundColor": "rgba(64, 144, 247, 0.2)",
+        "border": "1px solid rgba(64, 144, 247, 0.15)",
+        "borderRadius": "8-12px",
+        "boxShadow": "Efeito de profundidade suave"
+      }
+    },
+    "effects": {
+      "glow": {
+        "classes": [".atmo-glow", ".atmo-1"],
+        "description": "Efeito de brilho ao redor de elementos"
+      },
+      "pulse": {
+        "classes": [".c-pulse"],
+        "description": "Animação de pulsação para elementos destacados"
+      },
+      "burst": {
+        "classes": [".center-burst"],
+        "description": "Efeito de explosão radial"
+      },
+      "terminal": {
+        "id": "#osTerminal",
+        "description": "Estilo de terminal com fonte monospace"
+      }
+    }
+  },
+  "layout": {
+    "grid": {
+      "classes": [".bento-grid", ".cases-row"],
+      "system": "Flexbox/Grid responsivo",
+      "behavior": "Adapta-se de 1 coluna mobile para 3+ colunas desktop"
+    },
+    "breakpoints": {
+      "mobile": "< 768px",
+      "tablet": "768px - 1024px",
+      "desktop": "> 1024px"
+    }
+  },
+  "cssVariables": {
+    "--color-primary": "#4090F7",
+    "--color-secondary": "#44CCFF",
+    "--color-success": "#22C55E",
+    "--color-error": "#FF4444",
+    "--color-bg-dark": "#070C14",
+    "--color-bg-light": "#F2F9FE",
+    "--color-text-primary": "#FFFFFF",
+    "--color-text-secondary": "#828E9D",
+    "--color-border": "#C8D3E3",
+    "--font-primary": "'Manrope', sans-serif",
+    "--font-secondary": "'Inter', sans-serif",
+    "--font-mono": "'JetBrains Mono', monospace"
+  }
+}

@@ -32,7 +32,7 @@ Antes de escrever em qualquer pasta `Areas` (`nichos/`, `clientes/`, `ofertas/`)
 - Frontmatter YAML em todo arquivo gerado por skill.
 
 ### Pré-requisitos entre skills
-- Detalhe em `PREREQ.md`.
+- Cada skill declara `requires:` no seu `SKILL.md` (bloqueante e recomendado).
 - Skill recusa rodar se faltar input bloqueante; aceita "modo degradado" com confirmação explícita do aluno.
 - Modo degradado vira flag `degraded_mode: true` no frontmatter do output.
 

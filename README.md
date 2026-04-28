@@ -110,6 +110,8 @@ Esta é a **versão lite** do framework Accelera 360. Para você ter ideia do qu
 - Conexão com internet (algumas skills usam `WebSearch` / `WebFetch`).
 - *(opcional)* `GEMINI_API_KEY` — só para o modo `gemini` do `pitch-deck-builder` (default usa Reveal.js HTML, zero custo).
 
+> **Nota sobre os decks gerados:** o modo default do `pitch-deck-builder` gera um HTML standalone que carrega Reveal.js e Tailwind via CDN externo. O arquivo abre no browser, mas **requer conexão com internet** para renderizar corretamente. Para uso offline, use o modo `gemini` (gera PNGs locais) ou exporte para PDF enquanto online.
+
 ---
 
 ## Estrutura do repo
@@ -118,12 +120,23 @@ Esta é a **versão lite** do framework Accelera 360. Para você ter ideia do qu
 a360-framework-lite/
 ├── README.md                     # você está aqui
 ├── INSTALL.md                    # passo-a-passo de instalação
-├── LICENSE                       # MIT
+├── CONTRIBUTING.md               # como contribuir
+├── CHANGELOG.md                  # histórico de versões
 ├── PLANEJAMENTO.md               # decisões de design e roadmap
+├── WORKSPACE.md                  # arquitetura canônica do harness
+├── MIGRATION-TO-PAPERCLIP.md     # guia de portabilidade para Paperclip
+├── LICENSE                       # MIT
+├── identidade.json               # design system (cores, tipografia, componentes)
 ├── .claude/
-│   └── skills/                   # 8 skills (uma por subpasta)
-└── examples/                     # outputs de exemplo
+│   └── skills/                   # 8 skills + utilitárias (uma por subpasta)
+├── templates/
+│   └── workspace/                # template do workspace do aluno
+└── examples/                     # outputs de exemplo (anonimizados)
+    ├── exemplo-saude-estetica/   # pipeline nicho-explorer → mapear → lp → deck
+    └── exemplo-cliente-ficticio/ # pipeline cliente-radar → deck → meeting-prep
 ```
+
+
 
 ---
 
@@ -143,6 +156,7 @@ Esta janela não fica aberta para sempre.
 - 🌐 Site: https://accelera360.com.br/
 - 🚀 Aplicar para o programa: https://yayforms.link/4bRG5aE
 - 💬 Issues neste repo são para bugs/sugestões da skill — não para suporte de aplicação.
+- 🤝 Quer contribuir? Leia o [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ---
 

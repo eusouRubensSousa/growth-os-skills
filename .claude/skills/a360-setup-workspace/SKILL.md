@@ -111,7 +111,7 @@ Detalhe das substituições:
 >
 > *Documentos importantes pra ler quando der:*
 > *— `WORKSPACE.md` — arquitetura completa*
-> *— `PREREQ.md` — árvore de pré-requisitos das skills*"
+> *— `CONTRIBUTING.md` — como contribuir com o projeto*"
 
 ---
 

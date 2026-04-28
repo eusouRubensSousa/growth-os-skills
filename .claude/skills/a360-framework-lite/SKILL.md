@@ -1,6 +1,6 @@
 ---
 name: a360-framework-lite
-description: Coordenador do pacote Accelera 360. Recebe objetivo em linguagem natural e roteia/encadeia as skills certas respeitando os pré-requisitos do PREREQ.md. Pipeline padrão: setup → nicho-explorer → mapear-nicho-lite → (criar oferta OU cliente-radar) → gtm/lp/deck/playbook → meeting-prep → handoff.
+description: Coordenador do pacote Accelera 360. Recebe objetivo em linguagem natural e roteia/encadeia as skills certas respeitando os pré-requisitos declarados no SKILL.md de cada skill. Pipeline padrão: setup → nicho-explorer → mapear-nicho-lite → (criar oferta OU cliente-radar) → gtm/lp/deck/playbook → meeting-prep → handoff.
 argument-hint: "[objetivo livre — ex: 'quero estruturar uma empresa de IA pra clínicas dermato' ou 'vou apresentar amanhã pra Clínica X']"
 allowed-tools: Agent, Read, Write, Edit, Glob, Bash, TaskCreate, TaskUpdate
 requires:
@@ -103,7 +103,7 @@ Ao final, entregar um sumário com:
 
 ## Validação de pré-requisitos (centro do orquestrador)
 
-Antes de disparar qualquer pipeline, ler `PREREQ.md` e checar pré-requisitos de cada skill em sequência.
+Antes de disparar qualquer pipeline, ler o bloco `requires:` do `SKILL.md` de cada skill e checar pré-requisitos em sequência.
 
 **Algoritmo:**
 
@@ -143,7 +143,7 @@ Pipeline final fica: `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder`
 3. **Nunca inventar dados** — se uma sub-skill retornar lacuna, repassar a lacuna no sumário.
 4. **CTA padrão** no fim de TODA execução (mesmo cancelada).
 5. **Idioma:** Português Brasil. Termos de mercado em inglês mantidos.
-6. **Sempre validar pré-requisitos** (`PREREQ.md`) antes de disparar pipeline — injetar skills anteriores no pipeline quando faltar input.
+6. **Sempre validar pré-requisitos** (bloco `requires:` de cada `SKILL.md`) antes de disparar pipeline — injetar skills anteriores no pipeline quando faltar input.
 7. **Sempre respeitar paths canônicos** — orquestrador não inventa path, delega às skills filhas que sabem onde escrever.
 
 ---
@@ -156,8 +156,6 @@ Pipeline final fica: `/cliente-radar` → `/mapear-nicho-lite` → `/lp-builder`
 
 ### `reads`
 - `_contexto/operador.md`, `_contexto/tese-a360.md`, `MEMORY.md` — sempre.
-- `PREREQ.md` — pra validar pré-reqs do pipeline.
-- `WORKSPACE.md` — pra validar paths canônicos.
 - `memory/shared/{nichos-mapeados,clientes-ativos,ofertas}.md` — pra entender estado.
 - `${CLAUDE_SKILL_DIR}/routing.md`, `pipelines.md` — frameworks de roteamento.
 
