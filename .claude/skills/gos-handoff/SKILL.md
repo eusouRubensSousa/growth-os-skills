@@ -182,7 +182,50 @@ Se `resposta_pergunta_5` está preenchida e relevante, **sugerir** (não fazer a
 > *— `clientes/{{slug}}/_index.md` seção 'Aprendizados' se for específico do cliente*
 > *Quer que eu abra o arquivo pra editar?"*
 
-### Passo 7 — Verificar tamanho de MEMORY.md
+### Passo 7 — Escrever Reflexion log per-agent
+
+**(Phase 2 — Reflexion pattern, Shinn et al. 2023)**
+
+Pra cada skill que rodou na sessão (de `git diff --stat` ou do event log), perguntar:
+
+> *"O `{{agent}}` rodou {{N}}x hoje. Algum aprendizado específico DESSE AGENT pra registrar?*
+> *(o que funcionou no padrão, o que falhou, regra que vai usar de novo)"*
+
+Se o aluno responder algo concreto, **append** em `memory/per-agent/{{agent}}/reflections.md`:
+
+```markdown
+### {{YYYY-MM-DD HH:MM}} — {{tarefa-curta}}
+
+**Contexto:** {{cliente/nicho/oferta + objetivo}}
+
+**O que funcionou:**
+- {{padrão concreto que deu certo}}
+
+**O que falhou:**
+- {{padrão concreto que falhou e por quê}}
+
+**Lição:** {{1 frase pra usar de novo}}
+
+**Tags:** [{{nicho}}, {{tipo-tarefa}}]
+```
+
+Se aluno disser "nada de especial", pular esse agent e seguir pro próximo.
+
+**Regra:** reflexion é **opt-in** — não força registro vazio. Melhor 1 reflection boa por sessão do que 5 vagas.
+
+Se o agent ainda não tem pasta em `memory/per-agent/{{agent}}/`, criar copiando de `memory/per-agent/_modelo/`.
+
+### Passo 8 — Logar handoff complete
+
+```bash
+.claude/skills/_shared/bin/gos-log gos-handoff complete \
+  agents_session={{count}} \
+  reflections_written={{n}} \
+  decisions_durables={{n}} \
+  memory_size_bytes={{N}}
+```
+
+### Passo 9 — Verificar tamanho de MEMORY.md
 
 ```bash
 wc -c MEMORY.md
@@ -193,7 +236,7 @@ Se passou de 5KB:
 
 Se < 5KB → seguir.
 
-### Passo 8 — Sugerir git commit
+### Passo 10 — Sugerir git commit
 
 ```markdown
 ## ✅ Handoff completo
@@ -201,16 +244,17 @@ Se < 5KB → seguir.
 **Daily escrito:** `daily/{{YYYY-MM-DD}}.md`
 **MEMORY.md atualizado:** Handoff + {{Open Question | Decisão | nada novo}}
 {{Decisão durável criada: memory/shared/decisoes/{{slug}}.md}}
+{{Reflexions escritas: memory/per-agent/{{agent}}/reflections.md (Nx)}}
 
 **Sugestão de commit:**
 ```bash
-git add MEMORY.md daily/{{date}}.md memory/shared/decisoes/
+git add MEMORY.md daily/{{date}}.md memory/shared/decisoes/ memory/per-agent/ logs/events.ndjson
 git commit -m "session({{YYYY-MM-DD}}): {{resumo_1_linha}}"
 ```
 
 (Não rodo o commit por você — confirma antes.)
 
-**Próxima sessão:** quando voltar, leia o `## Handoff` em `MEMORY.md` e siga.
+**Próxima sessão:** quando voltar, o boot sequence em `CLAUDE.md` lê últimas 10 linhas de `logs/events.ndjson` + Handoff em `MEMORY.md` e te apresenta resumo.
 ```
 
 ---

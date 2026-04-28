@@ -162,6 +162,25 @@ Devolver pro aluno:
 ```markdown
 ## 📍 Mapa do workspace — {{YYYY-MM-DD}}
 
+### 🏛️ Squad Org Chart
+
+```
+                gos (coordinator)
+                       ↓
+              gos-mission-control (Director — Sales & Positioning)
+                       ↓
+   ┌─────────────┬─────┴─────┬─────────────┐
+   ↓             ↓           ↓             ↓
+ DESCOBERTA   CLIENTE     OUTPUT         GTM
+ ----------   -------     ------         ---
+ nicho-       cliente-    lp-builder     gtm-architect
+ explorer     radar       pitch-deck-    playbook-vendas
+ mapear-      meeting-    builder
+ nicho        prep
+```
+
+**Active agents (com state em `memory/per-agent/`):** {{lista de agents que já rodaram + têm state.md/reflections.md}}.
+
 ### Nichos ({{N}} ativos)
 | Slug | Status | Próximo passo |
 |---|---|---|
@@ -177,16 +196,22 @@ Devolver pro aluno:
 |---|---|---|
 | ... | ... | ... |
 
+### 📜 Atividade recente (últimas 5 entradas do event log)
+
+```
+{{tail -5 logs/events.ndjson formatado humano-legível}}
+```
+
 ### ⚠️ Drift detectado
 - ...
 
 ### 🔄 Atualizações feitas
 - Regenerei `nichos/_index.md`, `clientes/_index.md`, `ofertas/_index.md`.
-- Atualizei `memory/shared/{nichos-mapeados,clientes-ativos,ofertas}.md`.
+- Atualizei `memory/shared/ledgers/{nichos-mapeados,clientes-ativos,ofertas}.md`.
 - {{N}} pré-requisitos cruzados validados.
 
 ### 🎯 Próxima ação recomendada
-{{1-2 linhas com a sugestão prioritária baseada na heurística}}
+{{1-2 linhas com a sugestão prioritária baseada na heurística + estado do squad}}
 ```
 
 ---
