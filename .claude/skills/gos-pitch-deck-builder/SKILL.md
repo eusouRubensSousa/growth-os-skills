@@ -1,6 +1,6 @@
 ---
 name: gos-pitch-deck-builder
-description: Gera apresentação comercial 20 slides parametrizada por nicho/cliente. Output em ofertas/{slug}/deck/ (modo oferta) ou clientes/{slug}/deck/ (modo cliente — customizado). Modo default reveal (HTML standalone, zero custo). Modo opcional gemini (PNGs gerados via API, requer GEMINI_API_KEY do aluno). Modo markdown-only (Canva/Slides manual). Foco vendedor → cliente final do nicho — vendendo Growth AI.
+description: Gera apresentação comercial 20 slides parametrizada por nicho/cliente. Output em ofertas/{slug}/deck/ (modo oferta) ou clientes/{slug}/deck/ (modo cliente — customizado). Modo default reveal (HTML standalone, zero custo). Modo opcional gemini (PNGs via generate_deck.py + OPENROUTER_API_KEY no OpenRouter, ou GEMINI_API_KEY na API Google — ver gemini-pipeline.md). Modo markdown-only (Canva/Slides manual). Foco vendedor → cliente final do nicho — vendendo Growth AI.
 argument-hint: "[modo (oferta/cliente) + slug + render-mode (reveal/gemini/markdown-only)]"
 allowed-tools: Agent, Read, Write, Edit, Bash, Glob
 requires:
@@ -81,10 +81,10 @@ Sua missão é gerar uma **apresentação comercial de 20 slides** que o vendedo
 - Exporta PDF: Print → Save as PDF
 
 ### Modo `gemini` (avançado, opcional)
-- Stack: Pipeline Python adaptado do gerador interno Accelera + Gemini 3 Pro Image Preview
-- Pré-requisitos: `GEMINI_API_KEY` do aluno + Python 3.10+ + `pip install -r requirements.txt`
-- Output: 20 PNGs em `{escopo}/{slug}/deck/slides/` + deck montado em `{escopo}/{slug}/deck/deck.html`
-- Custo: ~US$ 0.20/slide ≈ US$ 4 por deck
+- Stack: `generate_deck.py` nesta skill — OpenRouter (`OPENROUTER_API_KEY`, default `google/gemini-2.5-flash-image`) ou, alternativamente, API Google com `GEMINI_API_KEY` (ver `gemini-pipeline.md`).
+- Pré-requisitos: Python 3.10+ + `pip install -r requirements.txt` + chave (OpenRouter ou Google).
+- Output: PNGs em `{escopo}/{slug}/deck/slides/` + `deck.html` em `{escopo}/{slug}/deck/`
+- Custo: varia por provedor/modelo (ordem de ~US$ 4/deck no exemplo histórico Gemini direto)
 
 ### Modo `markdown-only`
 - Stack: apenas as 20 roteirizações .md

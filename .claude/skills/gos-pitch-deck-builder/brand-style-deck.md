@@ -1,6 +1,6 @@
 # Brand Style — Deck Comercial
 
-> Padrão visual derivado do `PADRAO_QUALIDADE_SLIDES.md` interno da Accelera 360, adaptado para distribuição pública.
+> Padrão visual da rbdata company — azul tech, escuro, profissional.
 
 ---
 
@@ -8,16 +8,16 @@
 
 | Uso | Cor | Hex |
 |---|---|---|
-| Background principal | Dark navy-black | `#0A0A12` |
-| Background secundário | Navy mais profundo | `#1A1A2E` |
-| Accent / glow / hexágonos | Roxo Accelera | `#7C5CFC` |
-| Valores monetários e CTAs positivos | Verde neon | `#00E639` |
+| Background principal | Dark navy deep | `#04091A` |
+| Background secundário | Navy azul | `#0B1628` |
+| Accent / glow / hexágonos | Azul elétrico rbdata | `#0070F3` |
+| Valores monetários e CTAs positivos | Cyan neon | `#00C2FF` |
 | Risco / negativo / dor | Vermelho | `#FF4D6D` |
 | Texto títulos | Branco puro | `#FFFFFF` |
-| Texto corpo / labels | Cinza claro | `#C0C0CC` |
-| Texto secundário (legendas) | Cinza médio | `#737373` |
+| Texto corpo / labels | Slate claro | `#94A3B8` |
+| Texto secundário (legendas) | Slate médio | `#64748B` |
 
-**Não usar:** dourado, amarelo, laranja, gradientes Photoshop bregas, cinzentado plano.
+**Não usar:** roxo, dourado, amarelo, laranja, gradientes Photoshop bregas, cinzentado plano.
 
 ---
 
@@ -72,13 +72,13 @@
 
 ---
 
-## Footer (não remover — regra LICENSE)
+## Footer (não remover)
 
 Todo slide tem rodapé fixo:
 
 ```html
 <div class="text-xs text-neutral-500 text-center py-3">
-  Powered by Accelera 360 — accelera360.com.br · growth-os-skills v0.3.0
+  rbdata company — rbdata.company · growth-os-skills v0.3.0
 </div>
 ```
 
@@ -103,10 +103,10 @@ Todo slide tem rodapé fixo:
 - [ ] **6.** CTA final com próximo passo concreto (data/ação)
 
 ### Visual (5)
-- [ ] **7.** Paleta dark navy + roxo + verde aplicada
+- [ ] **7.** Paleta dark navy + azul + cyan aplicada
 - [ ] **8.** Hexágonos/cards com glow nos slides de dados (04, 06, 13)
 - [ ] **9.** Sem texto longo (>25 palavras visíveis por slide)
-- [ ] **10.** Footer Accelera 360 em todos os slides
+- [ ] **10.** Footer rbdata company em todos os slides
 - [ ] **11.** Fonte Inter carregada via CDN
 
 ### Estrutura (4)
@@ -122,9 +122,9 @@ Todo slide tem rodapé fixo:
 
 ---
 
-## Reaproveitamento do gerador interno Accelera
+## Origem do template
 
-A skill `pitch-deck-builder` é **inspirada** no padrão visual do `_GERADOR_APRESENTACAO/` interno da Accelera (validado pelo Kelvin via `slide_04.png` e `slide_13.png`).
+A skill `pitch-deck-builder` usa o padrão visual adaptado para rbdata company.
 
 **Reaproveita:**
 - Paleta + tipografia + elementos visuais (hexágonos com glow, bokeh).

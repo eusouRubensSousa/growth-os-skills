@@ -6,7 +6,30 @@
 
 ---
 
-## Pré-requisitos
+## Caminho recomendado: OpenRouter (Gemini Image)
+
+Se você já usa **OpenRouter** (ex.: modelo `google/gemini-2.5-flash-image`), não precisa da API direta do Google.
+
+1. **OPENROUTER_API_KEY** — crie em https://openrouter.ai/ e exporte ou coloque no `.env` na raiz do workspace do aluno:
+   ```bash
+   set OPENROUTER_API_KEY=sk-or-...
+   ```
+2. **Python 3.10+** e dependências:
+   ```bash
+   cd .claude/skills/gos-pitch-deck-builder
+   pip install -r requirements.txt
+   ```
+3. Rodar o gerador (PNGs em `{escopo}/{slug}/deck/slides/`, `deck.html` na pasta `deck/`):
+   ```bash
+   python generate_deck.py --cliente "Nome Da Oferta"
+   python generate_deck.py --escopo cliente --cliente "nome-cliente" --slides-dir ofertas/meuslug/deck/slides-md/
+   ```
+
+O script usa a API **compatível com OpenAI** (`https://openrouter.ai/api/v1/chat/completions`) e envia `modalities: ["image", "text"]` + `image_config.aspect_ratio: "16:9"` (obrigatório para o modelo devolver `message.images` com data URL, não só texto). Outros modelos de imagem: `--model ...`.
+
+---
+
+## Alternativa: API direta Google (GEMINI_API_KEY)
 
 1. **GEMINI_API_KEY** configurada no shell:
    ```bash
@@ -24,14 +47,11 @@
 
 ---
 
-## requirements.txt (referência)
+## requirements.txt
 
-```
-google-genai>=0.3.0
-Pillow>=10.0.0
-pillow-heif>=0.13.0
-python-dotenv>=1.0.0
-```
+**OpenRouter (`generate_deck.py`):** use o `requirements.txt` desta skill (`requests`, `Pillow`, `python-dotenv`).
+
+**API Google direta (legado / não coberto pelo script atual):** típico seria `google-genai`, `Pillow`, `pillow-heif`, `python-dotenv` — só necessário se você mantiver um pipeline separado com SDK Google.
 
 ---
 
@@ -39,25 +59,21 @@ python-dotenv>=1.0.0
 
 1. A skill `pitch-deck-builder` gera as 20 roteirizações `templates/slide_NN_*.md` parametrizadas com o nicho/cliente.
 
-2. A skill cria/atualiza `workspace/{cliente}/` com:
-   - `slides_md/` — as 20 roteirizações.
-   - `prompts/` — 20 prompts de geração (um por slide), construídos a partir do `brand-style-deck.md`.
-   - `output/` — onde os PNGs vão cair.
+2. A skill escreve em `{escopo}/{slug}/deck/`:
+   - `slides-md/` — as 20 roteirizações (`.md`).
+   - Após rodar o Python: `slides/` — PNGs gerados; `deck.html` — viewer com as imagens.
 
-3. A skill orienta o aluno a rodar:
+3. Rodar a partir da pasta da skill (ou com caminho absoluto ao script):
    ```bash
-   python generate_deck.py --cliente "{{CLIENTE_NOME}}"
+   python generate_deck.py --cliente "{{SLUG_OU_NOME}}" --slides-dir "{escopo}/{slug}/deck/slides-md"
    ```
 
-4. O script `generate_deck.py` (incluso nesta skill — adaptado do `_GERADOR_APRESENTACAO/scripts/generate_all_slides.py` interno):
-   - Itera os 20 slides.
-   - Para cada slide, monta o prompt (instruções visuais do `brand-style-deck.md` + conteúdo específico).
-   - Chama Gemini 3 Pro Image Preview API.
-   - Salva PNG em `output/`.
+4. O `generate_deck.py`:
+   - Monta o prompt (baseline visual + conteúdo do `.md` do slide).
+   - Chama **OpenRouter** (`OPENROUTER_API_KEY`), default `--model google/gemini-2.5-flash-image`.
+   - Grava PNGs em `{escopo}/{slug}/deck/slides/` e gera `deck.html` no diretório `deck/`.
 
-5. A skill orienta como compor o deck final:
-   - Importar os 20 PNGs em Google Slides ou Canva.
-   - Ou montar via HTML com `<img>` tags (template `gemini-deck.html` simples).
+5. Uso do deck: abrir `deck.html` no navegador, ou importar os PNGs em Google Slides / Canva.
 
 ---
 
@@ -65,17 +81,17 @@ python-dotenv>=1.0.0
 
 Cada prompt tem 3 partes:
 
-### Parte 1 — Brand baseline (fixo)
+### Parte 1 — Brand baseline (fixo — rbdata company)
 ```
 Create a BEAUTIFUL, sophisticated presentation slide (16:9) as a premium INFOGRAPHIC.
-Dark navy-black background with rich purple atmospheric glow and bokeh effects (#0A0A12 base, #7C5CFC accents).
-Vertical line texture on the left side, atmospheric purple glow on the right.
-Hexagonal/circular cards with purple icons inside, glowing elements, depth.
-Numbers in bold white. Money values in neon green (#00E639).
+Dark deep-navy background (#070C14 base) with electric blue atmospheric glow and bokeh effects (#4090F7 accents, #44CCFF highlights).
+Vertical line texture on the left side with subtle blue glow. Atmospheric blue radial gradient on the right.
+Hexagonal/circular cards with blue (#4090F7) icons inside, glowing elements, depth and blur effects.
+Numbers in bold white. Money/positive values in cyan (#44CCFF). Negative/risk values in red (#FF4444).
 Maximum 25 words visible. Title 3-6 words bold.
-Style: cinematic, premium, sophisticated — like high-end agency presentation.
-NOT flat, NOT PowerPoint. Think dashboard visualization with depth.
-Inter typography. Clean, modern, elegant.
+Style: cinematic, premium, tech-forward — like high-end data company presentation.
+NOT flat, NOT PowerPoint. Think data dashboard visualization with depth and precision.
+Manrope typography for titles, Inter for body. Clean, modern, tech aesthetic.
 Do NOT include any logo. Do NOT add any caption text below visual elements.
 ```
 
