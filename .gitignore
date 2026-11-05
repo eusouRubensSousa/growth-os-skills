@@ -34,3 +34,7 @@ env/
 # Dependências node (caso futuramente)
 node_modules/
 package-lock.json
+
+# segredos (gerenciados no Infisical)
+.env.*
+!.env.example
