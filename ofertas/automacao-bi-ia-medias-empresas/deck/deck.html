@@ -137,6 +137,39 @@
     .money { color: var(--rbd-cyan); font-weight: 700; }
     .danger { color: var(--rbd-red); }
 
+    /*
+     * Slide foto (Quem fala com você): ajuste a altura só aqui.
+     * Primeiro número = % da altura da janela; segundo = teto em px em telas grandes.
+     */
+    .reveal section.rbd-slide-photo {
+      justify-content: flex-start;
+      padding-top: 48px;
+      overflow-y: visible;
+    }
+    img.rbd-speaker-photo {
+      max-height: min(var(--rbd-photo-vh, 200vh), var(--rbd-photo-px-cap, 420px));
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center top;
+      display: block;
+      border-radius: 0.75rem;
+      margin-bottom: 1.25rem;
+      filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.5));
+    }
+    img.rbd-speaker-photo[data-rbd-photo-h='start'] {
+      margin-left: 0;
+      margin-right: auto;
+    }
+    img.rbd-speaker-photo[data-rbd-photo-h='center'] {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    img.rbd-speaker-photo[data-rbd-photo-h='end'] {
+      margin-left: auto;
+      margin-right: 0;
+    }
+
     h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 800 !important; color: white; }
     h1 { font-size: 64px !important; line-height: 1.1; }
     h2 { font-size: 48px !important; line-height: 1.15; }
@@ -148,6 +181,11 @@
       font-size: 13px;
       color: var(--rbd-blue);
       font-weight: 600;
+    }
+
+    /* Reveal tema black sobrescreve <p>; Tailwind text-center não ganha sem !important */
+    .reveal section p.rbd-p-center {
+      text-align: center !important;
     }
 
     /* Titulo com gradiente: Firefox + WebKit */
@@ -190,25 +228,32 @@
           </div>
         </div>
         <div class="rbd-footer">
-          rbdata.company · growth-os-skills v0.3.0
+          rbdata.company · Rubens Sousa
         </div>
       </section>
 
       <!-- SLIDE 02 — QUEM É VOCÊ -->
-      <section>
+      <section class="rbd-slide-photo">
         <div class="grid grid-cols-2 gap-12 items-center">
           <div>
+            <img
+              src="./img/rubens-sousa.png"
+              alt="Rubens Sousa — rbdata company"
+              class="rbd-speaker-photo"
+              data-rbd-photo-h="center"
+              style="--rbd-photo-vh: 200vh; --rbd-photo-px-cap: 750px;"
+            />
             <p class="label-uppercase mb-4">Quem fala com você</p>
-            <h2>rbdata</h2>
+            <h2>Rubens Sousa</h2>
             <p class="text-xl mt-4" style="color: var(--rbd-text-muted);">
               Automação, BI e IA aplicada na operação (sem enrolação).
             </p>
             <p class="text-sm mt-6" style="color: var(--rbd-text-dim);">rbdata company — Automação · BI · Inteligência Artificial</p>
           </div>
           <div class="grid grid-cols-3 gap-4">
-            <div class="hex"><div class="text-3xl font-bold">90d</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--rbd-text-muted);">go-live</div></div>
-            <div class="hex"><div class="text-3xl font-bold">3</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--rbd-text-muted);">automações</div></div>
-            <div class="hex"><div class="text-3xl font-bold">2</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--rbd-text-muted);">dashboards</div></div>
+            <div class="hex"><div class="text-3xl font-bold">113</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--rbd-text-muted);">Projetos Realizados</div></div>
+            <div class="hex"><div class="text-3xl font-bold">4 Anos</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--rbd-text-muted);">Vivência com Dados</div></div>
+            <div class="hex"><div class="text-3xl font-bold">1,3MM</div><div class="text-xs mt-2 uppercase tracking-wider" style="color: var(--rbd-text-muted);">ROI Gerado</div></div>
           </div>
         </div>
         <div class="rbd-footer">rbdata.company</div>
@@ -298,7 +343,7 @@
       <section>
         <p class="label-uppercase mb-4">A virada</p>
         <h1 class="rbd-gradient-title">CORE™</h1>
-        <p class="text-2xl mt-8" style="color: var(--rbd-text-muted);">"Do caos operacional à inteligência em tempo real."</p>
+        <p class="text-2xl mt-8" style="color: var(--rbd-text-muted);">"Do caos operacional à inteligência com dados organizados."</p>
         <div class="rbd-footer">rbdata.company</div>
       </section>
 
@@ -449,7 +494,7 @@
           <div class="text-7xl mb-8">🛡️</div>
           <p class="label-uppercase mb-4">Quebra de risco</p>
           <h1 style="font-size: 56px !important;">Garantia de Performance 90 dias</h1>
-          <p class="text-xl mt-8 max-w-2xl mx-auto" style="color: var(--rbd-text-muted);">Se não tiver 2 automações e 1 dashboard em produção, a rbdata refaz sem custo.</p>
+          <p class="text-xl mt-8 max-w-2xl mx-auto rbd-p-center" style="color: var(--rbd-text-muted);">Se não tiver 2 automações e 1 dashboard em produção, a rbdata refaz sem custo.</p>
         </div>
         <div class="rbd-footer">rbdata.company</div>
       </section>
@@ -464,10 +509,10 @@
         <h2 class="mb-12">Para começar</h2>
         <div class="rbd-card max-w-2xl mx-auto text-center" style="border: 2px solid var(--rbd-blue); padding: 48px;">
           <div class="text-2xl mb-4" style="color: var(--rbd-text-muted);">Setup inicial</div>
-          <div class="big-number money mb-8">R$ 28.000–45.000</div>
+          <div class="big-number money mb-8">R$ 12.000</div>
           <div class="text-2xl mb-4" style="color: var(--rbd-text-muted);">+ mensal</div>
-          <div class="big-number money">R$ 3.500–6.000</div>
-          <p class="mt-8 text-sm" style="color: var(--rbd-text-dim);">Total ano 1: R$ 59.500–99.000</p>
+          <div class="big-number money">R$ 3.500</div>
+          <p class="mt-8 text-sm" style="color: var(--rbd-text-dim);">Total ano 1: R$ 50.500</p>
         </div>
         <div class="rbd-footer">rbdata.company</div>
       </section>
